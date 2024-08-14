@@ -101,7 +101,7 @@ def read_query(path):
 
 
 def evaluate_query(query_ident, dp_models, nodeFeaturizer, cost_cache, workload, train, log_file_path):
-    query_path = './../balsa/queries/join-order-benchmark/' + query_ident + '.sql'
+    query_path = '/data/datasets/imdb/q/' + query_ident + '.sql'
     sql_query = read_query(query_path)
 
     inference_time_start = time.time()

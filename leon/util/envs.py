@@ -10,6 +10,7 @@ _EPSILON = 1e-6
 
 
 def ParseSqlToNode(path):
+    print("[Parsing...]", path)
     base = os.path.basename(path)
     query_name = os.path.splitext(base)[0]
     with open(path, 'r') as f:
@@ -23,6 +24,7 @@ def ParseSqlToNode(path):
     node.info['query_name'] = query_name
     node.info['explain_json'] = json_dict
     node.GetOrParseSql()
+    print("[Parsing Done]")
     return node
 
 
@@ -152,7 +154,8 @@ class JoinOrderBenchmark(Workload):
         # module_dir = os.path.abspath(os.path.dirname(balsa.__file__) + '/../')
         #  p.query_dir = os.path.join('/home/ht/PycharmProjects/pythonProject3', 'join-order-benchmark')
 
-        p.query_dir = './../balsa/queries/join-order-benchmark'
+        # p.query_dir = 'job_query_join'
+        p.query_dir = 'job_query_debug'
         if not os.path.exists(p.query_dir):
             raise IOError('File Not Exists!')
         return p
@@ -274,7 +277,7 @@ class TPCHbenchmark(Workload):
         # Needs to be an absolute path for rllib.
         # module_dir = os.path.abspath(os.path.dirname(balsa.__file__) + '/../')
         #  p.query_dir = os.path.join('/home/ht/PycharmProjects/pythonProject3', 'join-order-benchmark')
-        p.query_dir = 'tpch_query'
+        p.query_dir = "tpch_query"
         if not os.path.exists(p.query_dir):
             raise IOError('File Not Exists!')
         return p
@@ -291,6 +294,7 @@ class TPCHbenchmark(Workload):
     def _LoadQueries(self):
         """Loads all queries into balsa.Node objects."""
         p = self.params
+        print(p)
         all_sql_set = self._get_sql_set(p.query_dir, p.query_glob)
         test_sql_set = self._get_sql_set(p.query_dir, p.test_query_glob)
         assert test_sql_set.issubset(all_sql_set)

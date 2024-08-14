@@ -5,9 +5,7 @@ services:
         image: pg_bao_img
         volumes: 
             - ./../../bao:/app/bao
-            - ./../../data/imdb:/data/imdbload
-            - ./../../data/imdb/imdb.dump:/app/imdb.dump
-            - ./../../data/stack:/data/stack
+            - ./../../../../datasets/:/data/datasets
             - ./../../conf/bao-postgresql.conf:/app/postgresql.conf
             - ./pgdata:/pgdata
         ports:
@@ -22,10 +20,12 @@ services:
             network:
                 ipv4_address: 10.5.0.5
         shm_size: 32gb
+
     bao:
         image: bao_server_img
-        volumes: 
+        volumes:
             - ./../../bao:/app/bao
+            - ./../../../../datasets/:/data/datasets
             - ./install_python_env.sh:/docker-entrypoint-initdb.d/install_python_env.sh
         ports:
             - "9381:9381"
@@ -45,5 +45,3 @@ networks:
         ipam:
             config:
                 - subnet: 10.5.0.0/16
-                  gateway: 10.5.0.1
-

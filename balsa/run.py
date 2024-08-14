@@ -65,7 +65,7 @@ from balsa.util import postgres
 
 import sim as sim_lib
 import pg_executor
-from pg_executor import dbmsx_executor
+from pg_executor  import dbmsx_executor
 import train_utils
 import experiments  # noqa # pylint: disable=unused-import
 
@@ -78,6 +78,7 @@ flags.DEFINE_boolean('test_all', False,
 
 
 def GetDevice():
+    # return "cpu"
     return 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
@@ -787,6 +788,7 @@ class BalsaAgent(object):
             # Filter queries based on the current query_glob.
             workload.FilterQueries(p.query_dir, p.query_glob, p.test_query_glob)
         else:
+            print(f"Debug, {p.init_experience} not exist, seeting p.run_baseline = True")
             if 'stack' in p.query_dir:
                 wp = envs.STACK.Params()
             else:
@@ -1211,10 +1213,12 @@ class BalsaAgent(object):
             refs = tasks
         for i, node in enumerate(self.all_nodes):
             result_tup = ray.get(refs[i])
-            
-            assert isinstance(
-                result_tup,
-                (pg_executor.Result, dbmsx_executor.Result)), result_tup
+
+            # print("---debug", type(result_tup))
+            # assert isinstance(
+            #     result_tup,
+            #     (pg_executor.Result, dbmsx_executor.Result)), result_tup
+
             result, real_cost, _, message = ParseExecutionResult(
                 result_tup, **Args(node))
             # Save real cost (execution latency) to actual.
@@ -1224,8 +1228,9 @@ class BalsaAgent(object):
                 node.info['explain_json'] = result[0][0][0]
                 # 'node' is a PG plan; doesn't make sense to print if executed
                 # on a different engine.
-                print(node)
-            print(message)
+                # todo: comment out those
+                # print(node)
+            # print(message)
             print('q{},{:.1f} (baseline)'.format(node.info['query_name'],
                                                  real_cost))
             print('Execution time: {}'.format(real_cost))
@@ -1541,8 +1546,11 @@ class BalsaAgent(object):
         print('{}Waiting on Ray tasks...value_iter={}'.format(
             '[Test set] ' if is_test else '', self.curr_value_iter))
         try:
+            print("---------------------- [debug]. getting raw result... ---------------------- ")
             refs = ray.get(tasks)
+            print("---------------------- [debug]. getting raw done  ---------------------- ")
         except Exception as e:
+            raise
             print('ray.get(tasks) received exception:', e)
             time.sleep(10)
             print('Canceling Ray tasks.')
@@ -1559,6 +1567,7 @@ class BalsaAgent(object):
                 print('Retries exhausted; raising the exception.')
                 raise e
         execution_results = []
+        print("---------------------- [debug]. collecting result ---------------------- ")
         for i, task in enumerate(refs):
             result_tup = None
             is_cached_plan = True
@@ -1568,6 +1577,7 @@ class BalsaAgent(object):
                     result_tup = ray.get(task)
                     is_cached_plan = False
                 except ray.exceptions.RayTaskError as e:
+                    raise
                     # This can happen when the server gets crashed by other
                     # drivers, this driver's connection would break down.  OK
                     # to wait for the server to recover and retry.
@@ -1627,6 +1637,7 @@ class BalsaAgent(object):
                 (pg_executor.Result, dbmsx_executor.Result)), result_tup
             result_tups = ParseExecutionResult(result_tup, **kwargs[i])
 
+            print("---------------------- [debug]. done with current ref ---------------------- ")
 
             # Generating more expressive stats for logging
             # -------------------
@@ -1641,7 +1652,6 @@ class BalsaAgent(object):
                 q_exec_stat['planning_time'] = json_dict['Planning Time']
 
             print(f"\t{q_exec_stat['query_name']}: Inference {q_exec_stat['inference_time']:.4f}\tPlanning {q_exec_stat['planning_time']:.4f}\tExecution {q_exec_stat['execution_time']:.4f}")
-
 
             assert len(result_tups) == 4
             print(result_tups[-1])  # Messages.
@@ -1907,6 +1917,8 @@ class BalsaAgent(object):
         to_execute, execution_results = self.PlanAndExecute(model,
                                                             planner,
                                                             is_test=False)
+
+        print("---------------------- [debug]. start FeedbackExecution ----------------------")
         # Add exeuction results to the experience buffer.
         iter_total_latency, has_timeouts = self.FeedbackExecution(
             to_execute, execution_results)
@@ -1931,10 +1943,17 @@ class BalsaAgent(object):
                 to_log.append(('iter_final_lr', model.latest_per_iter_lr,
                                self.curr_value_iter))
             self.LogScalars(to_log)
+
+        print("---------------------- [debug]. start SaveBestPlans ----------------------")
+
         self.SaveBestPlans()
-        if (self.curr_value_iter + 1) % 5 == 0:
-            self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+        # if (self.curr_value_iter + 1) % 5 == 0:
+        #     self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
+        self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
         # Run and log test queries.
+        print("---------------------- [debug]. start EvaluateTestSet ----------------------")
         self.EvaluateTestSet(model, planner)
 
         if p.track_model_moving_averages:
@@ -2038,6 +2057,7 @@ class BalsaAgent(object):
         #   model.load_state_dict(torch.load(PATH))
         ckpt_path = os.path.join(self.wandb_logger.experiment.dir,
                                  'checkpoint.pt')
+        print(f"\n------ saving result into {ckpt_path} ------\n")
         torch.save(model.state_dict(), ckpt_path)
 
         # Saving intermediate checkpoints as well
@@ -2155,7 +2175,9 @@ class BalsaAgent(object):
         self.LogScalars(data_to_log)
 
     def Run(self):
+        print("---------------------- [debug]. start to run ----------------------")
         p = self.params
+        print(p)
         if p.run_baseline:
             return self.RunBaseline()
         else:
@@ -2171,11 +2193,11 @@ class BalsaAgent(object):
             # self.{all,train,test}_nodes no longer share any references.
             self.train_nodes = plans_lib.FilterScansOrJoins(self.train_nodes)
             self.test_nodes = plans_lib.FilterScansOrJoins(self.test_nodes)
-
+        print(f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
         while self.curr_value_iter < p.val_iters:
             has_timeouts = self.RunOneIter()
             self.LogTimings()
-
+            print("---------------------- [debug]. train one iteration done ----------------------")
             if (p.early_stop_on_skip_fraction is not None and
                     self.curr_iter_skipped_queries >=
                     p.early_stop_on_skip_fraction * len(self.train_nodes)):
@@ -2217,15 +2239,14 @@ def Main(argv):
     p.use_local_execution = FLAGS.local
     # Override params here for quick debugging.
     # p.sim_checkpoint = None
-    # p.epochs = 1
-    # p.val_iters = 0
+    p.epochs = 6
+    p.val_iters = 2
     # p.query_glob = ['7*.sql']
     # p.test_query_glob = ['7c.sql']
-    # p.search_until_n_complete_plans = 1
+    p.search_until_n_complete_plans = 1
 
-
-    # for k in dict(p).keys():
-    #     print(f"{k}\t\t{dict(p)[k]}")
+    for k in dict(p).keys():
+        print(f"{k}\t\t{dict(p)[k]}")
 
     #import code; code.interact(local=dict(globals(), **locals()))
     agent = BalsaAgent(p)

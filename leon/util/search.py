@@ -29,7 +29,7 @@ def wandb_timing(func):
         
         wandb_dict = {}
         wandb_dict["time_{}".format(func.__name__)] = t2 - t1
-        wandb.log(wandb_dict)
+        # wandb.log(wandb_dict)
         
         return res
 

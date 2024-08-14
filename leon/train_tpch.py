@@ -269,7 +269,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     alllatency = []
     nodes = []
     for i in sqls:
-        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(
+        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(
             'tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
@@ -407,6 +407,7 @@ if __name__ == '__main__':
     FirstTrain = True
     ########################################################
     seed_torch()
+    print("begin to train ")
     if FirstTrain:
         exp = [[] for _ in range(20)]
         finexp = [[] for _ in range(20)]
@@ -429,15 +430,22 @@ if __name__ == '__main__':
     workload.workload_info.table_num_rows = postgres.GetAllTableNumRows(workload.workload_info.rel_names)
     # 保存所有pair
 
+    print("GetAllTableNumRows done")
+
     # need to change parms
     gamma = 0.25
     learning_rate = 1e-3
     dropbuffer = False
     # queries for train
-    trainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
+    trainquery = ["3",
+                 "5",
+                 "7",
+                 "8",
+                 "12",
+                 "14", ]
     # queries for test
-    Ttrainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
-    testquery = ['2-q3', '2-q5', '2-q7', '2-q8', '2-q12', '2-q13', '2-q14']
+    Ttrainquery = trainquery
+    testquery = trainquery
 
     dp_Signs = [True for i in range(len(trainquery))]
     sqllist = load_sql_Files(trainquery)
@@ -449,7 +457,9 @@ if __name__ == '__main__':
     trainsqls = load_sql(Ttrainsqllist)
     bestplandata = [[[] for _ in range(20)] for _ in range(len(trainquery))]
     bestplanslist = [[] for _ in range(len(sqls))]
-    iteration_num = 30
+    iteration_num = 5
+
+    print("load all sql done")
 
     # initial timeout and it will update in dp
     timeoutlist = setInitialTimeout(sqls, dropbuffer, testtime=3)
@@ -461,7 +471,7 @@ if __name__ == '__main__':
     test_gmrl = []
     logger.info("timeoutList:{}".format(timeoutlist))
     batchsize = 256
-    DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+    DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     maxLevel = 0
     greedy = -1.0
     bestTrainGmrl = 20
@@ -475,7 +485,7 @@ if __name__ == '__main__':
     print(workload.workload_info)
     dpsign = True
     for i in range(0, len(sqls)):
-        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(sqllist[i])
+        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
         dp_tables1 = copy.deepcopy(origin_dp_tables)
         print(trainquery[i], join_graph.number_of_nodes())
         maxLevel = maxLevel if maxLevel > join_graph.number_of_nodes() else join_graph.number_of_nodes()
@@ -492,7 +502,7 @@ if __name__ == '__main__':
         for i in range(0, len(sqls)):
 
             if dp_Signs[i]:
-                join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(sqllist[i])
+                join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
                 dp_tables1 = copy.deepcopy(origin_dp_tables)
                 output1, bestplanhint, num, timeout = DP.dp.UCB_left_prune_replay_fix_kl(join_graph, all_join_conds,
                                                                                          query_leaves,
@@ -679,3 +689,7 @@ if __name__ == '__main__':
         c_file.close()
         d_file.close()
     logger.info('all time = {} '.format(time.time() - allstime))
+    for modelnum in range(2, len(model_levels)):
+        modelname = log_dir + '/FinalModel_' + logs_name + '_' + str(modelnum) + '.pth'
+        print(f"saving model to ", modelname)
+        torch.save(model_levels[modelnum], modelname)

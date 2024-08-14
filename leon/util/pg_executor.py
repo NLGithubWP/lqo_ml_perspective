@@ -18,18 +18,18 @@ import time
 # REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdbload"
 
 # STACK
-LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/so"
-REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/so"
+LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
+REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 
 # database = "imdbload"
-database = "so"
+database = "imdb_ori"
 user = "postgres"
 password = "postgres"
 host = "pg_balsa"
 port = "5432"
 
 QUERY_LOG_FILE = 'query_log_file.txt'
-NUM_EXECUTIONS = 3
+NUM_EXECUTIONS = 1
 
 
 
@@ -129,8 +129,8 @@ def Execute(sql, verbose=False, geqo_off=False, timeout_ms=None, cursor=None, fi
     Returns:
       A pg_executor.Result.
     """
-    if verbose:
-        print(sql)
+    # if verbose:
+    #     print("---", sql, "---")
 
     _SetGeneticOptimizer('off' if geqo_off else 'on', cursor)
     if timeout_ms is not None:

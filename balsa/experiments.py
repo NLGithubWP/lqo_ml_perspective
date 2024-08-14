@@ -42,9 +42,168 @@ RAND_52_TEST_QUERIES = [
     '22b.sql', '17c.sql', '24b.sql', '10a.sql', '22c.sql'
 ]
 
+JOB_JOIN_PRED_TABLE_TEST = [
+    "1a.sql",
+    "1b.sql",
+    "1c.sql",
+    "1d.sql",
+    "2a.sql",
+    "2b.sql",
+    "2c.sql",
+    "2d.sql",
+    "3a.sql",
+    "3b.sql",
+    "3c.sql",
+    "4a.sql",
+    "4b.sql",
+    "4c.sql",
+    "5a.sql",
+    "5b.sql",
+    "5c.sql",
+    "6a.sql",
+    "6b.sql",
+    "6c.sql",
+    "6d.sql",
+    "6e.sql",
+    "6f.sql",
+    "7a.sql",
+    "7b.sql",
+    "7c.sql",
+    "8a.sql",
+    "8b.sql",
+    "8c.sql",
+    "8d.sql",
+    "9a.sql",
+    "9b.sql",
+    "9c.sql",
+    "9d.sql",
+    "10a.sql",
+    "10b.sql",
+    "10c.sql",
+    "11a.sql",
+    "11b.sql",
+    "11c.sql",
+    "11d.sql",
+    "12a.sql",
+    "12b.sql",
+    "12c.sql",
+    "13a.sql",
+    "13b.sql",
+    "13c.sql",
+    "13d.sql",
+    "14a.sql",
+    "14b.sql",
+    "14c.sql",
+    "15a.sql",
+    "15b.sql",
+    "15c.sql",
+    "15d.sql",
+    "16a.sql",
+    "16b.sql",
+    "16c.sql",
+    "16d.sql",
+    "17a.sql",
+    "17b.sql",
+    "17c.sql",
+    "17d.sql",
+    "17e.sql",
+    "17f.sql",
+    "18a.sql",
+    "18b.sql",
+    "18c.sql",
+    "19a.sql",
+    "19b.sql",
+    "19c.sql",
+    "19d.sql",
+    "20a.sql",
+    "20b.sql",
+    "20c.sql",
+    "21a.sql",
+    "21b.sql",
+    "21c.sql",
+    "22a.sql",
+    "22b.sql",
+    "22c.sql",
+    "22d.sql",
+    "23a.sql",
+    "23b.sql",
+    "23c.sql",
+    "24a.sql",
+    "24b.sql",
+    "25a.sql",
+    "25b.sql",
+    "25c.sql",
+    "26a.sql",
+    "26b.sql",
+    "26c.sql",
+    "27a.sql",
+    "27b.sql",
+    "27c.sql",
+    "28a.sql",
+    "28b.sql",
+    "28c.sql",
+    "29a.sql",
+    "29b.sql",
+    "29c.sql",
+    "30a.sql",
+    "30b.sql",
+    "30c.sql",
+    "31a.sql",
+    "31b.sql",
+    "31c.sql",
+    "32a.sql",
+    "32b.sql",
+    "33a.sql",
+    "33b.sql",
+    "33c.sql"
+]
 
+JOB_SMALLSET_TEST = [
+    "1d.sql",
+    "2d.sql",
+    "3c.sql",
+    "4c.sql",
+    "5c.sql",
+    "6e.sql",
+    "6f.sql",
+    "7c.sql",
+    "8d.sql",
+    "9d.sql",
+    "10c.sql",
+    "11d.sql",
+    "12c.sql",
+    "13d.sql",
+    "14c.sql",
+    "15d.sql",
+    "16d.sql",
+    "17f.sql",
+    "18c.sql",
+    "19d.sql",
+    "20c.sql",
+    "21c.sql",
+    "22d.sql",
+    "23c.sql",
+    "24b.sql",
+    "25c.sql",
+    "26c.sql",
+    "27c.sql",
+    "28c.sql",
+    "29c.sql",
+    "30c.sql",
+    "31c.sql",
+    "32b.sql",
+    "33b.sql"
+]
 
-
+JOB_JOIN_PRED_TABLE_DEBUG_TEST = [
+    "1a.sql",
+    "1b.sql",
+    "1c.sql",
+    "1d.sql",
+    "2a.sql",
+    "2b.sql",
+    "2c.sql",
+    "2d.sql"]
 
 # ===================================================================
 
@@ -54,14 +213,14 @@ RANDOM_SPLIT_1__TEST_QUERIES = [
     '20a.sql', '21a.sql', '25c.sql', '28b.sql',
     '32b.sql', '33a.sql'
 ]
-    
+
 RANDOM_SPLIT_2__TEST_QUERIES = [
     '1a.sql', '4c.sql', '5c.sql', '6c.sql', '6d.sql', '7b.sql', '8c.sql',
     '10a.sql', '11a.sql', '11d.sql', '13c.sql', '13d.sql', '15d.sql', '16a.sql', '17b.sql', '19a.sql',
     '20a.sql', '22b.sql', '25b.sql', '29b.sql',
     '31a.sql', '32b.sql'
 ]
-    
+
 RANDOM_SPLIT_3__TEST_QUERIES = [
     '2a.sql', '3b.sql', '6d.sql', '9b.sql',
     '10b.sql', '11b.sql', '11c.sql', '13c.sql', '13d.sql', '16b.sql', '18c.sql', '19c.sql',
@@ -69,12 +228,11 @@ RANDOM_SPLIT_3__TEST_QUERIES = [
     '30a.sql', '33c.sql'
 ]
 
-
 BASE_QUERY_SPLIT_1__TEST_QUERIES = [
     '2a.sql', '2b.sql', '2c.sql', '2d.sql',
     '7a.sql', '7b.sql', '7c.sql',
     '15a.sql', '15b.sql', '15c.sql', '15d.sql',
-    '24a.sql', '24b.sql', 
+    '24a.sql', '24b.sql',
     '25a.sql', '25b.sql', '25c.sql',
     '31a.sql', '31b.sql', '31c.sql',
 ]
@@ -98,7 +256,6 @@ BASE_QUERY_SPLIT_3__TEST_QUERIES = [
     '27a.sql', '27b.sql', '27c.sql',
     '28a.sql', '28b.sql', '28c.sql'
 ]
-
 
 LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES = [
     '1c.sql', '2a.sql', '3b.sql', '4a.sql', '5a.sql', '6b.sql', '7c.sql', '8c.sql', '9c.sql',
@@ -137,11 +294,10 @@ RAND_BASE_QUERIES = [
     '2a.sql', '2b.sql', '2c.sql', '2d.sql',
     '7a.sql', '7b.sql', '7c.sql',
     '15a.sql', '15b.sql', '15c.sql', '15d.sql',
-    '24a.sql', '24b.sql', 
+    '24a.sql', '24b.sql',
     '25a.sql', '25b.sql', '25c.sql',
     '31a.sql', '31b.sql', '31c.sql',
 ]
-
 
 RAND_JOB_LIGHT_SPLIT = [
     '10c.sql', '11b.sql', '12a.sql', '18b.sql', '19a.sql',
@@ -152,34 +308,34 @@ RAND_JOB_LIGHT_SPLIT = [
 # ========================= STACK ===================================
 
 STACK__RANDOM_SPLIT_1__TEST_QUERIES = [
-'q1__q1-031.sql', 'q1__q1-035.sql', 'q4__q4-042.sql', 'q4__q4-064.sql',
-'q4__q4-089.sql', 'q5__q5-032.sql', 'q6__q6-060.sql', 'q6__q6-064.sql', 'q7__q7-099.sql',
-'q11__6c5cba419c5b7b02d431aeb5e766d775d812967a.sql', 'q11__c1ae2a992cde4ea2c4922d852df22043254b4f84.sql',
-'q12__55de941e8497cfeeb93d3f8f2d7a18489e0e6c32.sql', 'q14__63c0776f1727638316b966fe748df7cc585a335b.sql',
-'q14__74fd1af68d23f0690e3d0fc80bd9b42fa90a7e94.sql', 'q14__97e68ad5c2ced4c182366b3118a1f5f69b423fa6.sql',
-'q14__b49361f85785200ed6ec1f2eec357b7598c9e564.sql', 'q15__3e37e62655ceaebc14e79edad518e5710752f51d.sql',
-'q15__543ab3f730e494a69e3d15e59675f491544cb15d.sql', 'q15__b8ddf65b0c0c7867a9b560e571d457fec410715c.sql',
-'q15__d5546c01928a687eb1f54e9f8eb4e1aff68fc381.sql', 'q16__1e863562a79ca1f7754c759ebab6a2addda0bde8.sql',
-'q16__ea9efde510227beb8d624b8c4a6941b9d5e6e637.sql', 'q16__ed2ffeaefcf5ad8bbadc713ccc766541e12080aa.sql',
+    'q1__q1-031.sql', 'q1__q1-035.sql', 'q4__q4-042.sql', 'q4__q4-064.sql',
+    'q4__q4-089.sql', 'q5__q5-032.sql', 'q6__q6-060.sql', 'q6__q6-064.sql', 'q7__q7-099.sql',
+    'q11__6c5cba419c5b7b02d431aeb5e766d775d812967a.sql', 'q11__c1ae2a992cde4ea2c4922d852df22043254b4f84.sql',
+    'q12__55de941e8497cfeeb93d3f8f2d7a18489e0e6c32.sql', 'q14__63c0776f1727638316b966fe748df7cc585a335b.sql',
+    'q14__74fd1af68d23f0690e3d0fc80bd9b42fa90a7e94.sql', 'q14__97e68ad5c2ced4c182366b3118a1f5f69b423fa6.sql',
+    'q14__b49361f85785200ed6ec1f2eec357b7598c9e564.sql', 'q15__3e37e62655ceaebc14e79edad518e5710752f51d.sql',
+    'q15__543ab3f730e494a69e3d15e59675f491544cb15d.sql', 'q15__b8ddf65b0c0c7867a9b560e571d457fec410715c.sql',
+    'q15__d5546c01928a687eb1f54e9f8eb4e1aff68fc381.sql', 'q16__1e863562a79ca1f7754c759ebab6a2addda0bde8.sql',
+    'q16__ea9efde510227beb8d624b8c4a6941b9d5e6e637.sql', 'q16__ed2ffeaefcf5ad8bbadc713ccc766541e12080aa.sql',
 ]
 
 STACK__LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES = [
-'q1__q1-035.sql', 'q2__q2-032.sql', 'q3__q3-043.sql', 'q4__q4-041.sql',
-'q5__q5-041.sql', 'q6__q6-060.sql', 'q7__q7-047.sql', 'q8__q8-046.sql',
-'q11__6c5cba419c5b7b02d431aeb5e766d775d812967a.sql', 'q12__547c6bf1994c9b2ba82a7ae32f4b051beabf46fd.sql',
-'q13__935e2051bf80eeafe91aeb6eb719b6b64b9592c2.sql', 'q14__5e4835cd72aaa2d7be15b2a5ffa2e66156b3656f.sql',
-'q15__543ab3f730e494a69e3d15e59675f491544cb15d.sql', 'q16__b1a96cd48ba297dd93bce73c27b491069ad7449f.sql',
+    'q1__q1-035.sql', 'q2__q2-032.sql', 'q3__q3-043.sql', 'q4__q4-041.sql',
+    'q5__q5-041.sql', 'q6__q6-060.sql', 'q7__q7-047.sql', 'q8__q8-046.sql',
+    'q11__6c5cba419c5b7b02d431aeb5e766d775d812967a.sql', 'q12__547c6bf1994c9b2ba82a7ae32f4b051beabf46fd.sql',
+    'q13__935e2051bf80eeafe91aeb6eb719b6b64b9592c2.sql', 'q14__5e4835cd72aaa2d7be15b2a5ffa2e66156b3656f.sql',
+    'q15__543ab3f730e494a69e3d15e59675f491544cb15d.sql', 'q16__b1a96cd48ba297dd93bce73c27b491069ad7449f.sql',
 ]
 
 STACK__BASE_QUERY_SPLIT_1__TEST_QUERIES = [
-'q2__q2-001.sql', 'q2__q2-012.sql', 'q2__q2-032.sql', 'q2__q2-035.sql',
-'q2__q2-050.sql', 'q2__q2-081.sql', 'q2__q2-094.sql', 'q2__q2-098.sql',
-'q7__q7-034.sql', 'q7__q7-036.sql', 'q7__q7-047.sql', 'q7__q7-077.sql',
-'q7__q7-082.sql', 'q7__q7-085.sql', 'q7__q7-095.sql', 'q7__q7-099.sql',
-'q13__13ad1b8c6bea4fda1892b9fa82cc1ceb9ceb85fc.sql', 'q13__1ddcc8650e17b292bc7344902baffc90c5ae5761.sql',
-'q13__935e2051bf80eeafe91aeb6eb719b6b64b9592c2.sql', 'q13__a091adce62743b65c04532e98e8ff3d7e546ea77.sql',
-'q13__a3d03772d880754fc4e150d82908757477ae2186.sql', 'q13__add0df9dccb2790c14508e19c9e0deb79fad6ea2.sql',
-'q13__d383cd5b4aee7d3f73508e2a1fe5f6d0f7dd42a2.sql', 'q13__d4707be2adfdbc842f42acb1fc16e3a43faf7474.sql',
+    'q2__q2-001.sql', 'q2__q2-012.sql', 'q2__q2-032.sql', 'q2__q2-035.sql',
+    'q2__q2-050.sql', 'q2__q2-081.sql', 'q2__q2-094.sql', 'q2__q2-098.sql',
+    'q7__q7-034.sql', 'q7__q7-036.sql', 'q7__q7-047.sql', 'q7__q7-077.sql',
+    'q7__q7-082.sql', 'q7__q7-085.sql', 'q7__q7-095.sql', 'q7__q7-099.sql',
+    'q13__13ad1b8c6bea4fda1892b9fa82cc1ceb9ceb85fc.sql', 'q13__1ddcc8650e17b292bc7344902baffc90c5ae5761.sql',
+    'q13__935e2051bf80eeafe91aeb6eb719b6b64b9592c2.sql', 'q13__a091adce62743b65c04532e98e8ff3d7e546ea77.sql',
+    'q13__a3d03772d880754fc4e150d82908757477ae2186.sql', 'q13__add0df9dccb2790c14508e19c9e0deb79fad6ea2.sql',
+    'q13__d383cd5b4aee7d3f73508e2a1fe5f6d0f7dd42a2.sql', 'q13__d4707be2adfdbc842f42acb1fc16e3a43faf7474.sql',
 ]
 
 # ===================================================================
@@ -237,7 +393,7 @@ class BalsaParams(object):
         )
         p.Define(
             'plan_physical', True,
-            'If true, plans physical scan/join operators.  '\
+            'If true, plans physical scan/join operators.  ' \
             'Otherwise, just join ordering.'
         )
         p.Define('cost_model', 'postgrescost',
@@ -254,8 +410,8 @@ class BalsaParams(object):
         p.Define('lr', 1e-3, 'Learning rate.')
         p.Define('lr_decay_rate', None, 'If supplied, use ExponentialDecay.')
         p.Define('lr_decay_iters', None, 'If supplied, use ExponentialDecay.')
-        p.Define('lr_piecewise', None, 'If supplied, use Piecewise.  Example:'\
-                 '[(0, 1e-3), (200, 1e-4)].')
+        p.Define('lr_piecewise', None, 'If supplied, use Piecewise.  Example:' \
+                                       '[(0, 1e-3), (200, 1e-4)].')
         p.Define('use_adaptive_lr', None, 'Experimental.')
         p.Define('use_adaptive_lr_decay_to_zero', None, 'Experimental.')
         p.Define('final_decay_rate', None, 'Experimental.')
@@ -266,9 +422,9 @@ class BalsaParams(object):
 
         # Training.
         p.Define('inherit_optimizer_state', False, 'Experimental.  For Adam.')
-        p.Define('epochs', 100, 'Num epochs to train.')
+        p.Define('epochs', 6, 'Num epochs to train.')
         p.Define('bs', 1024, 'Batch size.')
-        p.Define('val_iters', 500, '# of value iterations.')
+        p.Define('val_iters', 2, '# of value iterations.')
         p.Define('increment_iter_despite_timeouts', False,
                  'Increment the iteration counter even if timeouts occurred?')
         p.Define('loss_type', None, 'Options: None (MSE), mean_qerror.')
@@ -279,25 +435,25 @@ class BalsaParams(object):
         p.Define('label_transforms', ['log1p', 'standardize'],
                  'Transforms for labels.')
         p.Define('label_transform_running_stats', False,
-                 'Use running mean and std to standardize labels?'\
+                 'Use running mean and std to standardize labels?' \
                  '  May affect on-policy.')
         p.Define('update_label_stats_every_iter', True,
-                 'Update mean/std stats of labels every value iteration?  This'\
+                 'Update mean/std stats of labels every value iteration?  This' \
                  'means the scaling of the prediction targers will shift.')
-        p.Define('gradient_clip_val', 0, 'Clip the gradient norm computed over'\
-                 ' all model parameters together. 0 means no clipping.')
+        p.Define('gradient_clip_val', 0, 'Clip the gradient norm computed over' \
+                                         ' all model parameters together. 0 means no clipping.')
         p.Define('early_stop_on_skip_fraction', None,
                  'If seen plans for x% of train queries produced, early stop.')
         # Validation.
         p.Define('validate_fraction', 0.1,
-                 'Sample this fraction of the dataset as the validation set.  '\
+                 'Sample this fraction of the dataset as the validation set.  ' \
                  '0 to disable validation.')
         p.Define('validate_every_n_epochs', 5,
                  'Run validation every this many training epochs.')
         p.Define(
             'validate_early_stop_patience', 3,
-            'Number of validations with no improvements before early stopping.'\
-            '  Thus, the maximum # of wasted train epochs = '\
+            'Number of validations with no improvements before early stopping.' \
+            '  Thus, the maximum # of wasted train epochs = ' \
             'this * validate_every_n_epochs).'
         )
         # Testing.
@@ -320,25 +476,25 @@ class BalsaParams(object):
             'of retraining.')
         p.Define(
             'param_noise', 0.0,
-            'If non-zero, add Normal(0, std=param_noise) to Linear weights '\
+            'If non-zero, add Normal(0, std=param_noise) to Linear weights ' \
             'of the pre-trained net.')
         p.Define(
             'param_tau', 1.0,
             'If non-zero, real_model_t = tau * real_model_tm1 + (1-tau) * SIM.')
         p.Define(
             'use_ema_source', False,
-            'Use an exponential moving average of source networks?  If so, tau'\
-            ' is used as model_t := source_t :='\
+            'Use an exponential moving average of source networks?  If so, tau' \
+            ' is used as model_t := source_t :=' \
             ' tau * source_(t-1) + (1-tau) * model_(t-1).'
         )
         p.Define(
             'skip_sim_init_iter_1p', False,
-            'Starting from the 2nd iteration, skip initializing from '\
+            'Starting from the 2nd iteration, skip initializing from ' \
             'simulation model?'
         )
         p.Define(
             'generic_ops_only_for_min_card_cost', False,
-            'This affects sim model training and only if MinCardCost is used. '\
+            'This affects sim model training and only if MinCardCost is used. ' \
             'See sim.py for documentation.')
         p.Define(
             'sim_data_collection_intermediate_goals', True,
@@ -347,34 +503,34 @@ class BalsaParams(object):
         # Training data / replay buffer.
         p.Define(
             'init_experience', 'data/initial_policy_data.pkl',
-            'Initial data set of query plans to learn from. By default, this'\
-            ' is the expert optimizer experience collected when baseline'\
+            'Initial data set of query plans to learn from. By default, this' \
+            ' is the expert optimizer experience collected when baseline' \
             ' performance is evaluated.'
         )
         p.Define('skip_training_on_expert', True,
                  'Whether to skip training on expert plan-latency pairs.')
         p.Define(
             'dedup_training_data', True,
-            'Whether to deduplicate training data by keeping the best cost per'\
+            'Whether to deduplicate training data by keeping the best cost per' \
             ' subplan per template.'
         )
         p.Define('on_policy', False,
                  'Whether to train on only data from the latest iteration.')
         p.Define(
             'use_last_n_iters', -1,
-            'Train on data from this many latest iterations.  If on_policy,'\
-            ' this flag is ignored and treated as 1 (latest iter).  -1 means'\
+            'Train on data from this many latest iterations.  If on_policy,' \
+            ' this flag is ignored and treated as 1 (latest iter).  -1 means' \
             ' train on all previous iters.')
         p.Define('skip_training_on_timeouts', False,
                  'Skip training on executions that were timeout events?')
         p.Define(
             'use_new_data_only', False,
-            'Experimental; has effects if on_policy or use_last_n_iters > 0.'\
+            'Experimental; has effects if on_policy or use_last_n_iters > 0.' \
             '  Currently only implemented in the dedup_training_data branch.')
         p.Define(
-            'per_transition_sgd_steps', -1, '-1 to disable.  Takes effect only'\
-            ' for when p.use_last_n_iters>0 and p.epochs=1.  This controls the'\
-            ' average number of SGD updates taken on each transition.')
+            'per_transition_sgd_steps', -1, '-1 to disable.  Takes effect only' \
+                                            ' for when p.use_last_n_iters>0 and p.epochs=1.  This controls the' \
+                                            ' average number of SGD updates taken on each transition.')
         p.Define('physical_execution_hindsight', False,
                  'Apply hindsight labeling to physical execution data?')
         p.Define(
@@ -403,11 +559,11 @@ class BalsaParams(object):
                  'If true, use SimQueryFeaturizer to produce query features.')
         # Featurization.
         p.Define('perturb_query_features', None,
-                 'If not None, randomly perturb query features on each forward'\
-                 ' pass, and this flag specifies '\
-                 '(perturb_prob_per_table, [scale_min, scale_max]).  '\
-                 'A multiplicative scale is drawn from '\
-                 'Unif[scale_min, scale_max].  Only performed when training '\
+                 'If not None, randomly perturb query features on each forward' \
+                 ' pass, and this flag specifies ' \
+                 '(perturb_prob_per_table, [scale_min, scale_max]).  ' \
+                 'A multiplicative scale is drawn from ' \
+                 'Unif[scale_min, scale_max].  Only performed when training ' \
                  'and using a query featurizer with perturbation implemented.')
 
         # Modeling: Transformer (deprecated).  Enabled when tree_conv is False.
@@ -423,8 +579,8 @@ class BalsaParams(object):
             'Algorithm used to search for execution plans with cost model.')
         p.Define(
             'search_until_n_complete_plans', 10,
-            'Keep doing plan search for each query until this many complete'\
-            ' plans have been found.  Returns the predicted cheapest one out'\
+            'Keep doing plan search for each query until this many complete' \
+            ' plans have been found.  Returns the predicted cheapest one out' \
             ' of them.  Recommended: 10.')
         p.Define('planner_config', None, 'See optimizer.py#PlannerConfig.')
         p.Define(
@@ -438,8 +594,8 @@ class BalsaParams(object):
         # Exploration during inference.
         p.Define(
             'epsilon_greedy', 0,
-            'Epsilon-greedy policy: with epsilon probability, execute a'\
-            ' randomly picked plan out of all complete plans found, rather'\
+            'Epsilon-greedy policy: with epsilon probability, execute a' \
+            ' randomly picked plan out of all complete plans found, rather' \
             ' than the predicted-cheapest one out of them.')
         p.Define('epsilon_greedy_random_transform', False,
                  'Apply eps-greedy to randomly transform the best found plan?')
@@ -451,10 +607,10 @@ class BalsaParams(object):
                  'Sample an action from the soft V-distribution?')
         p.Define('explore_visit_counts', False, 'Explores using a visit count?')
         p.Define('explore_visit_counts_sort', False,
-                 'Explores by executing the plan with the smallest '\
+                 'Explores by executing the plan with the smallest ' \
                  '(visit count, predicted latency) out of k-best plans?')
         p.Define('explore_visit_counts_latency_sort', False,
-                 'Explores using explore_visit_counts_sort if there exists '\
+                 'Explores using explore_visit_counts_sort if there exists ' \
                  'a plan that has a 0 visit count. Else sorts by predicted latency.')
 
         # Safe execution.
@@ -465,16 +621,16 @@ class BalsaParams(object):
         p.Define('timeout_slack', 2,
                  'A multiplier: timeout := timeout_slack * max_query_latency.')
         p.Define('relax_timeout_factor', None,
-                 'If not None, a positive factor to multiply with the current'\
+                 'If not None, a positive factor to multiply with the current' \
                  ' timeout when relaxation conditions are met.')
         p.Define('relax_timeout_on_n_timeout_iters', None,
-                 'If there are this many timeout iterations up to now, relax'\
+                 'If there are this many timeout iterations up to now, relax' \
                  ' the current timeout by relax_timeout_factor.')
 
         # Execution.
         p.Define('use_local_execution', False,
-                 'For query executions, connect to local engine or the remote'\
-                 ' cluster?  Non-execution EXPLAINs are always issued to'\
+                 'For query executions, connect to local engine or the remote' \
+                 ' cluster?  Non-execution EXPLAINs are always issued to' \
                  ' local.')
         p.Define('use_cache', True, 'Skip executing seen plans?')
         return p
@@ -637,7 +793,6 @@ class SlowMinCardCostLrC(SlowMinCardCostNoDecay):
         return super().Params().Set(**LR_SCHEDULES['C'])
 
 
-
 @balsa.params_registry.Register  # keep
 class Balsa_JOBSlowSplit(SlowMinCardCostLrC):
 
@@ -659,6 +814,7 @@ class Balsa_JOB_EvaluationBase(Balsa_JOBSlowSplit):
         p.val_iters = 200
         return p
 
+
 # ===========================================================================
 # RANDOM SPLIT 1-3
 
@@ -668,20 +824,24 @@ class Balsa_JOBRandomSplit1(Balsa_JOB_EvaluationBase):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBRandomSplit2(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBRandomSplit3(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_3__TEST_QUERIES
         return p
+
+
 # ===========================================================================
 # BASE QUERY SPLIT 1-3
 
@@ -692,20 +852,24 @@ class Balsa_JOBBaseQuerySplit1(Balsa_JOB_EvaluationBase):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBBaseQuerySplit2(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBBaseQuerySplit3(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_3__TEST_QUERIES
         return p
+
+
 # ===========================================================================
 # LEAVE ONE OUT SPLIT 1-3
 
@@ -715,14 +879,16 @@ class Balsa_JOBLeaveOneOutSplit1(Balsa_JOB_EvaluationBase):
         p = super().Params()
         p.test_query_glob = LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBLeaveOneOutSplit2(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = LEAVE_ONE_OUT_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Balsa_JOBLeaveOneOutSplit3(Balsa_JOB_EvaluationBase):
     def Params(self):
@@ -749,6 +915,7 @@ class Balsa_JOBLeakageTest(Balsa_JOBSlowSplit):
         p.sim_checkpoint = None
         return p
 
+
 # Identical to Balsa_JOBBaseQuerySplit1
 @balsa.params_registry.Register
 class Balsa_JOBLeakageTest2(Balsa_JOBSlowSplit):
@@ -757,7 +924,7 @@ class Balsa_JOBLeakageTest2(Balsa_JOBSlowSplit):
         p.test_query_glob = BASE_QUERY_SPLIT_1__TEST_QUERIES
         p.sim_checkpoint = None
         return p
-    
+
 
 @balsa.params_registry.Register
 class Balsa_JOBLightRandom(Balsa_JOBSlowSplit):
@@ -807,6 +974,7 @@ class Balsa_STACK_EvaluationBase(Balsa_JOBSlowSplit):
         p.val_iters = 100
         return p
 
+
 # ===========================================================================
 # STACK RANDOM SPLIT
 
@@ -816,7 +984,8 @@ class Balsa_STACKRandomSplit1(Balsa_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__RANDOM_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 # ===========================================================================
 # STACK BASE QUERY SPLIT
 
@@ -826,7 +995,8 @@ class Balsa_STACKBaseQuerySplit1(Balsa_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__BASE_QUERY_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 # ===========================================================================
 # STACK LEAVE ONE OUT SPLIT
 
@@ -836,8 +1006,6 @@ class Balsa_STACKLeaveOneOutSplit1(Balsa_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
         return p
-    
-
 
 
 ########################## Generalizing to Ext-JOB ##########################
@@ -951,9 +1119,6 @@ class NeoImpl_JOBRandSplit(NeoImplRand52Reset):
         return super().Params().Set(dedup_training_data=False)
 
 
-
-
-
 # ===========================================================================
 # Base Experiment Class
 
@@ -968,25 +1133,121 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
 # RANDOM SPLIT 1-3
 
 @balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_03'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_05'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+# RANDOM SPLIT 1-3
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_01v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_05v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_07v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_join'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_debug'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_DEBUG_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_predicates_short'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_table_short'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
+        return p
+
+
+@balsa.params_registry.Register
 class Neo_JOBRandomSplit1(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBRandomSplit2(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBRandomSplit3(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = RANDOM_SPLIT_3__TEST_QUERIES
         return p
+
+
 # ===========================================================================
 # BASE QUERY SPLIT 1-3
 
@@ -997,20 +1258,24 @@ class Neo_JOBBaseQuerySplit1(Neo_JOB_EvaluationBase):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBBaseQuerySplit2(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBBaseQuerySplit3(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = BASE_QUERY_SPLIT_3__TEST_QUERIES
         return p
+
+
 # ===========================================================================
 # LEAVE ONE OUT SPLIT 1-3
 
@@ -1021,22 +1286,22 @@ class Neo_JOBLeaveOneOutSplit1(Neo_JOB_EvaluationBase):
         p = super().Params()
         p.test_query_glob = LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBLeaveOneOutSplit2(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = LEAVE_ONE_OUT_SPLIT_2__TEST_QUERIES
         return p
-    
+
+
 @balsa.params_registry.Register
 class Neo_JOBLeaveOneOutSplit3(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.test_query_glob = LEAVE_ONE_OUT_SPLIT_3__TEST_QUERIES
         return p
-
-
 
 
 ########################## Neo - STACK ##########################
@@ -1059,6 +1324,7 @@ class Neo_STACK_EvaluationBase(NeoImplRand52):
         p.val_iters = 50
         return p
 
+
 # ===========================================================================
 # RANDOM SPLIT
 
@@ -1068,7 +1334,8 @@ class Neo_STACK_RandomSplit1(Neo_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__RANDOM_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 # ===========================================================================
 # BASE QUERY SPLIT
 
@@ -1078,7 +1345,8 @@ class Neo_STACK_BaseQuerySplit1(Neo_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__BASE_QUERY_SPLIT_1__TEST_QUERIES
         return p
-    
+
+
 # ===========================================================================
 # LEAVE ONE OUT SPLIT
 
@@ -1088,7 +1356,6 @@ class Neo_STACK_LeaveOneOutSplit1(Neo_STACK_EvaluationBase):
         p = super().Params()
         p.test_query_glob = STACK__LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
         return p
-
 
 
 ########################## Ablation: sim ##########################

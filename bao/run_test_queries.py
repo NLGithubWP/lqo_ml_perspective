@@ -31,6 +31,7 @@ def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_g
         cur.execute(f"SET statement_timeout TO {TIMEOUT_LIMIT}")
         
         if not use_geqo:
+            print("disable geqo")
             cur.execute(f"SET geqo TO off")
 
         for i in range(NUM_EXECUTIONS):
@@ -68,12 +69,14 @@ def main(args):
     pattern = os.path.join(args.query_dir, '**/*.sql')
     query_paths = sorted(glob.glob(pattern, recursive=True))
     print(f"Found {len(query_paths)} queries in {args.query_dir} and its subdirectories.")
+    print("queries:", query_paths)
 
     queries = []
     for fp in query_paths:
         with open(fp) as f:
             query = f.read()
         queries.append((fp, query))
+    print(queries)
 
     use_bao = args.use_bao and (not args.use_postgres)
     print("Using Bao:", use_bao)

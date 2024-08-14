@@ -20,6 +20,7 @@ from tqdm.auto import tqdm
 import argparse
 import wandb
 
+
 def getexpnum(exp):
     num = 0
     for i in exp:
@@ -180,7 +181,7 @@ def load_sql_Files(sql_list: list):
     """
     sqllist = []
     for i in range(0, len(sql_list)):
-        sqlFiles = './../balsa/queries/join-order-benchmark/' + sql_list[i] + '.sql'
+        sqlFiles = 'job_query_debug/' + sql_list[i] + '.sql'
         if not os.path.exists(sqlFiles):
             raise IOError("File Not Exists!")
         sqllist.append(sqlFiles)
@@ -284,7 +285,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     nodes = []
     for i in sqls:
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(
-            './../balsa/queries/join-order-benchmark/' + i + '.sql')
+            'job_query_debug/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
                                                             workload,
@@ -341,7 +342,7 @@ def setInitialTimeout(sqls: list, dropbuffer, testtime=3):
     timeoutlist = []
     for i in sqls:
         timeout = postgres.GetLatencyFromPg(i, None, verbose=False, check_hint_used=False, timeout=90000,
-                                                    dropbuffer=dropbuffer)
+                                            dropbuffer=dropbuffer)
         timeoutlist.append(round(timeout, 3))
     return timeoutlist
 
@@ -350,7 +351,7 @@ def getPG_latency(sqls):
     pg_latency = []
     for i in sqls:
         latency = postgres.GetLatencyFromPg(i, None, verbose=False, check_hint_used=False, timeout=90000,
-                                                    dropbuffer=False)
+                                            dropbuffer=False)
         pg_latency.append(latency)
     return pg_latency
 
@@ -398,14 +399,340 @@ def getKLreg(leveldict, model, oridistribution):
 
 def get_train_test_split(experiment_name):
     all_available_queries = [
-        '1a', '1b', '1c', '1d', '2a', '2b', '2c', '2d', '3a', '3b', '3c', '4a', '4b', '4c',
-        '5a', '5b', '5c', '6a', '6b', '6c', '6d', '6e', '6f', '7a', '7b', '7c', '8a', '8b', '8c', '8d', '9a', '9b', '9c', '9d',
-        '10a', '10b', '10c', '11a', '11b', '11c', '11d', '12a', '12b', '12c', '13a', '13b', '13c', '13d', '14a', '14b', '14c',
-        '15a', '15b', '15c', '15d', '16a', '16b', '16c', '16d', '17a', '17b', '17c', '17d', '17e', '17f', '18a', '18b', '18c', '19a', '19b', '19c', '19d',
-        '20a', '20b', '20c', '21a', '21b', '21c', '22a', '22b', '22c', '22d', '23a', '23b', '23c', '24a', '24b',
-        '25a', '25b', '25c', '26a', '26b', '26c', '27a', '27b', '27c', '28a', '28b', '28c', '29a', '29b', '29c',
-        '30a', '30b', '30c', '31a', '31b', '31c', '32a', '32b', '33a', '33b', '33c', 
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "55",
+        "56",
+        "57",
+        "58",
+        "59",
+        "60",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "66",
+        "67",
+        "68",
+        "69",
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79",
+        "80",
+        "81",
+        "82",
+        "83",
+        "84",
+        "85",
+        "86",
+        "87",
+        "88",
+        "89",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99",
     ]
+
+    if experiment_name in ['job_join',  'job_predicate',  'job_table']:
+        # trainquery = [
+        #     "0",
+        #     "1",
+        #     "2",
+        #     "3",
+        #     "4",
+        #     "5",
+        #     "6",
+        #     "7",
+        #     "8",
+        #     "9",
+        #     "10",
+        #     "11",
+        #     "12",
+        #     "13",
+        #     "14",
+        #     "15",
+        #     "16",
+        #     "17",
+        #     "18",
+        #     "19",
+        #     "20",
+        #     "21",
+        #     "22",
+        #     "23",
+        #     "24",
+        #     "25",
+        #     "26",
+        #     "27",
+        #     "28",
+        #     "29",
+        #     "30",
+        #     "31",
+        #     "32",
+        #     "33",
+        #     "34",
+        #     "35",
+        #     "36",
+        #     "37",
+        #     "38",
+        #     "39",
+        #     "40",
+        #     "41",
+        #     "42",
+        #     "43",
+        #     "44",
+        #     "45",
+        #     "46",
+        #     "47",
+        #     "48",
+        #     "49",
+        #     "50",
+        #     "51",
+        #     "52",
+        #     "53",
+        #     "54",
+        #     "55",
+        #     "56",
+        #     "57",
+        #     "58",
+        #     "59",
+        #     "60",
+        #     "61",
+        #     "62",
+        #     "63",
+        #     "64",
+        #     "65",
+        #     "66",
+        #     "67",
+        #     "68",
+        #     "69",
+        #     "70",
+        #     "71",
+        #     "72",
+        #     "73",
+        #     "74",
+        #     "75",
+        #     "76",
+        #     "77",
+        #     "78",
+        #     "79",
+        #     "80",
+        #     "81",
+        #     "82",
+        #     "83",
+        #     "84",
+        #     "85",
+        #     "86",
+        #     "87",
+        #     "88",
+        #     "89",
+        #     "90",
+        #     "91",
+        #     "92",
+        #     "93",
+        #     "94",
+        #     "95",
+        #     "96",
+        #     "97",
+        #     "98",
+        #     "99",
+        # ]
+        # testquery = ["1a",
+        #              "1b",
+        #              "1c",
+        #              "1d",
+        #              "2a",
+        #              "2b",
+        #              "2c",
+        #              "2d",
+        #              "3a",
+        #              "3b",
+        #              "3c",
+        #              "4a",
+        #              "4b",
+        #              "4c",
+        #              "5a",
+        #              "5b",
+        #              "5c",
+        #              "6a",
+        #              "6b",
+        #              "6c",
+        #              "6d",
+        #              "6e",
+        #              "6f",
+        #              "7a",
+        #              "7b",
+        #              "7c",
+        #              "8a",
+        #              "8b",
+        #              "8c",
+        #              "8d",
+        #              "9a",
+        #              "9b",
+        #              "9c",
+        #              "9d",
+        #              "10a",
+        #              "10b",
+        #              "10c",
+        #              "11a",
+        #              "11b",
+        #              "11c",
+        #              "11d",
+        #              "12a",
+        #              "12b",
+        #              "12c",
+        #              "13a",
+        #              "13b",
+        #              "13c",
+        #              "13d",
+        #              "14a",
+        #              "14b",
+        #              "14c",
+        #              "15a",
+        #              "15b",
+        #              "15c",
+        #              "15d",
+        #              "16a",
+        #              "16b",
+        #              "16c",
+        #              "16d",
+        #              "17a",
+        #              "17b",
+        #              "17c",
+        #              "17d",
+        #              "17e",
+        #              "17f",
+        #              "18a",
+        #              "18b",
+        #              "18c",
+        #              "19a",
+        #              "19b",
+        #              "19c",
+        #              "19d",
+        #              "20a",
+        #              "20b",
+        #              "20c",
+        #              "21a",
+        #              "21b",
+        #              "21c",
+        #              "22a",
+        #              "22b",
+        #              "22c",
+        #              "22d",
+        #              "23a",
+        #              "23b",
+        #              "23c",
+        #              "24a",
+        #              "24b",
+        #              "25a",
+        #              "25b",
+        #              "25c",
+        #              "26a",
+        #              "26b",
+        #              "26c",
+        #              "27a",
+        #              "27b",
+        #              "27c",
+        #              "28a",
+        #              "28b",
+        #              "28c",
+        #              "29a",
+        #              "29b",
+        #              "29c",
+        #              "30a",
+        #              "30b",
+        #              "30c",
+        #              "31a",
+        #              "31b",
+        #              "31c",
+        #              "32a",
+        #              "32b",
+        #              "33a",
+        #              "33b",
+        #              "33c"]
+        trainquery = [
+            "0",
+            "1",
+            "2",
+            "3",
+        ]
+        testquery = ["1a",
+                     "1b",
+                     "1c",
+                     "1d",
+                     "2a",
+                     "2b",
+                     "2c",
+                     "2d",
+                     ]
+        return trainquery, testquery
 
     # # Original Split
     # # ==========================================================================================================
@@ -424,20 +751,179 @@ def get_train_test_split(experiment_name):
     #     '30b', '31b', '32b', '33b'
     # ]
 
+    if experiment_name == 'tpch':
+        train_querys = ["1_0",
+                        "1_1",
+                        "1_2",
+                        "1_3",
+                        "1_4",
+                        "1_5",
+                        "1_6",
+                        "1_7",
+                        "2_0",
+                        "2_1",
+                        "2_2",
+                        "2_3",
+                        "2_4",
+                        "2_5",
+                        "2_6",
+                        "2_7",
+                        "3",
+                        "3_0",
+                        "3_1",
+                        "3_2",
+                        "3_3",
+                        "3_4",
+                        "3_5",
+                        "3_6",
+                        "3_7",
+                        "4_0",
+                        "4_1",
+                        "4_2",
+                        "4_3",
+                        "4_4",
+                        "4_5",
+                        "4_6",
+                        "4_7",
+                        "5",
+                        "5_0",
+                        "5_1",
+                        "5_2",
+                        "5_3",
+                        "5_4",
+                        "5_5",
+                        "5_6",
+                        "5_7",
+                        "6_0",
+                        "6_1",
+                        "6_2",
+                        "6_3",
+                        "6_4",
+                        "6_5",
+                        "6_6",
+                        "6_7",
+                        "7",
+                        "7_0",
+                        "7_1",
+                        "7_2",
+                        "7_3",
+                        "7_4",
+                        "7_5",
+                        "7_6",
+                        "7_7",
+                        "8",
+                        "8_0",
+                        "8_1",
+                        "8_2",
+                        "8_3",
+                        "8_4",
+                        "8_5",
+                        "8_6",
+                        "8_7",
+                        "9_0",
+                        "9_1",
+                        "9_2",
+                        "9_3",
+                        "9_4",
+                        "9_5",
+                        "9_6",
+                        "9_7",
+                        "10_0",
+                        "10_1",
+                        "10_2",
+                        "10_3",
+                        "10_4",
+                        "10_5",
+                        "10_6",
+                        "10_7",
+                        "12",
+                        "12_0",
+                        "12_1",
+                        "12_2",
+                        "12_3",
+                        "12_4",
+                        "12_5",
+                        "12_6",
+                        "12_7",
+                        "14",
+                        "14_0",
+                        "14_1",
+                        "14_2",
+                        "14_3",
+                        "14_4",
+                        "14_5",
+                        "14_6",
+                        "14_7",
+                        "16_0",
+                        "16_1",
+                        "16_2",
+                        "16_3",
+                        "16_4",
+                        "16_5",
+                        "16_6",
+                        "16_7",
+                        "17_0",
+                        "17_1",
+                        "17_2",
+                        "17_3",
+                        "17_4",
+                        "17_5",
+                        "17_6",
+                        "17_7",
+                        "19_0",
+                        "19_1",
+                        "19_2",
+                        "19_3",
+                        "19_4",
+                        "19_5",
+                        "19_6",
+                        "19_7",
+                        "20_0",
+                        "20_1",
+                        "20_2",
+                        "20_3",
+                        "20_4",
+                        "20_5",
+                        "20_6",
+                        "20_7",
+                        "21_0",
+                        "21_1",
+                        "21_2",
+                        "21_3",
+                        "21_4",
+                        "21_5",
+                        "21_6",
+                        "21_7",
+                        "22_0",
+                        "22_1",
+                        "22_2",
+                        "22_3",
+                        "22_4",
+                        "22_5",
+                        "22_6",
+                        "22_7"]
+        testquery = ["3",
+                     "5",
+                     "7",
+                     "8",
+                     "12",
+                     "14", ]
+        return train_querys, testquery
+
     if experiment_name == 'LeaveOneOutSplit1':
         test_queries = LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'LeaveOneOutSplit2':
         test_queries = LEAVE_ONE_OUT_SPLIT_2__TEST_QUERIES
     elif experiment_name == 'LeaveOneOutSplit3':
         test_queries = LEAVE_ONE_OUT_SPLIT_3__TEST_QUERIES
-    
+
     elif experiment_name == 'BaseQuerySplit1':
         test_queries = BASE_QUERY_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'BaseQuerySplit2':
         test_queries = BASE_QUERY_SPLIT_2__TEST_QUERIES
     elif experiment_name == 'BaseQuerySplit3':
         test_queries = BASE_QUERY_SPLIT_3__TEST_QUERIES
-    
+
     elif experiment_name == 'RandomSplit1':
         test_queries = RANDOM_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'RandomSplit2':
@@ -451,7 +937,7 @@ def get_train_test_split(experiment_name):
 
     else:
         raise NotImplementedError(f"Split {experiment_name} could not be found.")
-    
+
     test_queries = [f.split('.sql')[0] for f in test_queries]
 
     train_queries = []
@@ -464,27 +950,30 @@ def get_train_test_split(experiment_name):
 
 def define_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--experiment', type=str, required=True, help='Defines which train-test split to use (see #get_train_test_split method).')
-    parser.add_argument('--wandb', action='store_true', default=True)
-    parser.add_argument('--no_wandb', dest='wandb', action='store_false')
+    parser.add_argument('--experiment', type=str, required=True,
+                        help='Defines which train-test split to use (see #get_train_test_split method).')
+    parser.add_argument('--wandb', action='store_true', default=False)
+    parser.add_argument('--no_wandb', dest='wandb', action='store_true')
 
     args = parser.parse_args()
     return args
-    
+
 
 if __name__ == '__main__':
     args = define_args()
 
     from util.pg_executor import LOCAL_DSN
-    if not LOCAL_DSN.endswith('imdbload'):
-        raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
 
-    wandb.init(
-        project='leon',
-        entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
-        save_code=False,
-        config={ 'experiment': args.experiment, 'workload': 'JOB' }
-    )
+    # if not LOCAL_DSN.endswith('imdbload'):
+    #     raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
+
+    if args.wandb:
+        wandb.init(
+            project='leon',
+            entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
+            save_code=False,
+            config={'experiment': args.experiment, 'workload': 'JOB'}
+        )
 
     logs_name = args.experiment
     ISOTIMEFORMAT = '%m%d-%H%M%S'
@@ -528,7 +1017,6 @@ if __name__ == '__main__':
 
     trainquery, testquery = get_train_test_split(args.experiment)
 
-
     dp_Signs = [True for i in range(len(trainquery))]
     sqllist = load_sql_Files(trainquery)
     testsqllist = load_sql_Files(testquery)
@@ -537,7 +1025,7 @@ if __name__ == '__main__':
     testsqls = load_sql(testsqllist)
     bestplandata = [[[] for _ in range(20)] for _ in range(len(trainquery))]
     bestplanslist = [[] for _ in range(len(sqls))]
-    iteration_num = 30
+    iteration_num = 1
 
     # initial timeout and it will update in dp
     timeoutlist = setInitialTimeout(sqls, dropbuffer, testtime=3)
@@ -548,8 +1036,8 @@ if __name__ == '__main__':
     train_gmrl = []
     test_gmrl = []
     logger.info("timeoutList:{}".format(timeoutlist))
-    batchsize = 256
-    num_inner_epochs = 500
+    batchsize = 512
+    num_inner_epochs = 1
     DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     maxLevel = 0
     greedy = -1.0
@@ -567,11 +1055,16 @@ if __name__ == '__main__':
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
         dp_tables1 = copy.deepcopy(origin_dp_tables)
         maxLevel = maxLevel if maxLevel > len(query_leaves) else len(query_leaves)
+
+        print('query_leaves:', query_leaves)
+        print('all_join_conds:', all_join_conds)
+
+    print('maxlevel:', maxLevel)
     if not FirstTrain:
         model_levels, optlist = getModelsFromFile(maxLevel, modelpath)
     else:
         model_levels, optlist = getModels(maxLevel)
-        
+    print('maxlevel:', maxLevel)
     #
     # Potentially log everything into WandB
     # ================================================================================
@@ -606,7 +1099,7 @@ if __name__ == '__main__':
                                                                                          FirstTrain, model_levels,
                                                                                          timeoutlist[i],
                                                                                          dropbuffer=dropbuffer,
-                                                                    
+
                                                                                          nodeFeaturizer=nodeFeaturizer,
                                                                                          greedy=greedy,
                                                                                          subplans_fin=finexp,
@@ -637,12 +1130,14 @@ if __name__ == '__main__':
         trainTimes = 0
         testTimes = 0
         FirstTrain = False
+        print('model nums:', len(model_levels))
         for modelnum in tqdm(range(2, len(model_levels)), leave=False, desc='Iterating over models...'):
             optimizer = optlist[modelnum]
             temtrainpair = copy.deepcopy(trainpair[modelnum])
             if len(temtrainpair) < 2:
                 continue
-            for epoch in tqdm(range(num_inner_epochs), leave=False, desc=f'Training {num_inner_epochs} inner epochs (#num_inner_epochs)...'):
+            for epoch in tqdm(range(num_inner_epochs), leave=False,
+                              desc=f'Training {num_inner_epochs} inner epochs (#num_inner_epochs)...'):
                 ttime = time.time()
                 shuffled_indices = np.random.permutation(len(temtrainpair))
                 # train
@@ -739,11 +1234,11 @@ if __name__ == '__main__':
                     accuracy_key = f'accuracy__model_{modelnum}'
                     inner_epoch_key = f'inner_epoch__model_{modelnum}'
                     wandb.log({
-                        accuracy_key: acc/cout,
+                        accuracy_key: acc / cout,
                         'outer_epoch': iter,
-                        inner_epoch_key: epoch+1,
-                        'inner_epoch': epoch+1,
-                        'combined_epoch': iter*13 + epoch+1
+                        inner_epoch_key: epoch + 1,
+                        'inner_epoch': epoch + 1,
+                        'combined_epoch': iter * 13 + epoch + 1
                     })
 
                 if acc / cout > 0.96 or epoch > 13:
@@ -751,6 +1246,10 @@ if __name__ == '__main__':
 
         logger.info('train time ={} test time = {}'.format(trainTimes, testTimes))
         testtime = time.time()
+
+        for modelnum in range(2, len(model_levels)):
+            modelname = log_dir + '/IterationModel_' + str(iter) + logs_name + '_' + str(modelnum) + '.pth'
+            torch.save(model_levels[modelnum], modelname)
 
         nowtraingmrl = getGMRL(trainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
                                exp=exp, old=pg_latency_train)
@@ -771,7 +1270,7 @@ if __name__ == '__main__':
         logger.info('GMRL test  time ={}'.format(time.time() - testtime))
         logger.info('train_gmrl ={}'.format(train_gmrl))
         logger.info('test_gmrl ={}'.format(test_gmrl))
-        
+
         if args.wandb:
             wandb.log({
                 'outer_epoch': iter,
@@ -796,3 +1295,9 @@ if __name__ == '__main__':
         c_file.close()
         d_file.close()
     logger.info('all time = {} '.format(time.time() - allstime))
+    print("Begin to save the final model")
+    print(model_levels)
+    for modelnum in range(2, len(model_levels)):
+        modelname = log_dir + '/FinalModel_' + logs_name + '_' + str(modelnum) + '.pth'
+        print(f"saving model to ", modelname)
+        torch.save(model_levels[modelnum], modelname)

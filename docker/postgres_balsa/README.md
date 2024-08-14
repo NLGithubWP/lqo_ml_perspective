@@ -60,10 +60,14 @@ docker-compose up -d
 docker exec -it pg_balsa bash
 su postgres
 
+# Outside the docker
+cp -r ./balsa/load-postgres ./data/imdb/
+
 # LOAD JOB INTO DB
 # ==========================================
 #
 # Run script to load the CSVs into the database. This process takes on the order of 15 minutes.
+# drop databae imdbload; before running the script if you want to start from scratch.
 bash data/imdb/load-postgres/load_job_postgres.sh /data/imdb
 
 # LOAD STACK INTO DB (Takes ~2.5h to restore dump, 17.4s to ANALYZE)
