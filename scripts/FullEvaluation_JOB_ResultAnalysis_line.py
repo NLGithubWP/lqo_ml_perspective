@@ -30,27 +30,88 @@ from matplotlib.legend_handler import HandlerTuple
 from matplotlib.colors import LinearSegmentedColormap, to_rgba_array
 from matplotlib.ticker import LogLocator
 
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-def draw_query_by_query(_df_agg):
-    # Filter the DataFrame for specific experiments
-    relevant_experiments = [
-        'leave_one_out_split_1', 'leave_one_out_split_2', 'leave_one_out_split_3',
-        'random_split_1', 'random_split_2', 'random_split_3',
-        'base_query_split_1', 'base_query_split_2', 'base_query_split_3'
-    ]
-    _df_agg = _df_agg[_df_agg['experiment'].isin(relevant_experiments)]
+# Filter the DataFrame for specific experiments
+relevant_experiments = [
+    'leave_one_out_split_1', 'leave_one_out_split_2', 'leave_one_out_split_3',
+    'random_split_1', 'random_split_2', 'random_split_3',
+    'base_query_split_1', 'base_query_split_2', 'base_query_split_3'
+]
 
-    # Further filter to use only rows where the split is 'test'
-    _df_agg = _df_agg[_df_agg['split'] == 'test']
+
+def draw_query_by_query_bar_charts(_df_agg):
+
+    _df_agg = _df_agg[_df_agg['experiment'].isin(relevant_experiments) & (_df_agg['split'] == 'test')]
 
     # Convert necessary columns to numeric if not already
-    numeric_cols = ['total_time']
+    numeric_cols = ['execution_time', 'total_time']
+    _df_agg[numeric_cols] = _df_agg[numeric_cols].apply(pd.to_numeric, errors='coerce')
+
+    # Ensure experiments are in a specific order
+    _df_agg['experiment'] = pd.Categorical(_df_agg['experiment'], categories=relevant_experiments, ordered=True)
+    _df_agg = _df_agg.sort_values(by=['experiment', 'method', 'query_ident'])
+
+    # Identify all methods excluding PostgreSQL
+    methods = _df_agg['method'].unique()
+    methods = [m for m in methods if m != 'PostgreSQL']
+
+    num_methods = len(methods)
+    fig, axes = plt.subplots(num_methods, 1, figsize=(10, 1.5 * num_methods))
+
+    if num_methods == 1:
+        axes = [axes]  # Ensure axes is iterable
+
+    for ax, method in zip(axes, methods):
+        # Data for the current method and PostgreSQL
+        method_data = _df_agg[_df_agg['method'].isin([method, 'PostgreSQL'])]
+
+        # Mean values for each experiment
+        execution_means = method_data.pivot_table(index='experiment', columns='method', values='execution_time',
+                                                  aggfunc='mean')
+        total_means = method_data.pivot_table(index='experiment', columns='method', values='total_time', aggfunc='mean')
+
+        # Set up bar positions
+        bar_width = 0.5
+        indices = np.arange(len(relevant_experiments)) * 3  # Expand indices to space out the bars
+
+        # Execution time bars for method
+        ax.bar(indices - bar_width, execution_means[method], bar_width, label=f'{method} Execution Time', color='red')
+
+        # Total time bars for method
+        ax.bar(indices, total_means[method], bar_width, label=f'{method} Total Time', color='orange')
+
+        # Total time bars for PostgreSQL
+        ax.bar(indices + bar_width, total_means['PostgreSQL'], bar_width, label='PostgreSQL Total Time', color='blue')
+
+        ax.set_ylabel('Time (ms)')
+        ax.set_xticks(indices)
+        x_labels = ["wl_shift_"+str(i) for i in range(len(relevant_experiments))]
+        ax.set_yscale("log")  # Set y-axis to logarithmic scale
+        ax.set_xticklabels(x_labels)
+        ax.legend(ncol=5)
+        ax.grid(True)
+
+    plt.tight_layout()
+    plt.savefig('method_comparison_bars.pdf', format='pdf')
+    plt.close()
+    exit(0)
+
+
+def draw_query_by_query_multiple_lines(_df_agg):
+    _df_agg = _df_agg[_df_agg['experiment'].isin(relevant_experiments) & (_df_agg['split'] == 'test')]
+
+    # Convert necessary columns to numeric if not already
+    numeric_cols = ['execution_time', 'total_time']
     _df_agg[numeric_cols] = _df_agg[numeric_cols].apply(pd.to_numeric, errors='coerce')
 
     # Create a unique identifier for each combination of experiment and query
     _df_agg['query_experiment'] = _df_agg['experiment'] + '____' + _df_agg['query_ident']
 
     # Sort by this new column to maintain a consistent order
+    _df_agg['experiment'] = pd.Categorical(_df_agg['experiment'], categories=relevant_experiments, ordered=True)
     _df_agg = _df_agg.sort_values(by=['experiment', 'query_ident'])
 
     # Assign a numeric index based on the unique 'query_experiment' to serve as the x-axis
@@ -58,35 +119,114 @@ def draw_query_by_query(_df_agg):
     query_index = {query: idx for idx, query in enumerate(unique_queries)}
     _df_agg['query_index'] = _df_agg['query_experiment'].apply(lambda x: query_index[x])
 
-    # Pivot the DataFrame to get each method as a column with its respective total time
-    pivot_df = _df_agg.pivot_table(index='query_index', columns='method', values='total_time', aggfunc='mean')
+    # Identify all methods excluding PostgreSQL
+    methods = _df_agg['method'].unique()
+    methods = [m for m in methods if m != 'PostgreSQL']
 
-    # Plotting
-    plt.figure(figsize=(30, 8))  # Adjust the size as needed
-    for column in pivot_df.columns:
-        plt.plot(pivot_df.index, pivot_df[column], label=column)
+    # Determine number of rows for subplots
+    num_rows = len(methods)
+    fig, axes = plt.subplots(num_rows, 1, figsize=(15, 2 * num_rows))
 
-    # Add vertical lines at transitions between different workloads
-    previous_experiment = None
-    for idx, query in enumerate(unique_queries):
-        current_experiment = query.split('____')[0]
-        if previous_experiment and current_experiment != previous_experiment:
-            plt.axvline(x=idx - 0.5, color='black', linestyle='--')  # Draw line before the index of the new experiment
-        previous_experiment = current_experiment
+    # Ensure 'axes' is iterable
+    if num_rows == 1:
+        axes = [axes]
 
-    plt.xlabel('Query and Experiment Combination Index')
-    plt.ylabel('Mean Total Time')
-    plt.yscale("log")  # Set y-axis to logarithmic scale
+    for ax, method in zip(axes, methods):
+        # Pivot the DataFrame to get each method as columns with their respective times
+        pivot_df = _df_agg[_df_agg['method'].isin([method, 'PostgreSQL'])]
+        execution_time_df = pivot_df.pivot_table(index='query_index', columns='method', values='execution_time',
+                                                 aggfunc='mean')
+        total_time_df = pivot_df.pivot_table(index='query_index', columns='method', values='total_time',
+                                             aggfunc='mean')
 
-    plt.legend(ncol=10, fontsize=18)
+        # Plot PostgreSQL and the current method for execution time
+        if 'PostgreSQL' in execution_time_df.columns:
+            ax.plot(execution_time_df.index, total_time_df['PostgreSQL'], label="PostgreSQL (Total Time)",
+                    color='blue')
+        if method in execution_time_df.columns:
+            ax.plot(execution_time_df.index, execution_time_df[method], label=f"{method} (Execution Time)",
+                    color='red')
+            ax.plot(total_time_df.index, total_time_df[method], label=f"{method} (Total Time)",
+                    color='green')  # Plotting total time
 
-    plt.grid(False)
-    plt.tight_layout()  # Adjust layout to make room for label rotation
+        # Add vertical lines at transitions between different workloads
+        previous_experiment = None
+        for idx, query in enumerate(unique_queries):
+            current_experiment = query.split('____')[0]
+            if previous_experiment and current_experiment != previous_experiment:
+                ax.axvline(x=idx - 0.5, color='black', linestyle='--')
+            previous_experiment = current_experiment
 
-    # Save the plot as a PDF
-    plt.savefig('plot.pdf', format='pdf')
+        ax.set_ylabel('Time (ms)')
+        ax.set_yscale("log")  # Set y-axis to logarithmic scale
+        ax.legend(ncol=5)
+        ax.grid(True)
+
+    plt.tight_layout()  # Adjust layout to make room for subplots
+    plt.savefig(f'combined_plot.pdf', format='pdf')  # Save the entire figure as a PDF
     plt.close()
 
+
+def draw_query_by_query(_df_agg):
+    # Filter the DataFrame for specific experiments
+
+    _df_agg = _df_agg[_df_agg['experiment'].isin(relevant_experiments) & (_df_agg['split'] == 'test')]
+
+    # Convert necessary columns to numeric if not already
+    time_measurement = 'execution_time'
+    # time_measurement = 'total_time'
+    numeric_cols = [time_measurement]
+
+    _df_agg[numeric_cols] = _df_agg[numeric_cols].apply(pd.to_numeric, errors='coerce')
+
+    # Create a unique identifier for each combination of experiment and query
+    _df_agg['query_experiment'] = _df_agg['experiment'] + '____' + _df_agg['query_ident']
+
+    # Sort by this new column to maintain a consistent order
+    _df_agg['experiment'] = pd.Categorical(_df_agg['experiment'], categories=relevant_experiments, ordered=True)
+    _df_agg = _df_agg.sort_values(by=['experiment', 'query_ident'])
+
+    # Assign a numeric index based on the unique 'query_experiment' to serve as the x-axis
+    unique_queries = _df_agg['query_experiment'].unique()
+    query_index = {query: idx for idx, query in enumerate(unique_queries)}
+    _df_agg['query_index'] = _df_agg['query_experiment'].apply(lambda x: query_index[x])
+
+    # Identify all methods excluding PostgreSQL
+    methods = _df_agg['method'].unique()
+    methods = [m for m in methods if m != 'PostgreSQL']
+
+    # Determine number of rows for subplots
+    num_rows = len(methods)
+    fig, axes = plt.subplots(num_rows, 1, figsize=(15, 2 * num_rows))
+
+    # Ensure 'axes' is iterable
+    if num_rows == 1:
+        axes = [axes]
+
+    for ax, method in zip(axes, methods):
+        # Pivot the DataFrame to get each method and PostgreSQL as columns with their respective total times
+        pivot_df = _df_agg.pivot_table(index='query_index', columns='method', values=time_measurement, aggfunc='mean')
+        # Plot PostgreSQL and the current method
+        ax.plot(pivot_df.index, pivot_df['PostgreSQL'], label="PostgreSQL", color='blue')
+        if method in pivot_df.columns:
+            ax.plot(pivot_df.index, pivot_df[method], label=method, color='red')
+
+        # Add vertical lines at transitions between different workloads
+        previous_experiment = None
+        for idx, query in enumerate(unique_queries):
+            current_experiment = query.split('____')[0]
+            if previous_experiment and current_experiment != previous_experiment:
+                ax.axvline(x=idx - 0.5, color='black', linestyle='--')
+            previous_experiment = current_experiment
+
+        ax.set_ylabel('Mean Total Time (ms)')
+        ax.set_yscale("log")  # Set y-axis to logarithmic scale
+        ax.legend(ncol=5)
+        ax.grid(True)
+
+    plt.tight_layout()  # Adjust layout to make room for subplots
+    plt.savefig(f'combined_plot_{time_measurement}.pdf', format='pdf')  # Save the entire figure as a PDF
+    plt.close()
     exit(0)
 
 
@@ -299,6 +439,8 @@ display(df_agg)
 
 df_agg_test = df_agg[df_agg["method"] == "PostgreSQL"]
 
+draw_query_by_query_bar_charts(df_agg)
+draw_query_by_query_multiple_lines(df_agg)
 draw_query_by_query(df_agg)
 
 # ### Calculate result table values
