@@ -74,12 +74,12 @@ def draw_query_by_query(_df_agg):
             plt.axvline(x=idx - 0.5, color='black', linestyle='--')  # Draw line before the index of the new experiment
         previous_experiment = current_experiment
 
-    plt.title('Total Time Across Different Queries and Methods')
     plt.xlabel('Query and Experiment Combination Index')
     plt.ylabel('Mean Total Time')
     plt.yscale("log")  # Set y-axis to logarithmic scale
 
-    plt.legend(title='Method')
+    plt.legend(ncol=10, fontsize=18)
+
     plt.grid(False)
     plt.tight_layout()  # Adjust layout to make room for label rotation
 
@@ -88,6 +88,7 @@ def draw_query_by_query(_df_agg):
     plt.close()
 
     exit(0)
+
 
 # In[4]:
 
