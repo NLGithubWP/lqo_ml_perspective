@@ -135,14 +135,13 @@ def draw_query_by_query_multiple_lines_comapre_with_me(_df_agg):
             ax.plot(execution_time_df.index, total_time_df['PostgreSQL'], label="PostgreSQL (Total Time)",
                     color='blue')
         if method in execution_time_df.columns:
-
-            ax.plot(unique_combinations_execute_time_my_mthod['query_index'],
-                    unique_combinations_execute_time_my_mthod['my_method_execution_time'] * 1000,
-                    label="My (Execution Time)", color='red')
+            # ax.plot(unique_combinations_execute_time_my_mthod['query_index'],
+            #         unique_combinations_execute_time_my_mthod['my_method_execution_time'] * 1000,
+            #         label="Our Solution (Execution Time)", color='red')
 
             ax.plot(unique_combinations_execute_time_total_time['query_index'],
                     unique_combinations_execute_time_total_time['my_method_total_time'] * 1000,
-                    label="My (Total Time)", color='green')
+                    label="Our Solution (Total Time)", color='green')
 
             #
             # ax.plot(execution_time_df.index, execution_time_df[method], label=f"{method} (Execution Time)",
@@ -158,7 +157,8 @@ def draw_query_by_query_multiple_lines_comapre_with_me(_df_agg):
                 ax.axvline(x=idx - 0.5, color='black', linestyle='--')
             previous_experiment = current_experiment
 
-        ax.set_ylabel('Time (ms)')
+        ax.set_ylabel('Log of Time (ms)')
+        # ax.set_ylim([0, 10000])
         ax.set_yscale("log")  # Set y-axis to logarithmic scale
         ax.legend(ncol=5)
         ax.grid(True)
@@ -166,8 +166,100 @@ def draw_query_by_query_multiple_lines_comapre_with_me(_df_agg):
     plt.tight_layout()  # Adjust layout to make room for subplots
     plt.savefig(f'combined_plot_with_me.pdf', format='pdf')  # Save the entire figure as a PDF
     plt.close()
-    exit(0)
 
+
+def draw_query_by_query_bar_comapre_with_me(_df_agg):
+    used_query = ['01a', '01b', '01c', '01d', '02a', '02b', '02c', '02d', '03a', '03b', '03c', '04a', '04b', '04c',
+                  '05a',
+                  '05b', '05c',
+                  '06a', '06b', '06c', '06d', '06e', '06f', '07a', '07b', '07c', '08a', '08b', '08c', '08d', '09a',
+                  '09b',
+                  '09c', '09d',
+                  '10a', '10b', '10c', '11a', '11b', '11c', '11d', '12a', '12b', '12c', '13a', '13b', '13c', '13d',
+                  '14a',
+                  '14b', '14c',
+                  '15a', '15b', '15c', '15d', '16a', '16b', '16c', '16d', '17a', '17b', '17c', '17d', '17e', '17f',
+                  '18a',
+                  '18b', '18c',
+                  '19a', '19b', '19c', '19d', '20a', '20b', '20c', '21a', '21b', '21c', '22a', '22b', '22c', '22d',
+                  '23a',
+                  '23b', '23c',
+                  '24a', '24b', '25a', '25b', '25c', '26a', '26b', '26c', '27a', '27b', '27c', '28a', '28b', '28c',
+                  '29a',
+                  '29b', '29c',
+                  '30a', '30b', '30c', '31a', '31b', '31c', '32a', '32b', '33a', '33b', '33c']
+    used_query = [f"{int(q[:-1])}{q[-1]}.sql" for q in used_query]
+
+    # Load the existing CSV file
+    csv_file_path = '/Users/kevin/project_python/AI4QueryOptimizer/AI4QueryOptimizer/baseline/qp_evaluation/experiments/result/custom_optimization_results.csv'
+    my_res = pd.read_csv(csv_file_path)
+    print(my_res.head())
+
+    # Filter the DataFrame to only include rows where 'query_id' is in used_query
+    _df_my_method = my_res[my_res['query_id'].isin(used_query)]
+    _df_my_method['total_time'] = _df_my_method['inference_time'] + _df_my_method['execution_time']
+
+    # First, ensure the 'query_ident' in _df_agg matches the format used in _df_my_method's 'query_id'
+    _df_agg['query_id'] = _df_agg['query_ident'].apply(lambda x: f"{int(x[:-1])}{x[-1]}.sql")
+
+    # Merge the execution and total time from _df_my_method into _df_agg
+    _df_agg = _df_agg.merge(_df_my_method[['query_id', 'execution_time', 'total_time']],
+                            on='query_id',
+                            how='left',
+                            suffixes=('', '_my_method'))
+
+    # Rename merged columns for clarity
+    _df_agg.rename(columns={'execution_time_my_method': 'my_method_execution_time',
+                            'total_time_my_method': 'my_method_total_time'}, inplace=True)
+
+    _df_agg = _df_agg[_df_agg['experiment'].isin(relevant_experiments) & (_df_agg['split'] == 'test')]
+
+    # Remove rows where 'my_method_execution_time' or 'my_method_total_time' are NaN
+    _df_agg.dropna(subset=['my_method_execution_time', 'my_method_total_time'], inplace=True)
+
+    # Convert necessary columns to numeric if not already
+    numeric_cols = ['execution_time', 'total_time']
+    _df_agg[numeric_cols] = _df_agg[numeric_cols].apply(pd.to_numeric, errors='coerce')
+
+    # Ensure experiments are in a specific order
+    _df_agg['experiment'] = pd.Categorical(_df_agg['experiment'], categories=relevant_experiments, ordered=True)
+    _df_agg = _df_agg.sort_values(by=['experiment', 'method', 'query_ident'])
+
+    # Identify all methods excluding PostgreSQL
+    methods = _df_agg['method'].unique()
+    methods = [m for m in methods if m != 'PostgreSQL']
+
+    num_methods = len(methods)
+    fig, axes = plt.subplots(num_methods, 1, figsize=(10, 1.5 * num_methods))
+
+    if num_methods == 1:
+        axes = [axes]  # Ensure axes is iterable
+
+    for ax, method in zip(axes, methods):
+        # Data for the current method and PostgreSQL
+        method_data = _df_agg[_df_agg['method'].isin([method, 'PostgreSQL'])]
+        total_means = method_data.pivot_table(index='experiment', columns='method', values='total_time', aggfunc='sum')
+
+        our_solution_means = method_data.groupby('experiment')['my_method_total_time'].sum().reset_index()
+
+        # Set up bar positions
+        bar_width = 0.5
+        indices = np.arange(len(relevant_experiments)) * 3  # Expand indices to space out the bars
+
+        ax.bar(indices, our_solution_means["my_method_total_time"]*1000, bar_width, label=f'Our Solution Total Time', color='orange')
+        ax.bar(indices + bar_width, total_means['PostgreSQL'], bar_width, label='PostgreSQL Total Time', color='blue')
+
+        ax.set_ylabel('Time (ms)')
+        ax.set_xticks(indices)
+        x_labels = ["wl_shift_" + str(i) for i in range(len(relevant_experiments))]
+        ax.set_yscale("log")  # Set y-axis to logarithmic scale
+        ax.set_xticklabels(x_labels)
+        ax.legend(ncol=5)
+        ax.grid(True)
+
+    plt.tight_layout()
+    plt.savefig('method_comparison_bars_with_me.pdf', format='pdf')
+    plt.close()
 
 
 def draw_query_by_query_bar_charts(_df_agg):
@@ -197,8 +289,9 @@ def draw_query_by_query_bar_charts(_df_agg):
 
         # Mean values for each experiment
         execution_means = method_data.pivot_table(index='experiment', columns='method', values='execution_time',
-                                                  aggfunc='mean')
-        total_means = method_data.pivot_table(index='experiment', columns='method', values='total_time', aggfunc='mean')
+                                                  aggfunc='sum')
+        total_means = method_data.pivot_table(index='experiment', columns='method', values='total_time',
+                                              aggfunc='sum')
 
         # Set up bar positions
         bar_width = 0.5
@@ -566,10 +659,12 @@ display(df_agg)
 df_agg_test = df_agg[df_agg["method"] == "PostgreSQL"]
 df_unique_df = df_agg_test.drop_duplicates(subset='query_ident', keep='first')
 
+draw_query_by_query_bar_comapre_with_me(df_agg)
 draw_query_by_query_multiple_lines_comapre_with_me(df_agg)
 draw_query_by_query_bar_charts(df_agg)
 draw_query_by_query_multiple_lines(df_agg)
 draw_query_by_query(df_agg)
+exit(0)
 
 # ### Calculate result table values
 
