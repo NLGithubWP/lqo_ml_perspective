@@ -2,7 +2,7 @@ FROM postgres:12.5
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
-RUN apt-get install -y sudo gcc make wget curl git nano postgresql-server-dev-12 clang-7 --fix-missing
+RUN apt-get install -y sudo gcc make wget curl git nano postgresql-server-dev-12
 
 RUN echo 'postgres:postgres' | chpasswd
 RUN usermod -aG sudo postgres
@@ -13,6 +13,8 @@ RUN usermod -aG sudo postgres
 
 WORKDIR /root
 RUN git clone https://github.com/ossc-db/pg_hint_plan.git -b REL12_1_3_7
+
+RUN apt-get update & apt-get install -y clang-7
 
 WORKDIR /root/pg_hint_plan
 RUN sed -i 's/PG_CONFIG = pg_config/PG_CONFIG = \/usr\/bin\/pg_config/' /root/pg_hint_plan/Makefile
