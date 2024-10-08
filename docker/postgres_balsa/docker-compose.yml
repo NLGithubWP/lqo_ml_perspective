@@ -4,9 +4,7 @@ services:
     postgres:
         image: pg_balsa_img
         volumes: 
-            - ./../../data/imdb:/data/imdb
-            - ./../../data/imdb/imdb.dump:/app/imdb.dump
-            - ./../../data/stack:/data/stack
+            - ./../../../../datasets/:/data/datasets
             - ./../../conf/balsa-postgresql.conf:/app/postgresql.conf
             - ./pgdata:/pgdata
         ports:
@@ -27,6 +25,7 @@ services:
             - ./../../balsa:/app/balsa
             - ./../../leon:/app/leon
             - ./../../hybrid_qo:/app/hybrid_qo
+            - ./../../../../datasets/:/data/datasets
         ports:
             - "9381:9381"
         environment:
