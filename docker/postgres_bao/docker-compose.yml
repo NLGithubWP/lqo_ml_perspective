@@ -20,9 +20,10 @@ services:
             network:
                 ipv4_address: 10.5.0.5
         shm_size: 32gb
+
     bao:
         image: bao_server_img
-        volumes: 
+        volumes:
             - ./../../bao:/app/bao
             - ./install_python_env.sh:/docker-entrypoint-initdb.d/install_python_env.sh
         ports:
@@ -43,5 +44,3 @@ networks:
         ipam:
             config:
                 - subnet: 10.5.0.0/16
-                  gateway: 10.5.0.1
-
