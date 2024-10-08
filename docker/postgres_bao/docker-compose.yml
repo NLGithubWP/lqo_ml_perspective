@@ -5,9 +5,7 @@ services:
         image: pg_bao_img
         volumes: 
             - ./../../bao:/app/bao
-            - ./../../data/imdb:/data/imdbload
-            - ./../../data/imdb/imdb.dump:/app/imdb.dump
-            - ./../../data/stack:/data/stack
+            - ./../../../../datasets/:/data/datasets
             - ./../../conf/bao-postgresql.conf:/app/postgresql.conf
             - ./pgdata:/pgdata
         ports:
