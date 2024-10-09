@@ -19,6 +19,7 @@ services:
             network:
                 ipv4_address: 10.6.0.3
         shm_size: 32gb
+
     balsa:
         image: balsa_img
         volumes:
@@ -34,6 +35,13 @@ services:
             - POSTGRES_PASSWORD=postgres
         container_name: balsa
         tty: true
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                      - driver: nvidia
+                        count: all
+                        capabilities: [gpu]
         networks:
             network:
                 ipv4_address: 10.6.0.4
