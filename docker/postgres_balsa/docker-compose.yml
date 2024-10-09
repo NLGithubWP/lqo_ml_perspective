@@ -19,34 +19,6 @@ services:
             network:
                 ipv4_address: 10.6.0.3
         shm_size: 32gb
-
-    balsa:
-        image: balsa_img
-        volumes:
-            - ./../../balsa:/app/balsa
-            - ./../../leon:/app/leon
-            - ./../../hybrid_qo:/app/hybrid_qo
-            - ./../../../../datasets/:/data/datasets
-        ports:
-            - "9381:9381"
-        environment:
-            - POSTGRES_DB=imdbload
-            - POSTGRES_USER=postgres
-            - POSTGRES_PASSWORD=postgres
-        container_name: balsa
-        tty: true
-        deploy:
-            resources:
-                reservations:
-                    devices:
-                      - driver: nvidia
-                        count: all
-                        capabilities: [gpu]
-        networks:
-            network:
-                ipv4_address: 10.6.0.4
-        shm_size: 10gb
-
 networks:
     network:
         driver: bridge
