@@ -1,4 +1,4 @@
-from tkinter import E
+
 import numpy as np
 class Expr:
     def __init__(self, expr, list_kind = 0):
