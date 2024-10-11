@@ -594,7 +594,7 @@ def get_train_test_split(experiment_name):
                      "8",
                      "12",
                      "14", ]
-        return trainquery, testquery
+        return train_querys, testquery
 
     if experiment_name == 'LeaveOneOutSplit1':
         test_queries = LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
