@@ -407,6 +407,7 @@ if __name__ == '__main__':
     FirstTrain = True
     ########################################################
     seed_torch()
+    print("begin to train ")
     if FirstTrain:
         exp = [[] for _ in range(20)]
         finexp = [[] for _ in range(20)]
