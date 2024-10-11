@@ -270,7 +270,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     nodes = []
     for i in sqls:
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(
-            '/data/datasets/tpch_query/' + i + '.sql')
+            'tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
                                                             workload,
@@ -445,12 +445,7 @@ if __name__ == '__main__':
                  "14", ]
     # queries for test
     Ttrainquery = trainquery
-    testquery = ["3",
-                 "5",
-                 "7",
-                 "8",
-                 "12",
-                 "14", ]
+    testquery = trainquery
 
     dp_Signs = [True for i in range(len(trainquery))]
     sqllist = load_sql_Files(trainquery)
@@ -476,7 +471,7 @@ if __name__ == '__main__':
     test_gmrl = []
     logger.info("timeoutList:{}".format(timeoutlist))
     batchsize = 256
-    DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+    DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     maxLevel = 0
     greedy = -1.0
     bestTrainGmrl = 20
