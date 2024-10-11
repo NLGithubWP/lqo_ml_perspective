@@ -29,7 +29,7 @@ host = "pg_balsa"
 port = "5432"
 
 QUERY_LOG_FILE = 'query_log_file.txt'
-NUM_EXECUTIONS = 3
+NUM_EXECUTIONS = 1
 
 
 
