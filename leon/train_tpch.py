@@ -430,6 +430,8 @@ if __name__ == '__main__':
     workload.workload_info.table_num_rows = postgres.GetAllTableNumRows(workload.workload_info.rel_names)
     # 保存所有pair
 
+    print("GetAllTableNumRows done")
+
     # need to change parms
     gamma = 0.25
     learning_rate = 1e-3
@@ -640,6 +642,8 @@ if __name__ == '__main__':
     bestplandata = [[[] for _ in range(20)] for _ in range(len(trainquery))]
     bestplanslist = [[] for _ in range(len(sqls))]
     iteration_num = 30
+
+    print("load all sql done")
 
     # initial timeout and it will update in dp
     timeoutlist = setInitialTimeout(sqls, dropbuffer, testtime=3)
