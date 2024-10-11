@@ -491,8 +491,8 @@ if __name__ == '__main__':
 
     from util.pg_executor import LOCAL_DSN
 
-    if not LOCAL_DSN.endswith('imdbload'):
-        raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
+    # if not LOCAL_DSN.endswith('imdbload'):
+    #     raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
 
     if args.wandb:
         wandb.init(
