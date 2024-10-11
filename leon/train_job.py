@@ -582,11 +582,12 @@ if __name__ == '__main__':
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
         dp_tables1 = copy.deepcopy(origin_dp_tables)
         maxLevel = maxLevel if maxLevel > len(query_leaves) else len(query_leaves)
+    print('maxlevel:', maxLevel)
     if not FirstTrain:
         model_levels, optlist = getModelsFromFile(maxLevel, modelpath)
     else:
         model_levels, optlist = getModels(maxLevel)
-
+    print('maxlevel:', maxLevel)
     #
     # Potentially log everything into WandB
     # ================================================================================
@@ -652,6 +653,7 @@ if __name__ == '__main__':
         trainTimes = 0
         testTimes = 0
         FirstTrain = False
+        print('model nums:', len(model_levels))
         for modelnum in tqdm(range(2, len(model_levels)), leave=False, desc='Iterating over models...'):
             optimizer = optlist[modelnum]
             temtrainpair = copy.deepcopy(trainpair[modelnum])
