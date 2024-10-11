@@ -171,14 +171,18 @@ def get_logger(filename, verbosity=1, name=None):
     return logger
 
 
-def load_sql_Files(sql_list: list):
+def load_sql_Files(sql_list: list, tag: str):
     """
     :param sql_list: list of sql template name
     :return: list of path of sql query file path
     """
+    if tag == "train":
+        source_path = "/data/datasets/q_train_0/"
+    else:
+        source_path = "/data/datasets/q_test_0/"
     sqllist = []
     for i in range(0, len(sql_list)):
-        sqlFiles = 'tpch_query/' + sql_list[i] + '.sql'
+        sqlFiles = source_path + sql_list[i] + '.sql'
         if not os.path.exists(sqlFiles):
             raise IOError("File Not Exists!")
         sqllist.append(sqlFiles)
@@ -263,8 +267,8 @@ def collects(finnode, workload, exp, timeout):
                         exp[temlevel].append(copy.deepcopy(tem))
 
 
-def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, exp=None, old=None):
-    sql_ = load_sql(load_sql_Files(sqls))
+def getGMRL(tag: str, sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, exp=None, old=None):
+    sql_ = load_sql(load_sql_Files(sqls, tag))
     hints = []
     alllatency = []
     nodes = []
@@ -433,16 +437,21 @@ if __name__ == '__main__':
     gamma = 0.25
     learning_rate = 1e-3
     dropbuffer = False
+    import os
+
+    file_names_train = os.listdir("/data/datasets/q_train_0/")
+    file_names_test = os.listdir("/data/datasets/q_test_0/")
+
     # queries for train
-    trainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
+    trainquery = file_names_train
     # queries for test
-    Ttrainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
-    testquery = ['2-q3', '2-q5', '2-q7', '2-q8', '2-q12', '2-q13', '2-q14']
+    Ttrainquery = file_names_train
+    testquery = file_names_test
 
     dp_Signs = [True for i in range(len(trainquery))]
-    sqllist = load_sql_Files(trainquery)
-    testsqllist = load_sql_Files(testquery)
-    Ttrainsqllist = load_sql_Files(Ttrainquery)
+    sqllist = load_sql_Files(trainquery, "train")
+    testsqllist = load_sql_Files(testquery, "test")
+    Ttrainsqllist = load_sql_Files(Ttrainquery, "train")
     logger.info("Train SQL List {}".format(sqllist))
     sqls = load_sql(sqllist)
     testsqls = load_sql(testsqllist)
@@ -644,7 +653,7 @@ if __name__ == '__main__':
         logger.info('train time ={} test time = {}'.format(trainTimes, testTimes))
         testtime = time.time()
 
-        nowtraingmrl = getGMRL(Ttrainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
+        nowtraingmrl = getGMRL("test", Ttrainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
                                exp=exp, old=pg_latency_train)
         if nowtraingmrl < bestTrainGmrl:
             bestTrainGmrl = nowtraingmrl
@@ -653,7 +662,7 @@ if __name__ == '__main__':
                 torch.save(model_levels[modelnum], modelname)
         train_gmrl.append(nowtraingmrl)
 
-        nowtestgmrl = getGMRL(testquery, model_levels, pg_latency_test, nodeFeaturizer, costCache, workload)
+        nowtestgmrl = getGMRL("test", testquery, model_levels, pg_latency_test, nodeFeaturizer, costCache, workload)
         if nowtestgmrl < bestTestGmrl:
             bestTestGmrl = nowtestgmrl
             for modelnum in range(2, len(model_levels)):
