@@ -293,6 +293,7 @@ class TPCHbenchmark(Workload):
     def _LoadQueries(self):
         """Loads all queries into balsa.Node objects."""
         p = self.params
+        print(p)
         all_sql_set = self._get_sql_set(p.query_dir, p.query_glob)
         test_sql_set = self._get_sql_set(p.query_dir, p.test_query_glob)
         assert test_sql_set.issubset(all_sql_set)
