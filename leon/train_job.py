@@ -535,7 +535,7 @@ if __name__ == '__main__':
         getTrainPair(exp, exp, trainpair)
         print('load exp bestsubplans costcache success !!')
     allstime = time.time()
-    workload = envs.JoinOrderBenchmark(envs.JoinOrderBenchmark.Params())
+    workload = envs.TPCHbenchmark(envs.TPCHbenchmark.Params())
     workload.workload_info.table_num_rows = postgres.GetAllTableNumRows(workload.workload_info.rel_names)
     # need to change parms
     gamma = 0.25
