@@ -1,6 +1,3 @@
--- TPC TPC-H Parameter Substitution (Version 2.17.3 build 0)
--- using 200 as a seed to the RNG
-
 
 select
 	p_brand,
