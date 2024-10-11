@@ -95,7 +95,6 @@ def getJoinTable(someAlias, tableAndAlias):
 
 
 def getTableAndAlias(sql):
-    print("[getTableAndAlias]", sql)
     from_pattern = 'FROM' if 'FROM' in sql else 'from'
     begin = sql.index(from_pattern)
     
