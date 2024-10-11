@@ -582,6 +582,10 @@ if __name__ == '__main__':
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
         dp_tables1 = copy.deepcopy(origin_dp_tables)
         maxLevel = maxLevel if maxLevel > len(query_leaves) else len(query_leaves)
+
+        print('query_leaves:', query_leaves)
+        print('all_join_conds:', all_join_conds)
+
     print('maxlevel:', maxLevel)
     if not FirstTrain:
         model_levels, optlist = getModelsFromFile(maxLevel, modelpath)
