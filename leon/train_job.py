@@ -465,7 +465,7 @@ def get_train_test_split(experiment_name):
 def define_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--experiment', type=str, required=True, help='Defines which train-test split to use (see #get_train_test_split method).')
-    parser.add_argument('--wandb', action='store_true', default=True)
+    parser.add_argument('--wandb', action='store_true', default=False)
     parser.add_argument('--no_wandb', dest='wandb', action='store_false')
 
     args = parser.parse_args()
