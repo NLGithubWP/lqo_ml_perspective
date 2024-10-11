@@ -171,18 +171,14 @@ def get_logger(filename, verbosity=1, name=None):
     return logger
 
 
-def load_sql_Files(sql_list: list, tag: str):
+def load_sql_Files(sql_list: list):
     """
     :param sql_list: list of sql template name
     :return: list of path of sql query file path
     """
-    if tag == "train":
-        source_path = "/data/datasets/q_train_0/"
-    else:
-        source_path = "/data/datasets/q_test_0/"
     sqllist = []
     for i in range(0, len(sql_list)):
-        sqlFiles = source_path + sql_list[i] + '.sql'
+        sqlFiles = '/data/datasets/tpch_query/' + sql_list[i] + '.sql'
         if not os.path.exists(sqlFiles):
             raise IOError("File Not Exists!")
         sqllist.append(sqlFiles)
@@ -267,14 +263,14 @@ def collects(finnode, workload, exp, timeout):
                         exp[temlevel].append(copy.deepcopy(tem))
 
 
-def getGMRL(tag: str, sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, exp=None, old=None):
-    sql_ = load_sql(load_sql_Files(sqls, tag))
+def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, exp=None, old=None):
+    sql_ = load_sql(load_sql_Files(sqls))
     hints = []
     alllatency = []
     nodes = []
     for i in sqls:
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(
-            'tpch_query/' + i + '.sql')
+            '/data/datasets/tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
                                                             workload,
@@ -437,21 +433,205 @@ if __name__ == '__main__':
     gamma = 0.25
     learning_rate = 1e-3
     dropbuffer = False
-    import os
-
-    file_names_train = os.listdir("/data/datasets/q_train_0/")
-    file_names_test = os.listdir("/data/datasets/q_test_0/")
-
     # queries for train
-    trainquery = file_names_train
+    trainquery = ["1_0",
+                  "1_1",
+                  "1_2",
+                  "1_3",
+                  "1_4",
+                  "1_5",
+                  "1_6",
+                  "1_7",
+                  "2_0",
+                  "2_1",
+                  "2_2",
+                  "2_3",
+                  "2_4",
+                  "2_5",
+                  "2_6",
+                  "2_7",
+                  "3_0",
+                  "3_1",
+                  "3_2",
+                  "3_3",
+                  "3_4",
+                  "3_5",
+                  "3_6",
+                  "3_7",
+                  "4_0",
+                  "4_1",
+                  "4_2",
+                  "4_3",
+                  "4_4",
+                  "4_5",
+                  "4_6",
+                  "4_7",
+                  "5_0",
+                  "5_1",
+                  "5_2",
+                  "5_3",
+                  "5_4",
+                  "5_5",
+                  "5_6",
+                  "5_7",
+                  "6_0",
+                  "6_1",
+                  "6_2",
+                  "6_3",
+                  "6_4",
+                  "6_5",
+                  "6_6",
+                  "6_7",
+                  "7_0",
+                  "7_1",
+                  "7_2",
+                  "7_3",
+                  "7_4",
+                  "7_5",
+                  "7_6",
+                  "7_7",
+                  "8_0",
+                  "8_1",
+                  "8_2",
+                  "8_3",
+                  "8_4",
+                  "8_5",
+                  "8_6",
+                  "8_7",
+                  "9_0",
+                  "9_1",
+                  "9_2",
+                  "9_3",
+                  "9_4",
+                  "9_5",
+                  "9_6",
+                  "9_7",
+                  "10_0",
+                  "10_1",
+                  "10_2",
+                  "10_3",
+                  "10_4",
+                  "10_5",
+                  "10_6",
+                  "10_7",
+                  "11_0",
+                  "11_1",
+                  "11_2",
+                  "11_3",
+                  "11_4",
+                  "11_5",
+                  "11_6",
+                  "11_7",
+                  "12_0",
+                  "12_1",
+                  "12_2",
+                  "12_3",
+                  "12_4",
+                  "12_5",
+                  "12_6",
+                  "12_7",
+                  "13_0",
+                  "13_1",
+                  "13_2",
+                  "13_3",
+                  "13_4",
+                  "13_5",
+                  "13_6",
+                  "13_7",
+                  "14_0",
+                  "14_1",
+                  "14_2",
+                  "14_3",
+                  "14_4",
+                  "14_5",
+                  "14_6",
+                  "14_7",
+                  "15_0",
+                  "16_0",
+                  "16_1",
+                  "16_2",
+                  "16_3",
+                  "16_4",
+                  "16_5",
+                  "16_6",
+                  "16_7",
+                  "17_0",
+                  "17_1",
+                  "17_2",
+                  "17_3",
+                  "17_4",
+                  "17_5",
+                  "17_6",
+                  "17_7",
+                  "18_0",
+                  "18_1",
+                  "18_2",
+                  "18_3",
+                  "18_4",
+                  "18_5",
+                  "18_6",
+                  "18_7",
+                  "19_0",
+                  "19_1",
+                  "19_2",
+                  "19_3",
+                  "19_4",
+                  "19_5",
+                  "19_6",
+                  "19_7",
+                  "20_0",
+                  "20_1",
+                  "20_2",
+                  "20_3",
+                  "20_4",
+                  "20_5",
+                  "20_6",
+                  "20_7",
+                  "21_0",
+                  "21_1",
+                  "21_2",
+                  "21_3",
+                  "21_4",
+                  "21_5",
+                  "21_6",
+                  "21_7",
+                  "22_0",
+                  "22_1",
+                  "22_2",
+                  "22_3",
+                  "22_4",
+                  "22_5",
+                  "22_6",
+                  "22_7"]
     # queries for test
-    Ttrainquery = file_names_train
-    testquery = file_names_test
+    Ttrainquery = trainquery
+    testquery = ["1",
+                 "2",
+                 "3",
+                 "4",
+                 "5",
+                 "6",
+                 "7",
+                 "8",
+                 "9",
+                 "10",
+                 "11",
+                 "12",
+                 "13",
+                 "14",
+                 "15",
+                 "16",
+                 "17",
+                 "18",
+                 "19",
+                 "20",
+                 "21",
+                 "22"]
 
     dp_Signs = [True for i in range(len(trainquery))]
-    sqllist = load_sql_Files(trainquery, "train")
-    testsqllist = load_sql_Files(testquery, "test")
-    Ttrainsqllist = load_sql_Files(Ttrainquery, "train")
+    sqllist = load_sql_Files(trainquery)
+    testsqllist = load_sql_Files(testquery)
+    Ttrainsqllist = load_sql_Files(Ttrainquery)
     logger.info("Train SQL List {}".format(sqllist))
     sqls = load_sql(sqllist)
     testsqls = load_sql(testsqllist)
@@ -653,7 +833,7 @@ if __name__ == '__main__':
         logger.info('train time ={} test time = {}'.format(trainTimes, testTimes))
         testtime = time.time()
 
-        nowtraingmrl = getGMRL("test", Ttrainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
+        nowtraingmrl = getGMRL(Ttrainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
                                exp=exp, old=pg_latency_train)
         if nowtraingmrl < bestTrainGmrl:
             bestTrainGmrl = nowtraingmrl
@@ -662,7 +842,7 @@ if __name__ == '__main__':
                 torch.save(model_levels[modelnum], modelname)
         train_gmrl.append(nowtraingmrl)
 
-        nowtestgmrl = getGMRL("test", testquery, model_levels, pg_latency_test, nodeFeaturizer, costCache, workload)
+        nowtestgmrl = getGMRL(testquery, model_levels, pg_latency_test, nodeFeaturizer, costCache, workload)
         if nowtestgmrl < bestTestGmrl:
             bestTestGmrl = nowtestgmrl
             for modelnum in range(2, len(model_levels)):
