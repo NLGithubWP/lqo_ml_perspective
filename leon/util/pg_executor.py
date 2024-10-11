@@ -130,7 +130,7 @@ def Execute(sql, verbose=False, geqo_off=False, timeout_ms=None, cursor=None, fi
       A pg_executor.Result.
     """
     if verbose:
-        print(sql)
+        print("---", sql, "---")
 
     _SetGeneticOptimizer('off' if geqo_off else 'on', cursor)
     if timeout_ms is not None:
