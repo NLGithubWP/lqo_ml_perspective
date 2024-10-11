@@ -10,6 +10,7 @@ _EPSILON = 1e-6
 
 
 def ParseSqlToNode(path):
+    print("[Parsing...]", path)
     base = os.path.basename(path)
     query_name = os.path.splitext(base)[0]
     with open(path, 'r') as f:
