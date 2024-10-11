@@ -462,7 +462,7 @@ if __name__ == '__main__':
     trainsqls = load_sql(Ttrainsqllist)
     bestplandata = [[[] for _ in range(20)] for _ in range(len(trainquery))]
     bestplanslist = [[] for _ in range(len(sqls))]
-    iteration_num = 30
+    iteration_num = 2
 
     print("load all sql done")
 
