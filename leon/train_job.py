@@ -466,7 +466,7 @@ def define_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--experiment', type=str, required=True, help='Defines which train-test split to use (see #get_train_test_split method).')
     parser.add_argument('--wandb', action='store_true', default=False)
-    parser.add_argument('--no_wandb', dest='wandb', action='store_false')
+    parser.add_argument('--no_wandb', dest='wandb', action='store_true')
 
     args = parser.parse_args()
     return args
@@ -479,12 +479,14 @@ if __name__ == '__main__':
     if not LOCAL_DSN.endswith('imdbload'):
         raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
 
-    wandb.init(
-        project='leon',
-        entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
-        save_code=False,
-        config={ 'experiment': args.experiment, 'workload': 'JOB' }
-    )
+    if args.wandb:
+
+        wandb.init(
+            project='leon',
+            entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
+            save_code=False,
+            config={ 'experiment': args.experiment, 'workload': 'JOB' }
+        )
 
     logs_name = args.experiment
     ISOTIMEFORMAT = '%m%d-%H%M%S'
