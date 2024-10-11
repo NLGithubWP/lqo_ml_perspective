@@ -20,6 +20,7 @@ from tqdm.auto import tqdm
 import argparse
 import wandb
 
+
 def getexpnum(exp):
     num = 0
     for i in exp:
@@ -180,7 +181,7 @@ def load_sql_Files(sql_list: list):
     """
     sqllist = []
     for i in range(0, len(sql_list)):
-        sqlFiles = './../balsa/queries/join-order-benchmark/' + sql_list[i] + '.sql'
+        sqlFiles = 'tpch_query/' + sql_list[i] + '.sql'
         if not os.path.exists(sqlFiles):
             raise IOError("File Not Exists!")
         sqllist.append(sqlFiles)
@@ -284,7 +285,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     nodes = []
     for i in sqls:
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(
-            './../balsa/queries/join-order-benchmark/' + i + '.sql')
+            'tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
                                                             workload,
@@ -341,7 +342,7 @@ def setInitialTimeout(sqls: list, dropbuffer, testtime=3):
     timeoutlist = []
     for i in sqls:
         timeout = postgres.GetLatencyFromPg(i, None, verbose=False, check_hint_used=False, timeout=90000,
-                                                    dropbuffer=dropbuffer)
+                                            dropbuffer=dropbuffer)
         timeoutlist.append(round(timeout, 3))
     return timeoutlist
 
@@ -350,7 +351,7 @@ def getPG_latency(sqls):
     pg_latency = []
     for i in sqls:
         latency = postgres.GetLatencyFromPg(i, None, verbose=False, check_hint_used=False, timeout=90000,
-                                                    dropbuffer=False)
+                                            dropbuffer=False)
         pg_latency.append(latency)
     return pg_latency
 
@@ -399,12 +400,15 @@ def getKLreg(leveldict, model, oridistribution):
 def get_train_test_split(experiment_name):
     all_available_queries = [
         '1a', '1b', '1c', '1d', '2a', '2b', '2c', '2d', '3a', '3b', '3c', '4a', '4b', '4c',
-        '5a', '5b', '5c', '6a', '6b', '6c', '6d', '6e', '6f', '7a', '7b', '7c', '8a', '8b', '8c', '8d', '9a', '9b', '9c', '9d',
-        '10a', '10b', '10c', '11a', '11b', '11c', '11d', '12a', '12b', '12c', '13a', '13b', '13c', '13d', '14a', '14b', '14c',
-        '15a', '15b', '15c', '15d', '16a', '16b', '16c', '16d', '17a', '17b', '17c', '17d', '17e', '17f', '18a', '18b', '18c', '19a', '19b', '19c', '19d',
+        '5a', '5b', '5c', '6a', '6b', '6c', '6d', '6e', '6f', '7a', '7b', '7c', '8a', '8b', '8c', '8d', '9a', '9b',
+        '9c', '9d',
+        '10a', '10b', '10c', '11a', '11b', '11c', '11d', '12a', '12b', '12c', '13a', '13b', '13c', '13d', '14a', '14b',
+        '14c',
+        '15a', '15b', '15c', '15d', '16a', '16b', '16c', '16d', '17a', '17b', '17c', '17d', '17e', '17f', '18a', '18b',
+        '18c', '19a', '19b', '19c', '19d',
         '20a', '20b', '20c', '21a', '21b', '21c', '22a', '22b', '22c', '22d', '23a', '23b', '23c', '24a', '24b',
         '25a', '25b', '25c', '26a', '26b', '26c', '27a', '27b', '27c', '28a', '28b', '28c', '29a', '29b', '29c',
-        '30a', '30b', '30c', '31a', '31b', '31c', '32a', '32b', '33a', '33b', '33c', 
+        '30a', '30b', '30c', '31a', '31b', '31c', '32a', '32b', '33a', '33b', '33c',
     ]
 
     # # Original Split
@@ -424,20 +428,29 @@ def get_train_test_split(experiment_name):
     #     '30b', '31b', '32b', '33b'
     # ]
 
+    if experiment_name == 'tpch':
+        trainquery = ["3",
+                      "5",
+                      "7",
+                      "8",
+                      "12",
+                      "14", ]
+        return trainquery, trainquery
+
     if experiment_name == 'LeaveOneOutSplit1':
         test_queries = LEAVE_ONE_OUT_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'LeaveOneOutSplit2':
         test_queries = LEAVE_ONE_OUT_SPLIT_2__TEST_QUERIES
     elif experiment_name == 'LeaveOneOutSplit3':
         test_queries = LEAVE_ONE_OUT_SPLIT_3__TEST_QUERIES
-    
+
     elif experiment_name == 'BaseQuerySplit1':
         test_queries = BASE_QUERY_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'BaseQuerySplit2':
         test_queries = BASE_QUERY_SPLIT_2__TEST_QUERIES
     elif experiment_name == 'BaseQuerySplit3':
         test_queries = BASE_QUERY_SPLIT_3__TEST_QUERIES
-    
+
     elif experiment_name == 'RandomSplit1':
         test_queries = RANDOM_SPLIT_1__TEST_QUERIES
     elif experiment_name == 'RandomSplit2':
@@ -451,7 +464,7 @@ def get_train_test_split(experiment_name):
 
     else:
         raise NotImplementedError(f"Split {experiment_name} could not be found.")
-    
+
     test_queries = [f.split('.sql')[0] for f in test_queries]
 
     train_queries = []
@@ -464,28 +477,29 @@ def get_train_test_split(experiment_name):
 
 def define_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--experiment', type=str, required=True, help='Defines which train-test split to use (see #get_train_test_split method).')
+    parser.add_argument('--experiment', type=str, required=True,
+                        help='Defines which train-test split to use (see #get_train_test_split method).')
     parser.add_argument('--wandb', action='store_true', default=False)
     parser.add_argument('--no_wandb', dest='wandb', action='store_true')
 
     args = parser.parse_args()
     return args
-    
+
 
 if __name__ == '__main__':
     args = define_args()
 
     from util.pg_executor import LOCAL_DSN
+
     if not LOCAL_DSN.endswith('imdbload'):
         raise ValueError(f"The current connection in 'util/pg_executor.py' does not point to the JOB database.")
 
     if args.wandb:
-
         wandb.init(
             project='leon',
             entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
             save_code=False,
-            config={ 'experiment': args.experiment, 'workload': 'JOB' }
+            config={'experiment': args.experiment, 'workload': 'JOB'}
         )
 
     logs_name = args.experiment
@@ -530,7 +544,6 @@ if __name__ == '__main__':
 
     trainquery, testquery = get_train_test_split(args.experiment)
 
-
     dp_Signs = [True for i in range(len(trainquery))]
     sqllist = load_sql_Files(trainquery)
     testsqllist = load_sql_Files(testquery)
@@ -573,7 +586,7 @@ if __name__ == '__main__':
         model_levels, optlist = getModelsFromFile(maxLevel, modelpath)
     else:
         model_levels, optlist = getModels(maxLevel)
-        
+
     #
     # Potentially log everything into WandB
     # ================================================================================
@@ -608,7 +621,7 @@ if __name__ == '__main__':
                                                                                          FirstTrain, model_levels,
                                                                                          timeoutlist[i],
                                                                                          dropbuffer=dropbuffer,
-                                                                    
+
                                                                                          nodeFeaturizer=nodeFeaturizer,
                                                                                          greedy=greedy,
                                                                                          subplans_fin=finexp,
@@ -644,7 +657,8 @@ if __name__ == '__main__':
             temtrainpair = copy.deepcopy(trainpair[modelnum])
             if len(temtrainpair) < 2:
                 continue
-            for epoch in tqdm(range(num_inner_epochs), leave=False, desc=f'Training {num_inner_epochs} inner epochs (#num_inner_epochs)...'):
+            for epoch in tqdm(range(num_inner_epochs), leave=False,
+                              desc=f'Training {num_inner_epochs} inner epochs (#num_inner_epochs)...'):
                 ttime = time.time()
                 shuffled_indices = np.random.permutation(len(temtrainpair))
                 # train
@@ -741,11 +755,11 @@ if __name__ == '__main__':
                     accuracy_key = f'accuracy__model_{modelnum}'
                     inner_epoch_key = f'inner_epoch__model_{modelnum}'
                     wandb.log({
-                        accuracy_key: acc/cout,
+                        accuracy_key: acc / cout,
                         'outer_epoch': iter,
-                        inner_epoch_key: epoch+1,
-                        'inner_epoch': epoch+1,
-                        'combined_epoch': iter*13 + epoch+1
+                        inner_epoch_key: epoch + 1,
+                        'inner_epoch': epoch + 1,
+                        'combined_epoch': iter * 13 + epoch + 1
                     })
 
                 if acc / cout > 0.96 or epoch > 13:
@@ -773,7 +787,7 @@ if __name__ == '__main__':
         logger.info('GMRL test  time ={}'.format(time.time() - testtime))
         logger.info('train_gmrl ={}'.format(train_gmrl))
         logger.info('test_gmrl ={}'.format(test_gmrl))
-        
+
         if args.wandb:
             wandb.log({
                 'outer_epoch': iter,
