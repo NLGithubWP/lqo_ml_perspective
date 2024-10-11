@@ -276,7 +276,7 @@ class TPCHbenchmark(Workload):
         # Needs to be an absolute path for rllib.
         # module_dir = os.path.abspath(os.path.dirname(balsa.__file__) + '/../')
         #  p.query_dir = os.path.join('/home/ht/PycharmProjects/pythonProject3', 'join-order-benchmark')
-        p.query_dir = "/data/datasets/tpch_query/"
+        p.query_dir = "tpch_query"
         if not os.path.exists(p.query_dir):
             raise IOError('File Not Exists!')
         return p
