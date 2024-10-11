@@ -442,7 +442,6 @@ if __name__ == '__main__':
                  "7",
                  "8",
                  "12",
-                 "13",
                  "14", ]
     # queries for test
     Ttrainquery = trainquery
@@ -451,7 +450,6 @@ if __name__ == '__main__':
                  "7",
                  "8",
                  "12",
-                 "13",
                  "14", ]
 
     dp_Signs = [True for i in range(len(trainquery))]
