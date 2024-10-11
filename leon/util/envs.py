@@ -24,6 +24,7 @@ def ParseSqlToNode(path):
     node.info['query_name'] = query_name
     node.info['explain_json'] = json_dict
     node.GetOrParseSql()
+    print("[Parsing Done]")
     return node
 
 
