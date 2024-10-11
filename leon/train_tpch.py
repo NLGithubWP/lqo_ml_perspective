@@ -269,7 +269,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     alllatency = []
     nodes = []
     for i in sqls:
-        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(
+        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(
             '/data/datasets/tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
@@ -492,7 +492,7 @@ if __name__ == '__main__':
     print(workload.workload_info)
     dpsign = True
     for i in range(0, len(sqls)):
-        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(sqllist[i])
+        join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
         dp_tables1 = copy.deepcopy(origin_dp_tables)
         print(trainquery[i], join_graph.number_of_nodes())
         maxLevel = maxLevel if maxLevel > join_graph.number_of_nodes() else join_graph.number_of_nodes()
@@ -509,7 +509,7 @@ if __name__ == '__main__':
         for i in range(0, len(sqls)):
 
             if dp_Signs[i]:
-                join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(sqllist[i])
+                join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition(sqllist[i])
                 dp_tables1 = copy.deepcopy(origin_dp_tables)
                 output1, bestplanhint, num, timeout = DP.dp.UCB_left_prune_replay_fix_kl(join_graph, all_join_conds,
                                                                                          query_leaves,
