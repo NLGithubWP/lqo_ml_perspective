@@ -270,7 +270,7 @@ def getGMRL(sqls, modellist, pg_latency, nodeFeaturizer, costCache, workload, ex
     nodes = []
     for i in sqls:
         join_graph, all_join_conds, query_leaves, origin_dp_tables = DP.getPreCondition_balsa(
-            'tpch_query/' + i + '.sql')
+            '/data/datasets/tpch_query/' + i + '.sql')
         # TEST_left_prune_bayes
         bestplanhint, finnode = DP.dp.TEST_left_prune_bayes(join_graph, all_join_conds, query_leaves, origin_dp_tables,
                                                             workload,
@@ -407,6 +407,7 @@ if __name__ == '__main__':
     FirstTrain = True
     ########################################################
     seed_torch()
+    print("begin to train ")
     if FirstTrain:
         exp = [[] for _ in range(20)]
         finexp = [[] for _ in range(20)]
@@ -429,16 +430,78 @@ if __name__ == '__main__':
     workload.workload_info.table_num_rows = postgres.GetAllTableNumRows(workload.workload_info.rel_names)
     # 保存所有pair
 
+    print("GetAllTableNumRows done")
+
     # need to change parms
     gamma = 0.25
     learning_rate = 1e-3
     dropbuffer = False
     # queries for train
-    trainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
+    trainquery = ["3_0",
+                  "3_1",
+                  "3_2",
+                  "3_3",
+                  "3_4",
+                  "3_5",
+                  "3_6",
+                  "3_7",
+                  "5_0",
+                  "5_1",
+                  "5_2",
+                  "5_3",
+                  "5_4",
+                  "5_5",
+                  "5_6",
+                  "5_7",
+                  "7_0",
+                  "7_1",
+                  "7_2",
+                  "7_3",
+                  "7_4",
+                  "7_5",
+                  "7_6",
+                  "7_7",
+                  "8_0",
+                  "8_1",
+                  "8_2",
+                  "8_3",
+                  "8_4",
+                  "8_5",
+                  "8_6",
+                  "8_7",
+                  "12_0",
+                  "12_1",
+                  "12_2",
+                  "12_3",
+                  "12_4",
+                  "12_5",
+                  "12_6",
+                  "12_7",
+                  "13_0",
+                  "13_1",
+                  "13_2",
+                  "13_3",
+                  "13_4",
+                  "13_5",
+                  "13_6",
+                  "13_7",
+                  "14_0",
+                  "14_1",
+                  "14_2",
+                  "14_3",
+                  "14_4",
+                  "14_5",
+                  "14_6",
+                  "14_7"]
     # queries for test
-    Ttrainquery = ['1-q3', '1-q5', '1-q7', '1-q8', '1-q12', '1-q13', '1-q14']
-    # testquery = ['2-q3', '2-q5', '2-q7', '2-q8', '2-q12', '2-q13', '2-q14']
-    testquery = ["3","5","7","8","12","13","14", ]
+    Ttrainquery = trainquery
+    testquery = ["3",
+                 "5",
+                 "7",
+                 "8",
+                 "12",
+                 "13",
+                 "14", ]
 
     dp_Signs = [True for i in range(len(trainquery))]
     sqllist = load_sql_Files(trainquery)
@@ -452,6 +515,8 @@ if __name__ == '__main__':
     bestplanslist = [[] for _ in range(len(sqls))]
     iteration_num = 30
 
+    print("load all sql done")
+
     # initial timeout and it will update in dp
     timeoutlist = setInitialTimeout(sqls, dropbuffer, testtime=3)
     pg_latency_train = getPG_latency(trainsqls, ini=True)
@@ -462,7 +527,7 @@ if __name__ == '__main__':
     test_gmrl = []
     logger.info("timeoutList:{}".format(timeoutlist))
     batchsize = 256
-    DEVICE = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+    DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     maxLevel = 0
     greedy = -1.0
     bestTrainGmrl = 20
