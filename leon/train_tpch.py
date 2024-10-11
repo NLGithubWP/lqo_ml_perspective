@@ -696,4 +696,5 @@ if __name__ == '__main__':
     logger.info('all time = {} '.format(time.time() - allstime))
     for modelnum in range(2, len(model_levels)):
         modelname = log_dir + '/FinalModel_' + logs_name + '_' + str(modelnum) + '.pth'
+        print(f"saving model to ", modelname)
         torch.save(model_levels[modelnum], modelname)
