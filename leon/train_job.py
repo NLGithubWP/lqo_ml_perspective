@@ -711,7 +711,7 @@ if __name__ == '__main__':
     testsqls = load_sql(testsqllist)
     bestplandata = [[[] for _ in range(20)] for _ in range(len(trainquery))]
     bestplanslist = [[] for _ in range(len(sqls))]
-    iteration_num = 10
+    iteration_num = 20
 
     # initial timeout and it will update in dp
     timeoutlist = setInitialTimeout(sqls, dropbuffer, testtime=3)
@@ -932,6 +932,10 @@ if __name__ == '__main__':
 
         logger.info('train time ={} test time = {}'.format(trainTimes, testTimes))
         testtime = time.time()
+
+        for modelnum in range(2, len(model_levels)):
+            modelname = log_dir + '/IterationModel_' + str(iter) + logs_name + '_' + str(modelnum) + '.pth'
+            torch.save(model_levels[modelnum], modelname)
 
         nowtraingmrl = getGMRL(trainquery, model_levels, pg_latency_train, nodeFeaturizer, costCache, workload,
                                exp=exp, old=pg_latency_train)
