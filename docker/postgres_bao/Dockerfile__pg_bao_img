@@ -1,8 +1,15 @@
 FROM postgres:12.5
+
+# Set noninteractive mode for apt
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update
-RUN apt-get install -y sudo gcc make wget curl git nano postgresql-server-dev-12
+# Update package lists and install required packages
+RUN apt-get update && \
+    apt-get install -y sudo gcc make wget curl git nano postgresql-server-dev-12 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Set password for postgres user
 RUN echo 'postgres:postgres' | chpasswd
+
+# Add postgres to sudoers
 RUN usermod -aG sudo postgres
