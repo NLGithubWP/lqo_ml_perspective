@@ -33,6 +33,7 @@ try:
     with open(SQL_FILE_PATH, 'r') as file:
         lines = file.readlines()
     print(lines)
+    NUM_EXECUTIONS = 3
     # Extract and execute each query from q1 to q22
     for line in lines:
         query_id, query = line.split("#####")
@@ -40,13 +41,14 @@ try:
 
         if query_id.startswith("q") and 1 <= int(query_id[1:]) <= 22:
             try:
-                explain_query = f"EXPLAIN (ANALYZE, TIMING, VERBOSE, COSTS, SUMMARY, FORMAT JSON) {query}"
-                cursor.execute(explain_query)
-                explain_result = cursor.fetchall()[0][0]
-                execution_time = explain_result[0].get("Execution Time", "N/A")
-
-                # Store the result in the dictionary
-                execution_times[query_id] = execution_time
+                for i in range(NUM_EXECUTIONS):
+                    explain_query = f"EXPLAIN (ANALYZE, TIMING, VERBOSE, COSTS, SUMMARY, FORMAT JSON) {query}"
+                    cursor.execute(explain_query)
+                    explain_result = cursor.fetchall()[0][0]
+                    execution_time = explain_result[0].get("Execution Time", "N/A")
+                    if i == 2:
+                        # Store the result in the dictionary
+                        execution_times[query_id] = execution_time
             except:
                 execution_times[query_id] = "failed"
 

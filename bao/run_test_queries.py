@@ -31,6 +31,7 @@ def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_g
         cur.execute(f"SET statement_timeout TO {TIMEOUT_LIMIT}")
         
         if not use_geqo:
+            print("disable geqo")
             cur.execute(f"SET geqo TO off")
 
         for i in range(NUM_EXECUTIONS):
