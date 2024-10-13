@@ -32,7 +32,7 @@ try:
     # Read the SQL queries from the file
     with open(SQL_FILE_PATH, 'r') as file:
         lines = file.readlines()
-
+    print(lines)
     # Extract and execute each query from q1 to q22
     for line in lines:
         query_id, query = line.split("#####")

@@ -75,6 +75,7 @@ def main(args):
         with open(fp) as f:
             query = f.read()
         queries.append((fp, query))
+    print(queries)
 
     use_bao = args.use_bao and (not args.use_postgres)
     print("Using Bao:", use_bao)
