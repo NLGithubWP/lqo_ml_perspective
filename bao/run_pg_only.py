@@ -42,7 +42,7 @@ try:
         if query_id.startswith("q") and 1 <= int(query_id[1:]) <= 22:
             try:
                 for i in range(NUM_EXECUTIONS):
-                    explain_query = f"EXPLAIN (ANALYZE, TIMING, VERBOSE, COSTS, SUMMARY, FORMAT JSON) {query}"
+                    explain_query = f"EXPLAIN (ANALYZE, VERBOSE, FORMAT JSON) {query}"
                     cursor.execute(explain_query)
                     explain_result = cursor.fetchall()[0][0]
                     execution_time = explain_result[0].get("Execution Time", "N/A")
