@@ -68,6 +68,7 @@ def main(args):
     pattern = os.path.join(args.query_dir, '**/*.sql')
     query_paths = sorted(glob.glob(pattern, recursive=True))
     print(f"Found {len(query_paths)} queries in {args.query_dir} and its subdirectories.")
+    print("queries:", query_paths)
 
     queries = []
     for fp in query_paths:
