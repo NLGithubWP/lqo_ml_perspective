@@ -64,8 +64,8 @@ def main(config):
     for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
         train_epoch(hinter, train_queries, epoch, query_log_file_path)
 
-        if epoch % 10 == 0:
-            test_epoch(hinter, test_queries, epoch, query_log_file_path)
+        # if epoch % 10 == 0:
+        #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
     
     # Final eval
     test_epoch(hinter, test_queries, epoch, query_log_file_path)
