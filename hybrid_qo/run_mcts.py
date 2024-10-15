@@ -1,4 +1,5 @@
 import random
+
 random.seed(113)
 
 import sys
@@ -8,19 +9,21 @@ import json
 from tqdm.auto import tqdm
 
 from ImportantConfig import Config
-from sql2fea import TreeBuilder,value_extractor
+from sql2fea import TreeBuilder, value_extractor
 from NET import TreeNet
 from sql2fea import Sql2Vec
 from TreeLSTM import SPINN
 
 from Hinter import Hinter
 from mcts import MCTSHinterSearch
+import argparse  # Added to parse arguments
 
 
 def load_queries(queries_path):
     with open(queries_path) as f:
         queries = json.load(f)
     return queries
+
 
 def main(config):
     run_name = datetime.now().strftime('%Y_%m_%d__%H%M%S')
@@ -30,30 +33,34 @@ def main(config):
     #     name=run_name,
     #     config=config.__dict__
     # )
-
+    print("---train query files", config.queries_file)
     train_queries = load_queries(config.queries_file)
+    print("---test query files", config.queries_file.replace('__train', '__test'))
     test_queries = load_queries(config.queries_file.replace('__train', '__test'))
 
     tree_builder = TreeBuilder()
     sql2vec = Sql2Vec()
-    #table_num = config.max_alias_num? or actually number of tables?
-    value_network = SPINN(head_num=config.head_num, input_size=config.input_size, hidden_size=config.hidden_size, table_num = 50,sql_size = config.max_alias_num*config.max_alias_num+config.max_column).to(config.device)
+    # table_num = config.max_alias_num? or actually number of tables?
+    value_network = SPINN(head_num=config.head_num, input_size=config.input_size, hidden_size=config.hidden_size,
+                          table_num=50, sql_size=config.max_alias_num * config.max_alias_num + config.max_column).to(
+        config.device)
     for name, param in value_network.named_parameters():
         from torch.nn import init
-        if len(param.shape)==2:
+        if len(param.shape) == 2:
             init.xavier_normal_(param)
         else:
             init.uniform_(param)
 
-    net = TreeNet(tree_builder= tree_builder,value_network = value_network)
+    net = TreeNet(tree_builder=tree_builder, value_network=value_network)
     mcts_searcher = MCTSHinterSearch()
-    hinter = Hinter(model = net,sql2vec = sql2vec,value_extractor = value_extractor,mcts_searcher = mcts_searcher)
+    hinter = Hinter(model=net, sql2vec=sql2vec, value_extractor=value_extractor, mcts_searcher=mcts_searcher)
 
     print(len(train_queries))
 
     # Prepare query log file
     query_log_file_path = f"logs/{run_name}__query_log.csv"
-    columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time', 'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
+    columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
+               'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
     with open(query_log_file_path, 'w') as f:
         f.write(','.join(columns) + '\n')
 
@@ -66,7 +73,7 @@ def main(config):
 
         # if epoch % 10 == 0:
         #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
-    
+
     # Final eval
     test_epoch(hinter, test_queries, epoch, query_log_file_path)
 
@@ -81,8 +88,9 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     pbar = tqdm(enumerate(queries[:]), total=len(queries), leave=False, desc='Iterating over training queries...')
     for idx, (sql, query_ident, _) in pbar:
         pbar.set_description(f"Iterating over training query {query_ident}...")
-        
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(sql)
+
+        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
+            sql)
         pg_latency /= 1000
         hinter_latency /= 1000
         pg_plan_time /= 1000
@@ -106,7 +114,8 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
         # })
 
         with open(query_log_file_path, 'a') as f:
-            f.write(f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
+            f.write(
+                f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
 
 
 def test_epoch(hinter, queries, epoch, query_log_file_path):
@@ -116,8 +125,9 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
     pbar = tqdm(enumerate(queries[:]), total=len(queries), desc='Iterating over test queries...')
     for idx, (sql, query_ident, _) in pbar:
         pbar.set_description(f"Iterating over test query {query_ident}...")
-        
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(sql)
+
+        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
+            sql)
         pg_latency /= 1000
         hinter_latency /= 1000
         pg_plan_time /= 1000
@@ -141,8 +151,15 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         # })
 
         with open(query_log_file_path, 'a') as f:
-            f.write(f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
+            f.write(
+                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
+
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--query_file', type=str, required=True, help="Path to the queries file")
+    args = parser.parse_args()
     config = Config()
+    config.queries_file = args.query_file
+    # Run the main function
     main(config)
