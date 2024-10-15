@@ -24,12 +24,12 @@ def load_queries(queries_path):
 
 def main(config):
     run_name = datetime.now().strftime('%Y_%m_%d__%H%M%S')
-    wandb.init(
-        project='hybrid_qo',
-        entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
-        name=run_name,
-        config=config.__dict__
-    )
+    # wandb.init(
+    #     project='hybrid_qo',
+    #     entity='FILL_IN_YOUR_WANDB_ENTITY_HERE',
+    #     name=run_name,
+    #     config=config.__dict__
+    # )
 
     train_queries = load_queries(config.queries_file)
     test_queries = load_queries(config.queries_file.replace('__train', '__test'))
@@ -91,19 +91,19 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
         s_pg += pg_latency
         s_hinter += sum(actual_time) / 1000
 
-        wandb.log({
-            'epoch': epoch,
-            'pg_plan_time': pg_plan_time,
-            'pg_lateny': pg_latency,
-            'mcts_time': mcts_time,
-            'hinter_plan_time': hinter_plan_time,
-            'MPHE_time': MPHE_time,
-            'hinter_latency': hinter_latency,
-            'hinter_global_ratio': s_hinter / s_pg,
-            'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
-            'query_ident': query_ident,
-            'test_query': 0
-        })
+        # wandb.log({
+        #     'epoch': epoch,
+        #     'pg_plan_time': pg_plan_time,
+        #     'pg_lateny': pg_latency,
+        #     'mcts_time': mcts_time,
+        #     'hinter_plan_time': hinter_plan_time,
+        #     'MPHE_time': MPHE_time,
+        #     'hinter_latency': hinter_latency,
+        #     'hinter_global_ratio': s_hinter / s_pg,
+        #     'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
+        #     'query_ident': query_ident,
+        #     'test_query': 0
+        # })
 
         with open(query_log_file_path, 'a') as f:
             f.write(f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
@@ -126,19 +126,19 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         s_pg += pg_latency
         s_hinter += sum(actual_time) / 1000
 
-        wandb.log({
-            'epoch': epoch,
-            'pg_plan_time': pg_plan_time,
-            'pg_lateny': pg_latency,
-            'mcts_time': mcts_time,
-            'hinter_plan_time': hinter_plan_time,
-            'MPHE_time': MPHE_time,
-            'hinter_latency': hinter_latency,
-            'hinter_global_ratio': s_hinter/s_pg,
-            'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
-            'query_ident': query_ident,
-            'test_query': 1
-        })
+        # wandb.log({
+        #     'epoch': epoch,
+        #     'pg_plan_time': pg_plan_time,
+        #     'pg_lateny': pg_latency,
+        #     'mcts_time': mcts_time,
+        #     'hinter_plan_time': hinter_plan_time,
+        #     'MPHE_time': MPHE_time,
+        #     'hinter_latency': hinter_latency,
+        #     'hinter_global_ratio': s_hinter/s_pg,
+        #     'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
+        #     'query_ident': query_ident,
+        #     'test_query': 1
+        # })
 
         with open(query_log_file_path, 'a') as f:
             f.write(f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
