@@ -64,8 +64,8 @@ from balsa.util import plans_lib
 from balsa.util import postgres
 
 import sim as sim_lib
-from pg_executor_pkg.pg_executor import pg_executor
-from pg_executor_pkg.pg_executor import dbmsx_executor
+import pg_executor
+from pg_executor  import dbmsx_executor
 import train_utils
 import experiments  # noqa # pylint: disable=unused-import
 
