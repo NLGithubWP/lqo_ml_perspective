@@ -33,7 +33,8 @@ import ray
 # REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdbload"
 
 # STACK
-LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
+LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_ori"
+# LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 
 QUERY_LOG_FILE = 'query_log_file.txt'
