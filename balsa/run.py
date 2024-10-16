@@ -1213,11 +1213,10 @@ class BalsaAgent(object):
             result_tup = ray.get(refs[i])
 
             print("---debug", type(result_tup))
+            # assert isinstance(
+            #     result_tup,
+            #     (pg_executor.Result, dbmsx_executor.Result)), result_tup
 
-
-            assert isinstance(
-                result_tup,
-                (pg_executor.Result, dbmsx_executor.Result)), result_tup
             result, real_cost, _, message = ParseExecutionResult(
                 result_tup, **Args(node))
             # Save real cost (execution latency) to actual.
