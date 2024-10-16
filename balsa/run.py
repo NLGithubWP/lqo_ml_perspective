@@ -1213,7 +1213,7 @@ class BalsaAgent(object):
         for i, node in enumerate(self.all_nodes):
             result_tup = ray.get(refs[i])
 
-            print("---debug", type(result_tup))
+            # print("---debug", type(result_tup))
             # assert isinstance(
             #     result_tup,
             #     (pg_executor.Result, dbmsx_executor.Result)), result_tup
@@ -1545,8 +1545,11 @@ class BalsaAgent(object):
         print('{}Waiting on Ray tasks...value_iter={}'.format(
             '[Test set] ' if is_test else '', self.curr_value_iter))
         try:
+            print("---------------------- [debug]. getting raw result... ---------------------- ")
             refs = ray.get(tasks)
+            print("---------------------- [debug]. getting raw done  ---------------------- ")
         except Exception as e:
+            raise
             print('ray.get(tasks) received exception:', e)
             time.sleep(10)
             print('Canceling Ray tasks.')
@@ -1563,6 +1566,7 @@ class BalsaAgent(object):
                 print('Retries exhausted; raising the exception.')
                 raise e
         execution_results = []
+        print("---------------------- [debug]. collecting result ---------------------- ")
         for i, task in enumerate(refs):
             result_tup = None
             is_cached_plan = True
@@ -1572,6 +1576,7 @@ class BalsaAgent(object):
                     result_tup = ray.get(task)
                     is_cached_plan = False
                 except ray.exceptions.RayTaskError as e:
+                    raise
                     # This can happen when the server gets crashed by other
                     # drivers, this driver's connection would break down.  OK
                     # to wait for the server to recover and retry.
@@ -1631,6 +1636,7 @@ class BalsaAgent(object):
                 (pg_executor.Result, dbmsx_executor.Result)), result_tup
             result_tups = ParseExecutionResult(result_tup, **kwargs[i])
 
+            print("---------------------- [debug]. done with current ref ---------------------- ")
 
             # Generating more expressive stats for logging
             # -------------------
@@ -1645,7 +1651,6 @@ class BalsaAgent(object):
                 q_exec_stat['planning_time'] = json_dict['Planning Time']
 
             print(f"\t{q_exec_stat['query_name']}: Inference {q_exec_stat['inference_time']:.4f}\tPlanning {q_exec_stat['planning_time']:.4f}\tExecution {q_exec_stat['execution_time']:.4f}")
-
 
             assert len(result_tups) == 4
             print(result_tups[-1])  # Messages.
@@ -1911,6 +1916,8 @@ class BalsaAgent(object):
         to_execute, execution_results = self.PlanAndExecute(model,
                                                             planner,
                                                             is_test=False)
+
+        print("---------------------- [debug]. start FeedbackExecution ----------------------")
         # Add exeuction results to the experience buffer.
         iter_total_latency, has_timeouts = self.FeedbackExecution(
             to_execute, execution_results)
@@ -1935,10 +1942,15 @@ class BalsaAgent(object):
                 to_log.append(('iter_final_lr', model.latest_per_iter_lr,
                                self.curr_value_iter))
             self.LogScalars(to_log)
+
+        print("---------------------- [debug]. start SaveBestPlans ----------------------")
+
         self.SaveBestPlans()
         if (self.curr_value_iter + 1) % 5 == 0:
             self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
         # Run and log test queries.
+        print("---------------------- [debug]. start EvaluateTestSet ----------------------")
         self.EvaluateTestSet(model, planner)
 
         if p.track_model_moving_averages:
@@ -2181,7 +2193,7 @@ class BalsaAgent(object):
         while self.curr_value_iter < p.val_iters:
             has_timeouts = self.RunOneIter()
             self.LogTimings()
-
+            print("---------------------- [debug]. train one iteration done ----------------------")
             if (p.early_stop_on_skip_fraction is not None and
                     self.curr_iter_skipped_queries >=
                     p.early_stop_on_skip_fraction * len(self.train_nodes)):
