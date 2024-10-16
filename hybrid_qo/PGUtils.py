@@ -58,6 +58,41 @@ class PGGRunner:
                 global latency_record_dict
                 if data[0].find('/*+Leading')==-1:
                     if not data[0] in latency_record_dict:
+                        def getAnalysePlanJson(self, sql, timeout=TIMEOUT_MS):
+                            if config.cost_test_for_debug:
+                                raise
+
+                            # MANUALLY DISABLED QUERY CACHING
+                            # if sql in latency_record_dict:
+                            #     return latency_record_dict[sql]
+
+                            try:
+                                # Changed PG configuration to disable geqo if the join order is hinted
+                                if 'Leading' in sql:
+                                    self.cur.execute("SET geqo TO off;")
+                                else:
+                                    self.cur.execute("SET geqo TO on;")
+                                    self.cur.execute("SET geqo_threshold = 12;")
+                                self.cur.execute("SET statement_timeout = " + str(timeout) + ";")
+
+                                for _ in range(NUM_EXECUTIONS):
+                                    self.cur.execute("explain (COSTS, FORMAT JSON, ANALYSE) " + sql)
+                                    rows = self.cur.fetchall()
+
+                                plan_json = rows[0][0][0]
+                                plan_json['timeout'] = False
+                            except KeyboardInterrupt:
+                                raise
+                            except:
+                                plan_json = {}
+                                plan_json['Planning Time'] = 20
+                                plan_json['Plan'] = {'Actual Total Time': config.max_time_out}
+                                plan_json['timeout'] = True
+                                self.con.commit()
+                            if not plan_json['timeout']:
+                                self.addLatency(sql, plan_json)
+                            return plan_json
+
                         latency_record_dict[data[0]] = data[1]
             f = open(fileName,"a")
         else:
@@ -68,41 +103,7 @@ class PGGRunner:
         latency_record_file.write(json.dumps([k,v])+"\n")
         latency_record_file.flush()
     
-    def getAnalysePlanJson(self, sql, timeout=TIMEOUT_MS):
-        if config.cost_test_for_debug:
-            raise
-        
-        # MANUALLY DISABLED QUERY CACHING
-        # if sql in latency_record_dict:
-        #     return latency_record_dict[sql]
-        
-        try:
-            # Changed PG configuration to disable geqo if the join order is hinted
-            if 'Leading' in sql:
-                self.cur.execute("SET geqo TO off;")
-            else:
-                self.cur.execute("SET geqo TO on;")
-                self.cur.execute("SET geqo_threshold = 12;")
-            self.cur.execute("SET statement_timeout = "+str(timeout)+ ";")
 
-            for _ in range(NUM_EXECUTIONS):
-                self.cur.execute("explain (COSTS, FORMAT JSON, ANALYSE) "+sql)
-                rows = self.cur.fetchall()
-            
-            plan_json = rows[0][0][0]
-            plan_json['timeout'] = False
-        except KeyboardInterrupt:
-            raise
-        except:
-            plan_json = {}
-            plan_json['Planning Time'] = 20
-            plan_json['Plan'] = {'Actual Total Time':config.max_time_out}
-            plan_json['timeout'] = True
-            self.con.commit()
-        if not plan_json['timeout']:
-            self.addLatency(sql,plan_json)
-        return plan_json
-        
     
     def getLatency(self,sql,timeout = TIMEOUT_MS):
         """
