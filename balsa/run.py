@@ -1227,8 +1227,9 @@ class BalsaAgent(object):
                 node.info['explain_json'] = result[0][0][0]
                 # 'node' is a PG plan; doesn't make sense to print if executed
                 # on a different engine.
-                print(node)
-            print(message)
+                # todo: comment out those
+                # print(node)
+            # print(message)
             print('q{},{:.1f} (baseline)'.format(node.info['query_name'],
                                                  real_cost))
             print('Execution time: {}'.format(real_cost))
