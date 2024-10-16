@@ -1115,7 +1115,6 @@ class BalsaAgent(object):
             check_val_every_n_epoch=p.validate_every_n_epochs,
             # Patience = # of validations with no improvements before stopping.
             early_stop_callback=pl.callbacks.EarlyStopping(
-                monitor='val_loss',
                 patience=p.validate_early_stop_patience,
                 mode='min',
                 verbose=True),
