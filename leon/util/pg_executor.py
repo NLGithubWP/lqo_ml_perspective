@@ -18,11 +18,11 @@ import time
 # REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdbload"
 
 # STACK
-LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/tpch"
-REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/so"
+LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
+REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 
 # database = "imdbload"
-database = "tpch"
+database = "imdb_ori"
 user = "postgres"
 password = "postgres"
 host = "pg_balsa"
