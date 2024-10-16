@@ -4,7 +4,7 @@ from math import log
 from ImportantConfig import Config
 
 TIMEOUT_MS = 3 * 60 * 1000
-NUM_EXECUTIONS = 3
+NUM_EXECUTIONS = 1
 
 latency_record_dict = {}
 # selectivity_dict = {}
