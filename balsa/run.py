@@ -78,7 +78,8 @@ flags.DEFINE_boolean('test_all', False,
 
 
 def GetDevice():
-    return 'cuda' if torch.cuda.is_available() else 'cpu'
+    return "cpu"
+    # return 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 def Save(obj, path):
