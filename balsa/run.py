@@ -1211,7 +1211,10 @@ class BalsaAgent(object):
             refs = tasks
         for i, node in enumerate(self.all_nodes):
             result_tup = ray.get(refs[i])
-            print("debug", result_tup)
+
+            print("---debug", type(result_tup))
+
+
             assert isinstance(
                 result_tup,
                 (pg_executor.Result, dbmsx_executor.Result)), result_tup
