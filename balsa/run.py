@@ -2174,6 +2174,7 @@ class BalsaAgent(object):
             self.train_nodes = plans_lib.FilterScansOrJoins(self.train_nodes)
             self.test_nodes = plans_lib.FilterScansOrJoins(self.test_nodes)
 
+        print("done with baseline, ", self.curr_value_iter, p.val_iters)
         while self.curr_value_iter < p.val_iters:
             has_timeouts = self.RunOneIter()
             self.LogTimings()
