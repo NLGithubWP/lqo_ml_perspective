@@ -154,7 +154,7 @@ class JoinOrderBenchmark(Workload):
         # module_dir = os.path.abspath(os.path.dirname(balsa.__file__) + '/../')
         #  p.query_dir = os.path.join('/home/ht/PycharmProjects/pythonProject3', 'join-order-benchmark')
 
-        p.query_dir = 'job_query_join'
+        p.query_dir = 'job_query_debug'
         if not os.path.exists(p.query_dir):
             raise IOError('File Not Exists!')
         return p
