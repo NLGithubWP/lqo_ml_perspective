@@ -68,14 +68,14 @@ def main(config):
     # we instead run the approx. 80-90 queries in repeated epochs to achieve a roughly similar
     # amount of executed queries, though these include the same queries multiple times!
     #
-    for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
-        train_epoch(hinter, train_queries, epoch, query_log_file_path)
+    # for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
+    #     train_epoch(hinter, train_queries, epoch, query_log_file_path)
 
         # if epoch % 10 == 0:
         #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
 
     # Final eval
-    test_epoch(hinter, test_queries, epoch, query_log_file_path)
+    test_epoch(hinter, test_queries, 2, query_log_file_path)
 
 
 def train_epoch(hinter, queries, epoch, query_log_file_path):

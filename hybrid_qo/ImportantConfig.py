@@ -51,7 +51,7 @@ class Config:
                              'cc': 22, 'cct2': 24, 'an': 20, 'mk': 10, 'cn': 3, 'it3': 25, 't1': 27, 'mc1': 33}
         self.max_column = 100  # Number of columns in the database (JOB=108, but not all are used in queries?)
 
-        self.n_epochs = 20
+        self.n_epochs = 2
         self.queries_file = 'workload/query_join__train.json'
 
         self.mcts_input_size = self.max_alias_num * self.max_alias_num + self.max_column
