@@ -33,11 +33,11 @@ import ray
 # REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdbload"
 
 # STACK
-LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/so"
-REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/so"
+LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
+REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 
 QUERY_LOG_FILE = 'query_log_file.txt'
-NUM_EXECUTIONS = 3
+NUM_EXECUTIONS = 1
 
 # TPC-H.
 # LOCAL_DSN = "postgres://psycopg:psycopg@localhost/tpch-sf10"
