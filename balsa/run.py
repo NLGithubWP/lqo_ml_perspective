@@ -2160,6 +2160,7 @@ class BalsaAgent(object):
     def Run(self):
         print("---------------------- [debug]. start to run ----------------------")
         p = self.params
+        print(p)
         if p.run_baseline:
             return self.RunBaseline()
         else:
