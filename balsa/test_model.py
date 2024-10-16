@@ -37,8 +37,8 @@ def main(args, balsa_params):
     planner = agent._MakePlanner(model, plans_dataset)
 
     # Run TRAIN queries
-    to_execute_test, execution_results_test = agent.PlanAndExecute(
-        model, planner, is_test=False)
+    # to_execute_test, execution_results_test = agent.PlanAndExecute(
+    #     model, planner, is_test=False)
     
     # Run TEST queries
     to_execute_test, execution_results_test = agent.PlanAndExecute(
