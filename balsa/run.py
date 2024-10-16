@@ -2158,6 +2158,7 @@ class BalsaAgent(object):
         self.LogScalars(data_to_log)
 
     def Run(self):
+        print("start to run ")
         p = self.params
         if p.run_baseline:
             return self.RunBaseline()
