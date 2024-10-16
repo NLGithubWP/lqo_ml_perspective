@@ -141,7 +141,7 @@ def Execute(sql, verbose=False, geqo_off=False, timeout_ms=None, cursor=None, fi
     """
     if verbose:
         print(sql)
-
+    timeout_ms= None
     _SetGeneticOptimizer('off' if geqo_off else 'on', cursor)
     if timeout_ms is not None:
         cursor.execute('SET statement_timeout to {}'.format(int(timeout_ms)))

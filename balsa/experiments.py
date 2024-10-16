@@ -158,6 +158,16 @@ JOB_JOIN_PRED_TABLE_TEST = [
     "33c.sql"
 ]
 
+JOB_JOIN_PRED_TABLE_DEBUG_TEST = [
+    "1a.sql",
+    "1b.sql",
+    "1c.sql",
+    "1d.sql",
+    "2a.sql",
+    "2b.sql",
+    "2c.sql",
+    "2d.sql"]
+
 # ===================================================================
 
 RANDOM_SPLIT_1__TEST_QUERIES = [
@@ -1092,6 +1102,13 @@ class Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
         p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
 
+@balsa.params_registry.Register
+class Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_debug'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_DEBUG_TEST
+        return p
 
 @balsa.params_registry.Register
 class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
