@@ -1946,8 +1946,10 @@ class BalsaAgent(object):
         print("---------------------- [debug]. start SaveBestPlans ----------------------")
 
         self.SaveBestPlans()
-        if (self.curr_value_iter + 1) % 5 == 0:
-            self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+        # if (self.curr_value_iter + 1) % 5 == 0:
+        #     self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
+        self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
 
         # Run and log test queries.
         print("---------------------- [debug]. start EvaluateTestSet ----------------------")
