@@ -1114,7 +1114,7 @@ class Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
 class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
-        p.query_dir = 'queries/job_query_predicates'
+        p.query_dir = 'queries/job_query_predicates_short'
         p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
 
@@ -1123,7 +1123,7 @@ class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
 class Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
-        p.query_dir = 'queries/job_query_table'
+        p.query_dir = 'queries/job_query_table_short'
         p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
 
