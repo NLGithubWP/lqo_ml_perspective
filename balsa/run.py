@@ -2241,7 +2241,7 @@ def Main(argv):
     p.val_iters = 1
     # p.query_glob = ['7*.sql']
     # p.test_query_glob = ['7c.sql']
-    p.search_until_n_complete_plans = 10
+    p.search_until_n_complete_plans = 1
 
     for k in dict(p).keys():
         print(f"{k}\t\t{dict(p)[k]}")
