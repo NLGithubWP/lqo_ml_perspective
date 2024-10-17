@@ -1036,7 +1036,7 @@ if __name__ == '__main__':
     train_gmrl = []
     test_gmrl = []
     logger.info("timeoutList:{}".format(timeoutlist))
-    batchsize = 256
+    batchsize = 512
     num_inner_epochs = 1
     DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     maxLevel = 0
