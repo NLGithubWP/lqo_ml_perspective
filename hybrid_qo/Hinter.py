@@ -98,6 +98,7 @@ class Hinter:
             pgrunner = pgrunner_train
         else:
             pgrunner = pgrunner_test
+        self.sql2vec.pg_runner = pgrunner
 
         self.hinter_times += 1
         plan_json_PG = pgrunner.getCostPlanJson(sql)
