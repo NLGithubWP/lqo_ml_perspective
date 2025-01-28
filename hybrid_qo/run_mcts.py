@@ -158,8 +158,10 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--query_file', type=str, required=True, help="Path to the queries file")
+    parser.add_argument('--database', type=str, required=True, help="DB anme")
     args = parser.parse_args()
     config = Config()
     config.queries_file = args.query_file
+    config.database = args.database
     # Run the main function
     main(config)
