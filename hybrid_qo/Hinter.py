@@ -51,7 +51,15 @@ class Hinter:
         self.mcts_searcher = mcts_searcher
         self.hinter_times = 0
 
-    def findBestHint(self, plan_json_PG, alias, sql_vec, sql):
+    def findBestHint(self, plan_json_PG, alias, sql_vec, sql, is_train):
+
+        if is_train:
+            pgrunner = pgrunner_train
+
+        else:
+            pgrunner = pgrunner_test
+        self.sql2vec.pg_runner = pgrunner
+
         alias_id = [self.sql2vec.aliasname2id[a] for a in alias]
         timer.reset('mcts_time_list')
         id_joins_with_predicate = [(self.sql2vec.aliasname2id[p[0]], self.sql2vec.aliasname2id[p[1]]) for p in
@@ -109,7 +117,8 @@ class Hinter:
 
         algorithm_idx = 0
 
-        chosen_leading_pair = self.findBestHint(plan_json_PG=plan_json_PG, alias=alias, sql_vec=sql_vec, sql=sql)
+        chosen_leading_pair = self.findBestHint(plan_json_PG=plan_json_PG, alias=alias, sql_vec=sql_vec, sql=sql,
+                                                is_train=True)
         knn_plan = abs(self.knn.kNeightboursSample(plan_times[0]))
         if chosen_leading_pair[0][0] < plan_times[algorithm_idx][0] and abs(
                 knn_plan) < config.threshold and self.value_extractor.decode(plan_times[0][0]) > 100:
