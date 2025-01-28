@@ -8,7 +8,9 @@ class Config:
         self.schemaFile = "schema.sql"
         self.user = 'postgres'
         self.password = 'postgres'
-        self.dataset = 'imdb'
+        self.train_database = ""
+        self.test_database = ""
+
         self.userName = self.user
         self.usegpu = True
         self.head_num = 10
@@ -37,7 +39,8 @@ class Config:
 
         # JOB
         # -------------------------------------
-        self.database = 'imdb_ori'
+        self.train_database = 'imdb_ori'
+        self.test_database = 'imdb_ori'
         self.max_alias_num = 40
         self.id2aliasname = {0: 'start', 1: 'chn', 2: 'ci', 3: 'cn', 4: 'ct', 5: 'mc', 6: 'rt', 7: 't', 8: 'k', 9: 'lt',
                              10: 'mk', 11: 'ml', 12: 'it1', 13: 'it2', 14: 'mi', 15: 'mi_idx', 16: 'it', 17: 'kt',

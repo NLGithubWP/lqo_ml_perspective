@@ -220,5 +220,8 @@ class PGGRunner:
 from itertools import count
 from pathlib import Path
 
-pgrunner = PGGRunner(config.database, config.user, config.password, config.ip, config.port, need_latency_record=True,
+pgrunner_train = PGGRunner(config.train_database, config.user, config.password, config.ip, config.port, need_latency_record=True,
+                     latency_file=config.latency_file)
+
+pgrunner_test = PGGRunner(config.test_database, config.user, config.password, config.ip, config.port, need_latency_record=True,
                      latency_file=config.latency_file)

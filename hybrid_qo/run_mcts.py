@@ -90,7 +90,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
         pbar.set_description(f"Iterating over training query {query_ident}...")
 
         pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
-            sql)
+            sql, is_train=True)
         pg_latency /= 1000
         hinter_latency /= 1000
         pg_plan_time /= 1000
@@ -127,7 +127,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         pbar.set_description(f"Iterating over test query {query_ident}...")
 
         pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
-            sql)
+            sql, is_train=False)
         pg_latency /= 1000
         hinter_latency /= 1000
         pg_plan_time /= 1000
@@ -158,10 +158,13 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--query_file', type=str, required=True, help="Path to the queries file")
-    parser.add_argument('--database', type=str, required=True, help="DB anme")
+    parser.add_argument('--train_database', type=str, required=True, help="DB anme")
+    parser.add_argument('--test_database', type=str, required=True, help="DB anme")
+
     args = parser.parse_args()
     config = Config()
     config.queries_file = args.query_file
-    config.database = args.database
+    config.train_database = args.train_database
+    config.test_database = args.test_database
     # Run the main function
     main(config)
