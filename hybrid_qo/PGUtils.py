@@ -31,6 +31,7 @@ class PGGRunner:
         :param latencyRecord:-1:loadFromFile
         :param latencyRecordFile:
         """
+        self.dbname = dbname
         self.con = psycopg2.connect(database=dbname, user=user,
                                     password=password, host=host, port=port)
         self.cur = self.con.cursor()
@@ -73,6 +74,7 @@ class PGGRunner:
         latency_record_file.flush()
 
     def getAnalysePlanJson(self, sql, timeout=TIMEOUT_MS):
+        print(f"Executing query on {self.dbname} ..... ")
         if config.cost_test_for_debug:
             raise
 
