@@ -167,4 +167,5 @@ if __name__ == '__main__':
     config.train_database = args.train_database
     config.test_database = args.test_database
     # Run the main function
+    print(config)
     main(config)
