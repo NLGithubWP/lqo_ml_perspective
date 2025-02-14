@@ -161,7 +161,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     Config.train_database = args.train_database
     Config.test_database = args.test_database
-
+    print("Updating config done")
     from Hinter import Hinter
     from mcts import MCTSHinterSearch
 
