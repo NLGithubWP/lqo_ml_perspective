@@ -40,6 +40,7 @@ class PGGRunner:
         self.cur.execute("load 'pg_hint_plan';")
         global latency_record_file
         self.cost_plan_json = {}
+        print(f"connecting to the database {dbname}")
         if need_latency_record:
             latency_record_file = self.generateLatencyPool(latency_file)
 
