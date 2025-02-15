@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e  # Exit immediately if a command exits with a non-zero status
+
 cd /app/bao/bao_server
 nohup python3 -u main.py > ./run_shift_data_01v2.txt 2>&1 &
 
@@ -11,7 +14,6 @@ mv bao_previous_model bao_previous_model_shift_data_01v2
 rm bao.db
 # Stop the previous bao server
 pkill -f "python3 -u main.py"
-
 
 
 cd /app/bao/bao_server
@@ -29,7 +31,6 @@ rm bao.db
 pkill -f "python3 -u main.py"
 
 
-
 cd /app/bao/bao_server
 nohup python3 -u main.py > ./run_shift_data_07v2.txt 2>&1 &
 
@@ -45,8 +46,6 @@ rm bao.db
 pkill -f "python3 -u main.py"
 
 
-
-
 cd /app/bao/bao_server
 nohup python3 -u main.py > ./run_shift_data_imdb_ori.txt 2>&1 &
 
@@ -60,5 +59,3 @@ mv bao_previous_model bao_previous_model_shift_data_imdb_ori
 rm bao.db
 # Stop the previous bao server
 pkill -f "python3 -u main.py"
-
-
