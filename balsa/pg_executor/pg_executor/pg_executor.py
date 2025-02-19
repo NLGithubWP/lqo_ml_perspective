@@ -34,8 +34,8 @@ import ray
 
 # STACK
 # everytime we execute, we need to change this
-# LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_ori"
-LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_01v2"
+LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_ori"
+# LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_01v2"
 # LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_05v2"
 # LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_07v2"
 
