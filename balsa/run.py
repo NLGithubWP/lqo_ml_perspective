@@ -788,6 +788,7 @@ class BalsaAgent(object):
             # Filter queries based on the current query_glob.
             workload.FilterQueries(p.query_dir, p.query_glob, p.test_query_glob)
         else:
+            print(f"Debug, {p.init_experience} not exist, seeting p.run_baseline = True")
             if 'stack' in p.query_dir:
                 wp = envs.STACK.Params()
             else:
@@ -2056,6 +2057,7 @@ class BalsaAgent(object):
         #   model.load_state_dict(torch.load(PATH))
         ckpt_path = os.path.join(self.wandb_logger.experiment.dir,
                                  'checkpoint.pt')
+        print(f"\n------ saving result into {ckpt_path} ------\n")
         torch.save(model.state_dict(), ckpt_path)
 
         # Saving intermediate checkpoints as well
