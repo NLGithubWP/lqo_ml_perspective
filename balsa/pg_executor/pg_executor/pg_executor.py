@@ -33,6 +33,7 @@ import ray
 # REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdbload"
 
 # STACK
+# everytime we execute, we need to change this
 LOCAL_DSN = "postgres://postgres:postgres@localhost:5432/imdb_ori"
 # LOCAL_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
 REMOTE_DSN = "postgres://postgres:postgres@pg_balsa/imdb_ori"
@@ -99,7 +100,8 @@ def Cursor(dsn=LOCAL_DSN):
         except psycopg2.OperationalError:
             time.sleep(10)
             return get_connection(dsn)
-
+    print("\n --------------- Debugging --------------- \n")
+    print(f"\n --------------- Connect via {dsn} --------------- \n")
     conn = get_connection(dsn)
     conn.set_session(autocommit=True)
     try:
