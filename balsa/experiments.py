@@ -1132,20 +1132,20 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
 # ===========================================================================
 # RANDOM SPLIT 1-3
 # @balsa.params_registry.Register
-# class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
-#     def Params(self):
-#         p = super().Params()
-#         p.db = 'imdb_ori'
-#         p.query_dir = 'queries/job_data_v2_small_set_query'
-#         p.test_query_glob = JOB_SMALLSET_TEST
-#         return p
-
-@balsa.params_registry.Register
 class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
-        p.query_dir = 'queries/job_data_v2_small_set_query_test'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_Test(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/join-order-benchmark'
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
@@ -1155,7 +1155,7 @@ class Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query_test'
+        p.query_dir = 'queries/join-order-benchmark'
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
@@ -1165,7 +1165,7 @@ class Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query_test'
+        p.query_dir = 'queries/join-order-benchmark'
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
@@ -1175,7 +1175,7 @@ class Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_07v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.query_dir = 'queries/join-order-benchmark'
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
