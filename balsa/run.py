@@ -2239,8 +2239,8 @@ def Main(argv):
     p.use_local_execution = FLAGS.local
     # Override params here for quick debugging.
     # p.sim_checkpoint = None
-    p.epochs = 5
-    p.val_iters = 5
+    p.epochs = 6
+    p.val_iters = 2
     # p.query_glob = ['7*.sql']
     # p.test_query_glob = ['7c.sql']
     p.search_until_n_complete_plans = 1

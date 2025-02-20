@@ -422,9 +422,9 @@ class BalsaParams(object):
 
         # Training.
         p.Define('inherit_optimizer_state', False, 'Experimental.  For Adam.')
-        p.Define('epochs', 1, 'Num epochs to train.')
+        p.Define('epochs', 6, 'Num epochs to train.')
         p.Define('bs', 1024, 'Batch size.')
-        p.Define('val_iters', 10, '# of value iterations.')
+        p.Define('val_iters', 2, '# of value iterations.')
         p.Define('increment_iter_despite_timeouts', False,
                  'Increment the iteration counter even if timeouts occurred?')
         p.Define('loss_type', None, 'Options: None (MSE), mean_qerror.')
