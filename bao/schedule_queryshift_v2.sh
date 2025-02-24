@@ -2,6 +2,10 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 cd /app/bao/bao_server
+rm bao.db
+pkill -f "python3 -u main.py"
+
+cd /app/bao/bao_server
 nohup python3 -u main.py > ./run_query_shift_join_03.txt 2>&1 &
 
 # job 1
