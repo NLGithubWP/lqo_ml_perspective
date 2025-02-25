@@ -1131,6 +1131,25 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
 
 # ===========================================================================
 # RANDOM SPLIT 1-3
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_03'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+@balsa.params_registry.Register
+class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_05'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
 @balsa.params_registry.Register
 class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
     def Params(self):
