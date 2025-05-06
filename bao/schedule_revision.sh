@@ -4,7 +4,7 @@ set -e # Exit immediately if a command exits with a non-zero status
 
 # 5 arm,
 cd /app/bao/bao_server
-nohup python3 -u main.py >./servver_train_bao_imdb_ori_query_full.log 2>&1 &
+nohup python3 -u main.py >./server_train_bao_imdb_ori_query_full.log 2>&1 &
 
 # (imdb_13, JOB_full train) + (imdb_13, JOB_full test)
 cd /app/bao
