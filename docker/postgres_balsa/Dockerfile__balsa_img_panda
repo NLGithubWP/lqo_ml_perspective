@@ -44,5 +44,5 @@ RUN apt-get install -y \
 
 # pip install -r requirement.txt --extra-index-url https://download.pytorch.org/whl/cu113
 
-# Keep the container running indefinitely
-CMD ["bash", "-c", "while true; do sleep 1000; done"]
+# Keep container running
+CMD ["tail", "-f", "/dev/null"]
