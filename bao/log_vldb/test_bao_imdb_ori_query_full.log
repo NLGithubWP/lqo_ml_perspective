@@ -1,0 +1,339 @@
+(no hint), 0, 2025-05-07 06:10:20.718003, /data/datasets/imdb_queries/ori_queries/10a.sql, 261.271, 312.231, Bao
+(no hint), 1, 2025-05-07 06:10:20.718216, /data/datasets/imdb_queries/ori_queries/10a.sql, 228.509, 294.541, Bao
+(no hint), 2, 2025-05-07 06:10:20.718260, /data/datasets/imdb_queries/ori_queries/10a.sql, 227.419, 286.844, Bao
+(no hint), 0, 2025-05-07 06:10:23.354488, /data/datasets/imdb_queries/ori_queries/10b.sql, 256.568, 220.086, Bao
+(no hint), 1, 2025-05-07 06:10:23.354719, /data/datasets/imdb_queries/ori_queries/10b.sql, 230.021, 206.92, Bao
+(no hint), 2, 2025-05-07 06:10:23.354823, /data/datasets/imdb_queries/ori_queries/10b.sql, 221.578, 203.922, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:10:30.095728, /data/datasets/imdb_queries/ori_queries/10c.sql, 242.148, 1539.527, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:10:30.095918, /data/datasets/imdb_queries/ori_queries/10c.sql, 230.556, 1585.032, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:10:30.095976, /data/datasets/imdb_queries/ori_queries/10c.sql, 208.029, 1567.12, Bao
+(no hint), 0, 2025-05-07 06:10:32.322589, /data/datasets/imdb_queries/ori_queries/11a.sql, 270.885, 77.975, Bao
+(no hint), 1, 2025-05-07 06:10:32.322876, /data/datasets/imdb_queries/ori_queries/11a.sql, 218.913, 63.004, Bao
+(no hint), 2, 2025-05-07 06:10:32.323005, /data/datasets/imdb_queries/ori_queries/11a.sql, 214.829, 64.293, Bao
+(no hint), 0, 2025-05-07 06:10:34.431122, /data/datasets/imdb_queries/ori_queries/11b.sql, 262.579, 42.675, Bao
+(no hint), 1, 2025-05-07 06:10:34.431385, /data/datasets/imdb_queries/ori_queries/11b.sql, 217.524, 34.296, Bao
+(no hint), 2, 2025-05-07 06:10:34.431515, /data/datasets/imdb_queries/ori_queries/11b.sql, 219.093, 33.08, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:10:37.009529, /data/datasets/imdb_queries/ori_queries/11c.sql, 259.284, 203.094, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:10:37.009784, /data/datasets/imdb_queries/ori_queries/11c.sql, 219.039, 185.092, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:10:37.009910, /data/datasets/imdb_queries/ori_queries/11c.sql, 219.059, 183.242, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:10:39.524309, /data/datasets/imdb_queries/ori_queries/11d.sql, 264.2, 183.27, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:10:39.524564, /data/datasets/imdb_queries/ori_queries/11d.sql, 219.969, 164.693, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:10:39.524681, /data/datasets/imdb_queries/ori_queries/11d.sql, 218.608, 161.014, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:10:42.062125, /data/datasets/imdb_queries/ori_queries/12a.sql, 262.551, 174.394, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:10:42.062389, /data/datasets/imdb_queries/ori_queries/12a.sql, 231.565, 159.829, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:10:42.062519, /data/datasets/imdb_queries/ori_queries/12a.sql, 229.636, 158.395, Bao
+(no hint), 0, 2025-05-07 06:10:44.372943, /data/datasets/imdb_queries/ori_queries/12b.sql, 257.128, 102.306, Bao
+(no hint), 1, 2025-05-07 06:10:44.373194, /data/datasets/imdb_queries/ori_queries/12b.sql, 222.319, 98.025, Bao
+(no hint), 2, 2025-05-07 06:10:44.373316, /data/datasets/imdb_queries/ori_queries/12b.sql, 223.845, 95.811, Bao
+(no hint), 0, 2025-05-07 06:10:48.276215, /data/datasets/imdb_queries/ori_queries/12c.sql, 253.968, 640.639, Bao
+(no hint), 1, 2025-05-07 06:10:48.276460, /data/datasets/imdb_queries/ori_queries/12c.sql, 241.274, 606.214, Bao
+(no hint), 2, 2025-05-07 06:10:48.276577, /data/datasets/imdb_queries/ori_queries/12c.sql, 239.398, 600.18, Bao
+(no hint), 0, 2025-05-07 06:10:54.187669, /data/datasets/imdb_queries/ori_queries/13a.sql, 278.068, 1282.717, Bao
+(no hint), 1, 2025-05-07 06:10:54.187927, /data/datasets/imdb_queries/ori_queries/13a.sql, 245.483, 1253.744, Bao
+(no hint), 2, 2025-05-07 06:10:54.188069, /data/datasets/imdb_queries/ori_queries/13a.sql, 245.373, 1254.784, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:10:58.445364, /data/datasets/imdb_queries/ori_queries/13b.sql, 277.716, 739.051, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:10:58.445634, /data/datasets/imdb_queries/ori_queries/13b.sql, 250.248, 692.15, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:10:58.445744, /data/datasets/imdb_queries/ori_queries/13b.sql, 246.852, 693.627, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:11:02.610154, /data/datasets/imdb_queries/ori_queries/13c.sql, 273.644, 700.95, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:11:02.610415, /data/datasets/imdb_queries/ori_queries/13c.sql, 247.352, 678.181, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:11:02.610544, /data/datasets/imdb_queries/ori_queries/13c.sql, 243.286, 676.388, Bao
+(no hint), 0, 2025-05-07 06:11:10.396627, /data/datasets/imdb_queries/ori_queries/13d.sql, 272.396, 1911.189, Bao
+(no hint), 1, 2025-05-07 06:11:10.396861, /data/datasets/imdb_queries/ori_queries/13d.sql, 246.679, 1882.705, Bao
+(no hint), 2, 2025-05-07 06:11:10.396965, /data/datasets/imdb_queries/ori_queries/13d.sql, 246.947, 1877.726, Bao
+(no hint), 0, 2025-05-07 06:11:13.112558, /data/datasets/imdb_queries/ori_queries/14a.sql, 259.432, 279.39, Bao
+(no hint), 1, 2025-05-07 06:11:13.112836, /data/datasets/imdb_queries/ori_queries/14a.sql, 217.842, 219.449, Bao
+(no hint), 2, 2025-05-07 06:11:13.112965, /data/datasets/imdb_queries/ori_queries/14a.sql, 215.942, 218.717, Bao
+(no hint), 0, 2025-05-07 06:11:15.448578, /data/datasets/imdb_queries/ori_queries/14b.sql, 261.605, 133.941, Bao
+(no hint), 1, 2025-05-07 06:11:15.448832, /data/datasets/imdb_queries/ori_queries/14b.sql, 225.115, 91.0, Bao
+(no hint), 2, 2025-05-07 06:11:15.448951, /data/datasets/imdb_queries/ori_queries/14b.sql, 218.387, 92.023, Bao
+(no hint), 0, 2025-05-07 06:11:18.895882, /data/datasets/imdb_queries/ori_queries/14c.sql, 261.514, 520.469, Bao
+(no hint), 1, 2025-05-07 06:11:18.896137, /data/datasets/imdb_queries/ori_queries/14c.sql, 219.917, 431.494, Bao
+(no hint), 2, 2025-05-07 06:11:18.896264, /data/datasets/imdb_queries/ori_queries/14c.sql, 218.532, 443.287, Bao
+(no hint), 0, 2025-05-07 06:11:21.848278, /data/datasets/imdb_queries/ori_queries/15a.sql, 289.831, 246.334, Bao
+(no hint), 1, 2025-05-07 06:11:21.848519, /data/datasets/imdb_queries/ori_queries/15a.sql, 262.499, 243.465, Bao
+(no hint), 2, 2025-05-07 06:11:21.848635, /data/datasets/imdb_queries/ori_queries/15a.sql, 257.623, 232.119, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:11:24.131339, /data/datasets/imdb_queries/ori_queries/15b.sql, 281.947, 49.033, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:11:24.131583, /data/datasets/imdb_queries/ori_queries/15b.sql, 246.468, 41.898, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:11:24.131726, /data/datasets/imdb_queries/ori_queries/15b.sql, 243.81, 36.389, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:11:27.978840, /data/datasets/imdb_queries/ori_queries/15c.sql, 279.436, 626.271, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:11:27.979090, /data/datasets/imdb_queries/ori_queries/15c.sql, 241.061, 536.854, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:11:27.979211, /data/datasets/imdb_queries/ori_queries/15c.sql, 246.701, 531.529, Bao
+(no hint), 0, 2025-05-07 06:11:31.724377, /data/datasets/imdb_queries/ori_queries/15d.sql, 293.143, 574.53, Bao
+(no hint), 1, 2025-05-07 06:11:31.724633, /data/datasets/imdb_queries/ori_queries/15d.sql, 242.232, 502.848, Bao
+(no hint), 2, 2025-05-07 06:11:31.724740, /data/datasets/imdb_queries/ori_queries/15d.sql, 241.83, 504.597, Bao
+(no hint), 0, 2025-05-07 06:11:34.246968, /data/datasets/imdb_queries/ori_queries/16a.sql, 266.014, 204.414, Bao
+(no hint), 1, 2025-05-07 06:11:34.247247, /data/datasets/imdb_queries/ori_queries/16a.sql, 218.74, 146.855, Bao
+(no hint), 2, 2025-05-07 06:11:34.247368, /data/datasets/imdb_queries/ori_queries/16a.sql, 218.815, 145.172, Bao
+(no hint), 0, 2025-05-07 06:12:24.069236, /data/datasets/imdb_queries/ori_queries/16b.sql, 265.406, 16086.937, Bao
+(no hint), 1, 2025-05-07 06:12:24.069432, /data/datasets/imdb_queries/ori_queries/16b.sql, 218.31, 15867.197, Bao
+(no hint), 2, 2025-05-07 06:12:24.069503, /data/datasets/imdb_queries/ori_queries/16b.sql, 219.737, 15845.38, Bao
+(no hint), 0, 2025-05-07 06:12:30.257194, /data/datasets/imdb_queries/ori_queries/16c.sql, 267.324, 1505.376, Bao
+(no hint), 1, 2025-05-07 06:12:30.257447, /data/datasets/imdb_queries/ori_queries/16c.sql, 221.588, 1334.557, Bao
+(no hint), 2, 2025-05-07 06:12:30.257553, /data/datasets/imdb_queries/ori_queries/16c.sql, 219.485, 1334.968, Bao
+(no hint), 0, 2025-05-07 06:12:35.597622, /data/datasets/imdb_queries/ori_queries/16d.sql, 267.507, 1205.884, Bao
+(no hint), 1, 2025-05-07 06:12:35.597869, /data/datasets/imdb_queries/ori_queries/16d.sql, 218.904, 1056.172, Bao
+(no hint), 2, 2025-05-07 06:12:35.597976, /data/datasets/imdb_queries/ori_queries/16d.sql, 218.014, 1057.856, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:12:44.236972, /data/datasets/imdb_queries/ori_queries/17a.sql, 258.458, 2135.672, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:12:44.237160, /data/datasets/imdb_queries/ori_queries/17a.sql, 235.284, 2143.62, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:12:44.237219, /data/datasets/imdb_queries/ori_queries/17a.sql, 224.898, 2104.431, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:12:59.704048, /data/datasets/imdb_queries/ori_queries/17b.sql, 259.756, 4651.424, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:12:59.704322, /data/datasets/imdb_queries/ori_queries/17b.sql, 209.277, 4407.378, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:12:59.704431, /data/datasets/imdb_queries/ori_queries/17b.sql, 210.699, 4441.749, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:13:16.768146, /data/datasets/imdb_queries/ori_queries/17c.sql, 252.644, 5125.888, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:13:16.768391, /data/datasets/imdb_queries/ori_queries/17c.sql, 209.428, 5002.374, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:13:16.768515, /data/datasets/imdb_queries/ori_queries/17c.sql, 221.7, 4969.957, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:13:34.243843, /data/datasets/imdb_queries/ori_queries/17d.sql, 257.98, 5317.76, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:13:34.244090, /data/datasets/imdb_queries/ori_queries/17d.sql, 209.967, 5087.955, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:13:34.244212, /data/datasets/imdb_queries/ori_queries/17d.sql, 211.124, 5104.346, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:13:45.312873, /data/datasets/imdb_queries/ori_queries/17e.sql, 258.35, 3046.581, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:13:45.313105, /data/datasets/imdb_queries/ori_queries/17e.sql, 231.97, 3001.183, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:13:45.313209, /data/datasets/imdb_queries/ori_queries/17e.sql, 230.78, 3008.238, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:13:54.230074, /data/datasets/imdb_queries/ori_queries/17f.sql, 256.436, 2250.576, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:13:54.230331, /data/datasets/imdb_queries/ori_queries/17f.sql, 234.244, 2248.155, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:13:54.230436, /data/datasets/imdb_queries/ori_queries/17f.sql, 229.246, 2250.677, Bao
+(no hint), 0, 2025-05-07 06:14:04.116776, /data/datasets/imdb_queries/ori_queries/18a.sql, 264.415, 2678.04, Bao
+(no hint), 1, 2025-05-07 06:14:04.117062, /data/datasets/imdb_queries/ori_queries/18a.sql, 227.057, 2605.027, Bao
+(no hint), 2, 2025-05-07 06:14:04.117214, /data/datasets/imdb_queries/ori_queries/18a.sql, 229.799, 2591.795, Bao
+(no hint), 0, 2025-05-07 06:14:06.634204, /data/datasets/imdb_queries/ori_queries/18b.sql, 276.928, 179.971, Bao
+(no hint), 1, 2025-05-07 06:14:06.634452, /data/datasets/imdb_queries/ori_queries/18b.sql, 218.488, 159.514, Bao
+(no hint), 2, 2025-05-07 06:14:06.634567, /data/datasets/imdb_queries/ori_queries/18b.sql, 218.645, 155.665, Bao
+(no hint), 0, 2025-05-07 06:14:18.093780, /data/datasets/imdb_queries/ori_queries/18c.sql, 257.27, 3202.467, Bao
+(no hint), 1, 2025-05-07 06:14:18.094017, /data/datasets/imdb_queries/ori_queries/18c.sql, 230.728, 3119.473, Bao
+(no hint), 2, 2025-05-07 06:14:18.094125, /data/datasets/imdb_queries/ori_queries/18c.sql, 231.153, 3106.234, Bao
+(no hint), 0, 2025-05-07 06:14:21.082979, /data/datasets/imdb_queries/ori_queries/19a.sql, 325.532, 212.417, Bao
+(no hint), 1, 2025-05-07 06:14:21.083211, /data/datasets/imdb_queries/ori_queries/19a.sql, 283.854, 200.294, Bao
+(no hint), 2, 2025-05-07 06:14:21.083319, /data/datasets/imdb_queries/ori_queries/19a.sql, 280.463, 203.158, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:14:23.831717, /data/datasets/imdb_queries/ori_queries/19b.sql, 314.251, 141.276, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:14:23.831970, /data/datasets/imdb_queries/ori_queries/19b.sql, 272.935, 129.652, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:14:23.832099, /data/datasets/imdb_queries/ori_queries/19b.sql, 279.731, 131.187, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:14:27.485955, /data/datasets/imdb_queries/ori_queries/19c.sql, 317.06, 448.046, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:14:27.486193, /data/datasets/imdb_queries/ori_queries/19c.sql, 290.38, 416.744, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:14:27.486325, /data/datasets/imdb_queries/ori_queries/19c.sql, 279.967, 416.279, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:14:41.980252, /data/datasets/imdb_queries/ori_queries/19d.sql, 314.162, 4048.061, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:14:41.980513, /data/datasets/imdb_queries/ori_queries/19d.sql, 286.805, 3989.363, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:14:41.980618, /data/datasets/imdb_queries/ori_queries/19d.sql, 288.062, 3993.729, Bao
+(no hint), 0, 2025-05-07 06:14:44.213056, /data/datasets/imdb_queries/ori_queries/1a.sql, 249.278, 104.376, Bao
+(no hint), 1, 2025-05-07 06:14:44.213346, /data/datasets/imdb_queries/ori_queries/1a.sql, 207.078, 97.734, Bao
+(no hint), 2, 2025-05-07 06:14:44.213473, /data/datasets/imdb_queries/ori_queries/1a.sql, 205.672, 100.399, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:14:46.407175, /data/datasets/imdb_queries/ori_queries/1b.sql, 236.08, 96.855, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:14:46.407458, /data/datasets/imdb_queries/ori_queries/1b.sql, 202.622, 95.317, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:14:46.407593, /data/datasets/imdb_queries/ori_queries/1b.sql, 204.415, 94.615, Bao
+(no hint), 0, 2025-05-07 06:14:48.602663, /data/datasets/imdb_queries/ori_queries/1c.sql, 234.736, 102.399, Bao
+(no hint), 1, 2025-05-07 06:14:48.602944, /data/datasets/imdb_queries/ori_queries/1c.sql, 207.149, 100.843, Bao
+(no hint), 2, 2025-05-07 06:14:48.603069, /data/datasets/imdb_queries/ori_queries/1c.sql, 204.71, 98.565, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:14:50.810802, /data/datasets/imdb_queries/ori_queries/1d.sql, 247.282, 97.839, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:14:50.811083, /data/datasets/imdb_queries/ori_queries/1d.sql, 207.718, 95.201, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:14:50.811216, /data/datasets/imdb_queries/ori_queries/1d.sql, 207.083, 92.593, Bao
+(no hint), 0, 2025-05-07 06:14:58.407160, /data/datasets/imdb_queries/ori_queries/20a.sql, 283.095, 1908.481, Bao
+(no hint), 1, 2025-05-07 06:14:58.407449, /data/datasets/imdb_queries/ori_queries/20a.sql, 248.352, 1757.851, Bao
+(no hint), 2, 2025-05-07 06:14:58.407584, /data/datasets/imdb_queries/ori_queries/20a.sql, 251.585, 1741.027, Bao
+(no hint), 0, 2025-05-07 06:15:04.807223, /data/datasets/imdb_queries/ori_queries/20b.sql, 296.818, 1523.808, Bao
+(no hint), 1, 2025-05-07 06:15:04.807497, /data/datasets/imdb_queries/ori_queries/20b.sql, 248.297, 1335.58, Bao
+(no hint), 2, 2025-05-07 06:15:04.807657, /data/datasets/imdb_queries/ori_queries/20b.sql, 246.788, 1337.084, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:09.998862, /data/datasets/imdb_queries/ori_queries/20c.sql, 295.617, 1106.847, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:09.999145, /data/datasets/imdb_queries/ori_queries/20c.sql, 246.939, 952.442, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:09.999283, /data/datasets/imdb_queries/ori_queries/20c.sql, 245.777, 949.072, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:12.407161, /data/datasets/imdb_queries/ori_queries/21a.sql, 291.732, 91.887, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:12.407440, /data/datasets/imdb_queries/ori_queries/21a.sql, 240.77, 82.029, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:12.407570, /data/datasets/imdb_queries/ori_queries/21a.sql, 239.493, 84.11, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:14.793535, /data/datasets/imdb_queries/ori_queries/21b.sql, 286.916, 87.87, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:14.793806, /data/datasets/imdb_queries/ori_queries/21b.sql, 238.663, 75.697, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:14.793936, /data/datasets/imdb_queries/ori_queries/21b.sql, 240.088, 76.399, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:17.192760, /data/datasets/imdb_queries/ori_queries/21c.sql, 288.696, 92.64, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:17.193037, /data/datasets/imdb_queries/ori_queries/21c.sql, 239.259, 81.976, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:17.193164, /data/datasets/imdb_queries/ori_queries/21c.sql, 238.48, 82.159, Bao
+(no hint), 0, 2025-05-07 06:15:20.871115, /data/datasets/imdb_queries/ori_queries/22a.sql, 363.007, 407.06, Bao
+(no hint), 1, 2025-05-07 06:15:20.871387, /data/datasets/imdb_queries/ori_queries/22a.sql, 306.1, 342.163, Bao
+(no hint), 2, 2025-05-07 06:15:20.871529, /data/datasets/imdb_queries/ori_queries/22a.sql, 306.87, 348.066, Bao
+(no hint), 0, 2025-05-07 06:15:24.110029, /data/datasets/imdb_queries/ori_queries/22b.sql, 361.964, 252.477, Bao
+(no hint), 1, 2025-05-07 06:15:24.110312, /data/datasets/imdb_queries/ori_queries/22b.sql, 310.824, 197.08, Bao
+(no hint), 2, 2025-05-07 06:15:24.110442, /data/datasets/imdb_queries/ori_queries/22b.sql, 308.651, 196.896, Bao
+(no hint), 0, 2025-05-07 06:15:32.175228, /data/datasets/imdb_queries/ori_queries/22c.sql, 364.778, 1881.333, Bao
+(no hint), 1, 2025-05-07 06:15:32.175513, /data/datasets/imdb_queries/ori_queries/22c.sql, 306.373, 1797.254, Bao
+(no hint), 2, 2025-05-07 06:15:32.175679, /data/datasets/imdb_queries/ori_queries/22c.sql, 307.505, 1810.233, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:37.331844, /data/datasets/imdb_queries/ori_queries/22d.sql, 367.447, 917.614, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:37.332130, /data/datasets/imdb_queries/ori_queries/22d.sql, 314.103, 821.009, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:37.332259, /data/datasets/imdb_queries/ori_queries/22d.sql, 310.102, 818.227, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:40.527131, /data/datasets/imdb_queries/ori_queries/23a.sql, 361.168, 220.17, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:40.527372, /data/datasets/imdb_queries/ori_queries/23a.sql, 308.802, 214.022, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:40.527484, /data/datasets/imdb_queries/ori_queries/23a.sql, 310.469, 214.238, Bao
+(no hint), 0, 2025-05-07 06:15:43.280478, /data/datasets/imdb_queries/ori_queries/23b.sql, 359.143, 65.357, Bao
+(no hint), 1, 2025-05-07 06:15:43.280719, /data/datasets/imdb_queries/ori_queries/23b.sql, 311.215, 50.49, Bao
+(no hint), 2, 2025-05-07 06:15:43.280832, /data/datasets/imdb_queries/ori_queries/23b.sql, 313.986, 49.089, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:15:46.710910, /data/datasets/imdb_queries/ori_queries/23c.sql, 366.986, 276.619, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:15:46.711060, /data/datasets/imdb_queries/ori_queries/23c.sql, 318.44, 271.842, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:15:46.711097, /data/datasets/imdb_queries/ori_queries/23c.sql, 320.761, 264.511, Bao
+(no hint), 0, 2025-05-07 06:15:50.908710, /data/datasets/imdb_queries/ori_queries/24a.sql, 507.736, 294.94, Bao
+(no hint), 1, 2025-05-07 06:15:50.908960, /data/datasets/imdb_queries/ori_queries/24a.sql, 463.911, 208.423, Bao
+(no hint), 2, 2025-05-07 06:15:50.909074, /data/datasets/imdb_queries/ori_queries/24a.sql, 462.364, 210.165, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:15:54.474367, /data/datasets/imdb_queries/ori_queries/24b.sql, 501.784, 40.241, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:15:54.474594, /data/datasets/imdb_queries/ori_queries/24b.sql, 460.211, 34.299, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:15:54.474703, /data/datasets/imdb_queries/ori_queries/24b.sql, 459.518, 31.948, Bao
+(no hint), 0, 2025-05-07 06:16:02.628832, /data/datasets/imdb_queries/ori_queries/25a.sql, 273.033, 2176.937, Bao
+(no hint), 1, 2025-05-07 06:16:02.629086, /data/datasets/imdb_queries/ori_queries/25a.sql, 237.695, 1931.535, Bao
+(no hint), 2, 2025-05-07 06:16:02.629197, /data/datasets/imdb_queries/ori_queries/25a.sql, 236.483, 1931.618, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:16:05.672003, /data/datasets/imdb_queries/ori_queries/25b.sql, 286.228, 336.779, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:16:05.672244, /data/datasets/imdb_queries/ori_queries/25b.sql, 240.105, 283.841, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:16:05.672356, /data/datasets/imdb_queries/ori_queries/25b.sql, 237.789, 282.446, Bao
+SET enable_nestloop TO off; , 0, 2025-05-07 06:16:16.578536, /data/datasets/imdb_queries/ori_queries/25c.sql, 283.443, 2922.487, Bao
+SET enable_nestloop TO off; , 1, 2025-05-07 06:16:16.578777, /data/datasets/imdb_queries/ori_queries/25c.sql, 262.698, 2898.654, Bao
+SET enable_nestloop TO off; , 2, 2025-05-07 06:16:16.578881, /data/datasets/imdb_queries/ori_queries/25c.sql, 251.048, 2905.016, Bao
+(no hint), 0, 2025-05-07 06:16:21.374377, /data/datasets/imdb_queries/ori_queries/26a.sql, 479.511, 585.601, Bao
+(no hint), 1, 2025-05-07 06:16:21.374626, /data/datasets/imdb_queries/ori_queries/26a.sql, 440.971, 434.918, Bao
+(no hint), 2, 2025-05-07 06:16:21.374734, /data/datasets/imdb_queries/ori_queries/26a.sql, 441.194, 436.418, Bao
+(no hint), 0, 2025-05-07 06:16:25.031265, /data/datasets/imdb_queries/ori_queries/26b.sql, 487.943, 129.374, Bao
+(no hint), 1, 2025-05-07 06:16:25.031478, /data/datasets/imdb_queries/ori_queries/26b.sql, 441.829, 83.884, Bao
+(no hint), 2, 2025-05-07 06:16:25.031583, /data/datasets/imdb_queries/ori_queries/26b.sql, 443.025, 83.976, Bao
+(no hint), 0, 2025-05-07 06:16:30.511014, /data/datasets/imdb_queries/ori_queries/26c.sql, 482.875, 819.524, Bao
+(no hint), 1, 2025-05-07 06:16:30.511265, /data/datasets/imdb_queries/ori_queries/26c.sql, 442.966, 661.379, Bao
+(no hint), 2, 2025-05-07 06:16:30.511406, /data/datasets/imdb_queries/ori_queries/26c.sql, 439.147, 656.49, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:16:34.117387, /data/datasets/imdb_queries/ori_queries/27a.sql, 489.361, 86.783, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:16:34.117600, /data/datasets/imdb_queries/ori_queries/27a.sql, 445.833, 73.199, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:16:34.117692, /data/datasets/imdb_queries/ori_queries/27a.sql, 444.915, 74.196, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:16:37.744935, /data/datasets/imdb_queries/ori_queries/27b.sql, 491.431, 86.49, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:16:37.745182, /data/datasets/imdb_queries/ori_queries/27b.sql, 447.039, 74.141, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:16:37.745291, /data/datasets/imdb_queries/ori_queries/27b.sql, 445.3, 74.678, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:16:41.541867, /data/datasets/imdb_queries/ori_queries/27c.sql, 482.586, 153.15, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:16:41.542077, /data/datasets/imdb_queries/ori_queries/27c.sql, 439.808, 140.3, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:16:41.542177, /data/datasets/imdb_queries/ori_queries/27c.sql, 442.127, 138.899, Bao
+(no hint), 0, 2025-05-07 06:16:57.167272, /data/datasets/imdb_queries/ori_queries/28a.sql, 555.529, 4008.967, Bao
+(no hint), 1, 2025-05-07 06:16:57.167541, /data/datasets/imdb_queries/ori_queries/28a.sql, 506.791, 3914.594, Bao
+(no hint), 2, 2025-05-07 06:16:57.167675, /data/datasets/imdb_queries/ori_queries/28a.sql, 508.105, 3942.02, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:17:02.995851, /data/datasets/imdb_queries/ori_queries/28b.sql, 553.06, 720.812, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:17:02.996128, /data/datasets/imdb_queries/ori_queries/28b.sql, 509.128, 669.359, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:17:02.996268, /data/datasets/imdb_queries/ori_queries/28b.sql, 507.128, 670.546, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:17:11.597964, /data/datasets/imdb_queries/ori_queries/28c.sql, 552.301, 1690.954, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:17:11.598246, /data/datasets/imdb_queries/ori_queries/28c.sql, 508.354, 1574.989, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:17:11.598370, /data/datasets/imdb_queries/ori_queries/28c.sql, 507.892, 1577.185, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:17:16.272898, /data/datasets/imdb_queries/ori_queries/29a.sql, 659.989, 125.885, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:17:16.273170, /data/datasets/imdb_queries/ori_queries/29a.sql, 619.069, 76.532, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:17:16.273293, /data/datasets/imdb_queries/ori_queries/29a.sql, 612.722, 75.264, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:17:20.751454, /data/datasets/imdb_queries/ori_queries/29b.sql, 662.947, 34.42, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:17:20.751744, /data/datasets/imdb_queries/ori_queries/29b.sql, 614.559, 22.374, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:17:20.751870, /data/datasets/imdb_queries/ori_queries/29b.sql, 613.007, 26.551, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:17:25.864360, /data/datasets/imdb_queries/ori_queries/29c.sql, 659.051, 260.022, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:17:25.864611, /data/datasets/imdb_queries/ori_queries/29c.sql, 614.637, 227.81, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:17:25.864734, /data/datasets/imdb_queries/ori_queries/29c.sql, 618.626, 226.597, Bao
+(no hint), 0, 2025-05-07 06:17:29.092373, /data/datasets/imdb_queries/ori_queries/2a.sql, 245.003, 456.474, Bao
+(no hint), 1, 2025-05-07 06:17:29.092649, /data/datasets/imdb_queries/ori_queries/2a.sql, 202.015, 440.731, Bao
+(no hint), 2, 2025-05-07 06:17:29.092765, /data/datasets/imdb_queries/ori_queries/2a.sql, 200.096, 439.387, Bao
+(no hint), 0, 2025-05-07 06:17:32.314218, /data/datasets/imdb_queries/ori_queries/2b.sql, 243.589, 454.682, Bao
+(no hint), 1, 2025-05-07 06:17:32.314478, /data/datasets/imdb_queries/ori_queries/2b.sql, 201.175, 435.412, Bao
+(no hint), 2, 2025-05-07 06:17:32.314594, /data/datasets/imdb_queries/ori_queries/2b.sql, 201.235, 433.802, Bao
+(no hint), 0, 2025-05-07 06:17:35.490459, /data/datasets/imdb_queries/ori_queries/2c.sql, 244.535, 434.911, Bao
+(no hint), 1, 2025-05-07 06:17:35.490728, /data/datasets/imdb_queries/ori_queries/2c.sql, 200.565, 419.564, Bao
+(no hint), 2, 2025-05-07 06:17:35.490848, /data/datasets/imdb_queries/ori_queries/2c.sql, 202.975, 421.152, Bao
+(no hint), 0, 2025-05-07 06:17:39.082258, /data/datasets/imdb_queries/ori_queries/2d.sql, 244.401, 605.748, Bao
+(no hint), 1, 2025-05-07 06:17:39.082520, /data/datasets/imdb_queries/ori_queries/2d.sql, 200.474, 547.795, Bao
+(no hint), 2, 2025-05-07 06:17:39.082667, /data/datasets/imdb_queries/ori_queries/2d.sql, 200.255, 544.546, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:17:45.561440, /data/datasets/imdb_queries/ori_queries/30a.sql, 497.972, 1099.03, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:17:45.561697, /data/datasets/imdb_queries/ori_queries/30a.sql, 454.424, 974.856, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:17:45.561819, /data/datasets/imdb_queries/ori_queries/30a.sql, 451.917, 979.191, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:17:50.004353, /data/datasets/imdb_queries/ori_queries/30b.sql, 493.858, 384.454, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:17:50.004628, /data/datasets/imdb_queries/ori_queries/30b.sql, 449.748, 323.205, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:17:50.004755, /data/datasets/imdb_queries/ori_queries/30b.sql, 449.834, 325.692, Bao
+(no hint), 0, 2025-05-07 06:17:59.497002, /data/datasets/imdb_queries/ori_queries/30c.sql, 495.707, 2148.591, Bao
+(no hint), 1, 2025-05-07 06:17:59.497261, /data/datasets/imdb_queries/ori_queries/30c.sql, 450.795, 1968.588, Bao
+(no hint), 2, 2025-05-07 06:17:59.497412, /data/datasets/imdb_queries/ori_queries/30c.sql, 450.813, 1964.499, Bao
+(no hint), 0, 2025-05-07 06:18:02.973196, /data/datasets/imdb_queries/ori_queries/31a.sql, 413.9, 218.233, Bao
+(no hint), 1, 2025-05-07 06:18:02.973338, /data/datasets/imdb_queries/ori_queries/31a.sql, 364.125, 184.718, Bao
+(no hint), 2, 2025-05-07 06:18:02.973377, /data/datasets/imdb_queries/ori_queries/31a.sql, 357.847, 177.528, Bao
+(no hint), 0, 2025-05-07 06:18:06.226342, /data/datasets/imdb_queries/ori_queries/31b.sql, 404.146, 140.246, Bao
+(no hint), 1, 2025-05-07 06:18:06.226573, /data/datasets/imdb_queries/ori_queries/31b.sql, 350.964, 133.488, Bao
+(no hint), 2, 2025-05-07 06:18:06.226714, /data/datasets/imdb_queries/ori_queries/31b.sql, 350.357, 132.572, Bao
+(no hint), 0, 2025-05-07 06:18:10.280926, /data/datasets/imdb_queries/ori_queries/31c.sql, 414.123, 337.56, Bao
+(no hint), 1, 2025-05-07 06:18:10.281182, /data/datasets/imdb_queries/ori_queries/31c.sql, 454.581, 302.392, Bao
+(no hint), 2, 2025-05-07 06:18:10.281291, /data/datasets/imdb_queries/ori_queries/31c.sql, 351.472, 297.994, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:18:12.292703, /data/datasets/imdb_queries/ori_queries/32a.sql, 257.911, 15.591, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:18:12.292937, /data/datasets/imdb_queries/ori_queries/32a.sql, 206.635, 13.316, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:18:12.293044, /data/datasets/imdb_queries/ori_queries/32a.sql, 205.314, 12.654, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:18:14.685999, /data/datasets/imdb_queries/ori_queries/32b.sql, 256.546, 144.791, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:18:14.686260, /data/datasets/imdb_queries/ori_queries/32b.sql, 205.564, 138.719, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:18:14.686366, /data/datasets/imdb_queries/ori_queries/32b.sql, 206.312, 119.173, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:18:18.740910, /data/datasets/imdb_queries/ori_queries/33a.sql, 548.143, 111.987, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:18:18.741157, /data/datasets/imdb_queries/ori_queries/33a.sql, 504.092, 104.479, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:18:18.741265, /data/datasets/imdb_queries/ori_queries/33a.sql, 501.69, 104.729, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:18:22.484632, /data/datasets/imdb_queries/ori_queries/33b.sql, 542.196, 16.816, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:18:22.484793, /data/datasets/imdb_queries/ori_queries/33b.sql, 497.202, 10.639, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:18:22.484857, /data/datasets/imdb_queries/ori_queries/33b.sql, 499.941, 11.922, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:18:26.361170, /data/datasets/imdb_queries/ori_queries/33c.sql, 528.385, 79.454, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:18:26.361366, /data/datasets/imdb_queries/ori_queries/33c.sql, 492.504, 72.267, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:18:26.361452, /data/datasets/imdb_queries/ori_queries/33c.sql, 491.317, 67.647, Bao
+(no hint), 0, 2025-05-07 06:18:28.813894, /data/datasets/imdb_queries/ori_queries/3a.sql, 251.473, 169.905, Bao
+(no hint), 1, 2025-05-07 06:18:28.814118, /data/datasets/imdb_queries/ori_queries/3a.sql, 204.632, 131.325, Bao
+(no hint), 2, 2025-05-07 06:18:28.814219, /data/datasets/imdb_queries/ori_queries/3a.sql, 210.694, 117.801, Bao
+(no hint), 0, 2025-05-07 06:18:31.015893, /data/datasets/imdb_queries/ori_queries/3b.sql, 251.011, 111.926, Bao
+(no hint), 1, 2025-05-07 06:18:31.016147, /data/datasets/imdb_queries/ori_queries/3b.sql, 202.557, 75.283, Bao
+(no hint), 2, 2025-05-07 06:18:31.016256, /data/datasets/imdb_queries/ori_queries/3b.sql, 203.721, 74.18, Bao
+(no hint), 0, 2025-05-07 06:18:33.807789, /data/datasets/imdb_queries/ori_queries/3c.sql, 251.68, 311.277, Bao
+(no hint), 1, 2025-05-07 06:18:33.808061, /data/datasets/imdb_queries/ori_queries/3c.sql, 203.427, 247.625, Bao
+(no hint), 2, 2025-05-07 06:18:33.808175, /data/datasets/imdb_queries/ori_queries/3c.sql, 223.12, 249.96, Bao
+(no hint), 0, 2025-05-07 06:18:36.043249, /data/datasets/imdb_queries/ori_queries/4a.sql, 254.322, 118.625, Bao
+(no hint), 1, 2025-05-07 06:18:36.043505, /data/datasets/imdb_queries/ori_queries/4a.sql, 204.308, 82.59, Bao
+(no hint), 2, 2025-05-07 06:18:36.043658, /data/datasets/imdb_queries/ori_queries/4a.sql, 204.112, 81.909, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:18:38.268802, /data/datasets/imdb_queries/ori_queries/4b.sql, 254.048, 90.183, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:18:38.269035, /data/datasets/imdb_queries/ori_queries/4b.sql, 208.655, 85.852, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:18:38.269131, /data/datasets/imdb_queries/ori_queries/4b.sql, 209.761, 84.423, Bao
+(no hint), 0, 2025-05-07 06:18:40.513575, /data/datasets/imdb_queries/ori_queries/4c.sql, 243.79, 125.623, Bao
+(no hint), 1, 2025-05-07 06:18:40.513793, /data/datasets/imdb_queries/ori_queries/4c.sql, 206.153, 90.863, Bao
+(no hint), 2, 2025-05-07 06:18:40.513884, /data/datasets/imdb_queries/ori_queries/4c.sql, 206.72, 89.309, Bao
+(no hint), 0, 2025-05-07 06:18:42.869874, /data/datasets/imdb_queries/ori_queries/5a.sql, 255.685, 130.259, Bao
+(no hint), 1, 2025-05-07 06:18:42.870162, /data/datasets/imdb_queries/ori_queries/5a.sql, 212.161, 123.668, Bao
+(no hint), 2, 2025-05-07 06:18:42.870279, /data/datasets/imdb_queries/ori_queries/5a.sql, 211.213, 124.465, Bao
+(no hint), 0, 2025-05-07 06:18:45.210842, /data/datasets/imdb_queries/ori_queries/5b.sql, 257.105, 121.492, Bao
+(no hint), 1, 2025-05-07 06:18:45.211075, /data/datasets/imdb_queries/ori_queries/5b.sql, 209.22, 119.353, Bao
+(no hint), 2, 2025-05-07 06:18:45.211176, /data/datasets/imdb_queries/ori_queries/5b.sql, 211.558, 118.757, Bao
+(no hint), 0, 2025-05-07 06:18:47.636135, /data/datasets/imdb_queries/ori_queries/5c.sql, 255.044, 156.652, Bao
+(no hint), 1, 2025-05-07 06:18:47.636385, /data/datasets/imdb_queries/ori_queries/5c.sql, 212.144, 157.509, Bao
+(no hint), 2, 2025-05-07 06:18:47.636492, /data/datasets/imdb_queries/ori_queries/5c.sql, 210.924, 153.859, Bao
+(no hint), 0, 2025-05-07 06:18:49.650522, /data/datasets/imdb_queries/ori_queries/6a.sql, 255.823, 34.771, Bao
+(no hint), 1, 2025-05-07 06:18:49.650711, /data/datasets/imdb_queries/ori_queries/6a.sql, 204.817, 20.207, Bao
+(no hint), 2, 2025-05-07 06:18:49.650779, /data/datasets/imdb_queries/ori_queries/6a.sql, 203.868, 19.203, Bao
+(no hint), 0, 2025-05-07 06:18:52.097676, /data/datasets/imdb_queries/ori_queries/6b.sql, 252.767, 202.395, Bao
+(no hint), 1, 2025-05-07 06:18:52.097943, /data/datasets/imdb_queries/ori_queries/6b.sql, 205.327, 152.62, Bao
+(no hint), 2, 2025-05-07 06:18:52.098056, /data/datasets/imdb_queries/ori_queries/6b.sql, 204.99, 156.074, Bao
+(no hint), 0, 2025-05-07 06:18:54.095257, /data/datasets/imdb_queries/ori_queries/6c.sql, 253.961, 22.074, Bao
+(no hint), 1, 2025-05-07 06:18:54.095453, /data/datasets/imdb_queries/ori_queries/6c.sql, 204.98, 12.812, Bao
+(no hint), 2, 2025-05-07 06:18:54.095525, /data/datasets/imdb_queries/ori_queries/6c.sql, 203.943, 12.863, Bao
+(no hint), 0, 2025-05-07 06:19:07.494897, /data/datasets/imdb_queries/ori_queries/6d.sql, 251.713, 3964.125, Bao
+(no hint), 1, 2025-05-07 06:19:07.495170, /data/datasets/imdb_queries/ori_queries/6d.sql, 206.172, 3748.404, Bao
+(no hint), 2, 2025-05-07 06:19:07.495275, /data/datasets/imdb_queries/ori_queries/6d.sql, 205.837, 3748.827, Bao
+(no hint), 0, 2025-05-07 06:19:09.527056, /data/datasets/imdb_queries/ori_queries/6e.sql, 255.079, 35.113, Bao
+(no hint), 1, 2025-05-07 06:19:09.527264, /data/datasets/imdb_queries/ori_queries/6e.sql, 203.679, 20.512, Bao
+(no hint), 2, 2025-05-07 06:19:09.527347, /data/datasets/imdb_queries/ori_queries/6e.sql, 204.326, 20.153, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:19:21.652265, /data/datasets/imdb_queries/ori_queries/6f.sql, 251.327, 3580.516, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:19:21.652532, /data/datasets/imdb_queries/ori_queries/6f.sql, 202.602, 3313.677, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:19:21.652638, /data/datasets/imdb_queries/ori_queries/6f.sql, 203.403, 3318.138, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:19:25.492923, /data/datasets/imdb_queries/ori_queries/7a.sql, 269.279, 587.704, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:19:25.493155, /data/datasets/imdb_queries/ori_queries/7a.sql, 237.571, 528.481, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:19:25.493263, /data/datasets/imdb_queries/ori_queries/7a.sql, 237.014, 521.063, Bao
+(no hint), 0, 2025-05-07 06:19:28.140056, /data/datasets/imdb_queries/ori_queries/7b.sql, 270.837, 255.321, Bao
+(no hint), 1, 2025-05-07 06:19:28.140321, /data/datasets/imdb_queries/ori_queries/7b.sql, 220.674, 165.16, Bao
+(no hint), 2, 2025-05-07 06:19:28.140434, /data/datasets/imdb_queries/ori_queries/7b.sql, 221.022, 165.583, Bao
+SET enable_mergejoin TO off; , 0, 2025-05-07 06:19:38.833134, /data/datasets/imdb_queries/ori_queries/7c.sql, 268.435, 2981.519, Bao
+SET enable_mergejoin TO off; , 1, 2025-05-07 06:19:38.833397, /data/datasets/imdb_queries/ori_queries/7c.sql, 238.806, 2799.197, Bao
+SET enable_mergejoin TO off; , 2, 2025-05-07 06:19:38.833539, /data/datasets/imdb_queries/ori_queries/7c.sql, 218.12, 2775.08, Bao
+(no hint), 0, 2025-05-07 06:19:42.937457, /data/datasets/imdb_queries/ori_queries/8a.sql, 263.238, 664.893, Bao
+(no hint), 1, 2025-05-07 06:19:42.937718, /data/datasets/imdb_queries/ori_queries/8a.sql, 233.302, 631.634, Bao
+(no hint), 2, 2025-05-07 06:19:42.937829, /data/datasets/imdb_queries/ori_queries/8a.sql, 232.806, 631.429, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:19:45.379370, /data/datasets/imdb_queries/ori_queries/8b.sql, 261.047, 153.787, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:19:45.379629, /data/datasets/imdb_queries/ori_queries/8b.sql, 218.162, 148.137, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:19:45.379742, /data/datasets/imdb_queries/ori_queries/8b.sql, 215.815, 146.514, Bao
+(no hint), 0, 2025-05-07 06:19:55.554634, /data/datasets/imdb_queries/ori_queries/8c.sql, 261.595, 2673.297, Bao
+(no hint), 1, 2025-05-07 06:19:55.554777, /data/datasets/imdb_queries/ori_queries/8c.sql, 227.799, 2680.806, Bao
+(no hint), 2, 2025-05-07 06:19:55.554828, /data/datasets/imdb_queries/ori_queries/8c.sql, 230.286, 2631.222, Bao
+(no hint), 0, 2025-05-07 06:20:01.516150, /data/datasets/imdb_queries/ori_queries/8d.sql, 264.477, 1238.797, Bao
+(no hint), 1, 2025-05-07 06:20:01.516289, /data/datasets/imdb_queries/ori_queries/8d.sql, 219.824, 1279.328, Bao
+(no hint), 2, 2025-05-07 06:20:01.516335, /data/datasets/imdb_queries/ori_queries/8d.sql, 233.66, 1316.447, Bao
+(no hint), 0, 2025-05-07 06:20:04.242925, /data/datasets/imdb_queries/ori_queries/9a.sql, 274.595, 215.565, Bao
+(no hint), 1, 2025-05-07 06:20:04.243078, /data/datasets/imdb_queries/ori_queries/9a.sql, 228.815, 208.155, Bao
+(no hint), 2, 2025-05-07 06:20:04.243121, /data/datasets/imdb_queries/ori_queries/9a.sql, 228.757, 205.163, Bao
+(no hint), 0, 2025-05-07 06:20:08.642573, /data/datasets/imdb_queries/ori_queries/9b.sql, 270.367, 749.745, Bao
+(no hint), 1, 2025-05-07 06:20:08.642833, /data/datasets/imdb_queries/ori_queries/9b.sql, 243.045, 725.738, Bao
+(no hint), 2, 2025-05-07 06:20:08.642941, /data/datasets/imdb_queries/ori_queries/9b.sql, 242.513, 718.578, Bao
+(no hint), 0, 2025-05-07 06:20:12.121085, /data/datasets/imdb_queries/ori_queries/9c.sql, 272.972, 448.908, Bao
+(no hint), 1, 2025-05-07 06:20:12.121367, /data/datasets/imdb_queries/ori_queries/9c.sql, 244.6, 407.496, Bao
+(no hint), 2, 2025-05-07 06:20:12.121482, /data/datasets/imdb_queries/ori_queries/9c.sql, 234.181, 403.441, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 0, 2025-05-07 06:20:18.457478, /data/datasets/imdb_queries/ori_queries/9d.sql, 272.594, 1434.778, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 1, 2025-05-07 06:20:18.457738, /data/datasets/imdb_queries/ori_queries/9d.sql, 237.716, 1397.08, Bao
+SET enable_mergejoin TO off; SET enable_indexscan TO off; , 2, 2025-05-07 06:20:18.457849, /data/datasets/imdb_queries/ori_queries/9d.sql, 238.661, 1398.303, Bao
