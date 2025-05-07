@@ -145,6 +145,7 @@ class BaoRegression:
         self.__net = net.BaoNet(in_channels)
         self.__in_channels = in_channels
         if CUDA:
+            self.__log("Using GPU, moving model into GPU")
             self.__net = self.__net.cuda()
 
         optimizer = torch.optim.Adam(self.__net.parameters())
