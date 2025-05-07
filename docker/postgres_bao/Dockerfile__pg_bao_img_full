@@ -2,16 +2,19 @@ FROM postgres:12.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+# Add archived PostgreSQL apt repository for postgresql-server-dev-12
+RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     sudo \
     gnupg \
-    wget
-
-# Add old PostgreSQL apt repo to get postgresql-server-dev-12
-RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
-    apt-get update && apt-get install -y \
+    wget \
+    curl \
+    git \
+    nano \
     libpq-dev \
     postgresql-12 \
     postgresql-client-12 \
@@ -19,5 +22,16 @@ RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 
     build-essential \
     make
 
-# Set password for 'postgres' Linux user
-RUN echo "postgres:postgres" | chpasswd
+# Set password for 'postgres' Linux user and add to sudo group
+RUN echo "postgres:postgres" | chpasswd && \
+    usermod -aG sudo postgres
+
+# Install pg_hint_plan
+WORKDIR /root
+RUN git clone https://github.com/ossc-db/pg_hint_plan.git -b REL12_1_3_7
+WORKDIR /root/pg_hint_plan
+RUN sed -i 's/PG_CONFIG = pg_config/PG_CONFIG = \/usr\/bin\/pg_config/' Makefile && \
+    make && make install
+
+# Reset working directory
+WORKDIR /
