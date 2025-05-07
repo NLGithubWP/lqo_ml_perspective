@@ -19,7 +19,7 @@ class Config:
         self.input_size = 9  # 7+2, 7 = All types (scans/joins), 2= ['total cost', 'plan rows']
         self.hidden_size = 64
         self.batch_size = 256
-        self.ip = "pg_balsa"
+        self.ip = "pg_bao"
         self.port = 5432
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.cpudevice = torch.device("cuda" if torch.cuda.is_available() else "cpu")
