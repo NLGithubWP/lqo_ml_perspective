@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd /home/naili/AI4QueryOptimizer/baseline/lqo_ml_perspective/docker/postgres_bao || { echo "Failed to cd into target directory"; exit 1; }
+
 # build the network
 docker network create \
   --driver bridge \
@@ -23,6 +25,17 @@ docker run -d \
   -p 5432:5432 \
   --shm-size=32g \
   pg_bao_img
+
+
+# install the PG_BAO extension + update config + restart PostgreSQL inside the container
+docker exec -u postgres pg_bao bash -c "
+  cd /app/bao/pg_extension &&
+  make USE_PGXS=1 install &&
+  cp /app/postgresql.conf /pgdata/postgresql.conf &&
+  pg_ctl restart
+"
+
+docker start pg_bao
 
 # run the server docker
 docker run --gpus all -d \
