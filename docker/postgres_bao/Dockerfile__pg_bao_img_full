@@ -1,0 +1,23 @@
+FROM postgres:12.5
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    sudo \
+    gnupg \
+    wget
+
+# Add old PostgreSQL apt repo to get postgresql-server-dev-12
+RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+    apt-get update && apt-get install -y \
+    libpq-dev \
+    postgresql-12 \
+    postgresql-client-12 \
+    postgresql-server-dev-12 \
+    build-essential \
+    make
+
+# Set password for 'postgres' Linux user
+RUN echo "postgres:postgres" | chpasswd
