@@ -48,8 +48,5 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
     rm /tmp/miniconda.sh && \
     conda clean -afy
 
-# Create a default conda environment (optional — can be done later manually)
-# RUN conda create -n myenv python=3.10 -y
-
 # Default command — container stays alive
 CMD ["tail", "-f", "/dev/null"]
