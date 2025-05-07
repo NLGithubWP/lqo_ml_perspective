@@ -1,4 +1,4 @@
-FROM postgres:12
+FROM postgres:12.5
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
