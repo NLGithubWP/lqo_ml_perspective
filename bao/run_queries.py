@@ -20,15 +20,19 @@ def chunks(lst, n):
         yield lst[i:i + n]
 
 def pg_connection_string(db_name):
-    return f"dbname={db_name} user=postgres password=postgres host=pg_bao"
+    return f"dbname={db_name} user=postgres password=postgres host=172.17.0.1"
 
 def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload'):
     while True:
         try:
             conn = psycopg2.connect(pg_connection_string(db_name=db_name))
             cur = conn.cursor()
+            # Enable pg_bao extension if not already enabled
+            cur.execute("CREATE EXTENSION IF NOT EXISTS pg_bao")
+
             # Hardcode bao_host to fixed IP given in docker-compose
-            cur.execute("SET bao_host TO '10.5.0.6'")
+            # 172.17.0.1, the default Docker bridge gateway
+            cur.execute("SET bao_host TO '172.17.0.1'")
             cur.execute(f"SET enable_bao TO {bao_select or bao_reward}")
             cur.execute(f"SET enable_bao_selection TO {bao_select}")
             cur.execute(f"SET enable_bao_rewards TO {bao_reward}")
