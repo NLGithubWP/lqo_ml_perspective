@@ -135,8 +135,8 @@ def start_server(listen_on, port):
         print(f"Loading existing model from {DEFAULT_MODEL_PATH}")
         model.load_model(DEFAULT_MODEL_PATH)
     else:
-        print(f"Removing experience stored in SQLite DB")
-        storage.clear_experience()
+        print(f"Skipping Removing experience stored in SQLite DB")
+        # storage.clear_experience()
     
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer((listen_on, port), BaoJSONHandler) as server:
