@@ -5,6 +5,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Remove broken PostgreSQL repository
 RUN rm -f /etc/apt/sources.list.d/pgdg.list
 
+# Install wget for fetching repository key
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
+
 # Add official PostgreSQL repository
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
