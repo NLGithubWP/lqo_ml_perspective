@@ -145,24 +145,24 @@ def start_server(listen_on, port):
 
 
 if __name__ == "__main__":
-    from multiprocessing import Process
+    from multiprocessing import Process, set_start_method
     from config import read_config
+
+    # Set the multiprocessing start method to 'spawn'
+    set_start_method('spawn')
 
     config = read_config()
     port = int(config["Port"])
     listen_on = config["ListenOn"]
 
     # lehl@2022-01-11: Added to allow for specific model to be loaded
-    # Provide the model path to be loaded as the first argument, i.e.
-    #
-    # python3 main.py /app/bao/bao_server/my_trained_model
-    #
     if len(sys.argv) > 1:
         DEFAULT_MODEL_PATH = sys.argv[1]
 
     print(f"Listening on {listen_on} port {port}")
     
-    server = Process(target=start_server, args=[listen_on, port])
+    # server = Process(target=start_server, args=[listen_on, port])
     
     print("Spawning server process...")
+    server = Process(target=start_server, args=[listen_on, port])
     server.start()
