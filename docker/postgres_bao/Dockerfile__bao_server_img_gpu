@@ -23,7 +23,7 @@ RUN conda create -n ai4db python=3.8 && \
     pip install torch==1.5.0"
 
 # Set working directory
-WORKDIR /app/bao
+WORKDIR /app
 
 # Expose the port
 EXPOSE 9381
