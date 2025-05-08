@@ -153,7 +153,6 @@ class BaoRegression:
         
         losses = []
         for epoch in range(100):
-            self.__log(f"epoch {epoch}")
             loss_accum = 0
             for x, y in dataset:
                 if CUDA:
