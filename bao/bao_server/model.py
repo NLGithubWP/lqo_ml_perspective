@@ -159,6 +159,13 @@ class BaoRegression:
                     self.__log("Moving data y into GPU")
                     y = y.cuda()
 
+                # Debug x
+                self.__log("x type:", type(x))
+                self.__log("x[0] shape:", x[0].shape if isinstance(x, tuple) else "Not a tuple")
+                self.__log("x[0] contains NaN:",
+                           torch.isnan(x[0]).any().item() if isinstance(x, tuple) else "Not a tuple")
+                self.__log("x[0] contains Inf:",
+                           torch.isinf(x[0]).any().item() if isinstance(x, tuple) else "Not a tuple")
 
                 y_pred = self.__net(x)
                 loss = loss_fn(y_pred, y)
