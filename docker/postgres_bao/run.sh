@@ -20,12 +20,11 @@ docker run -d \
 
 
 # install the PG_BAO extension + update config + restart PostgreSQL inside the container
-docker exec -u postgres pg_bao bash -c "
-  cp /app/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/bao-postgresql.conf /var/lib/postgresql/data/postgresql.conf &&
+docker exec -u root pg_bao bash -c "
+  cp /app/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/union_postgresql.conf /pgdata/postgresql.conf &&
   cd /app/AI4QueryOptimizer/baseline/lqo_ml_perspective/bao/pg_extension &&
   make USE_PGXS=1 install &&
-  cp /app/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/bao-postgresql.conf /pgdata/postgresql.conf &&
-  pg_ctl restart
+  su - postgres -c 'export PATH=\$PATH:/usr/lib/postgresql/12/bin && pg_ctl -D /pgdata restart'
 "
 
 docker start pg_bao
