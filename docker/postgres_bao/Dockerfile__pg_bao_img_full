@@ -2,7 +2,10 @@ FROM postgres:12.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Add archived PostgreSQL apt repository for postgresql-server-dev-12
+# Install required tools first
+RUN apt-get update && apt-get install -y wget gnupg
+
+# Add archived PostgreSQL apt repository
 RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
