@@ -153,9 +153,11 @@ class BaoRegression:
         
         losses = []
         for epoch in range(100):
+            self.__log(f"epoch {epoch}")
             loss_accum = 0
             for x, y in dataset:
                 if CUDA:
+                    self.__log("Moving data y into GPU")
                     y = y.cuda()
                 y_pred = self.__net(x)
                 loss = loss_fn(y_pred, y)
@@ -167,8 +169,7 @@ class BaoRegression:
 
             loss_accum /= len(dataset)
             losses.append(loss_accum)
-            if epoch % 15 == 0:
-                self.__log("Epoch", epoch, "training loss:", loss_accum)
+            self.__log("Epoch", epoch, "training loss:", loss_accum)
 
             # stopping condition
             if len(losses) > 10 and losses[-1] < 0.1:
