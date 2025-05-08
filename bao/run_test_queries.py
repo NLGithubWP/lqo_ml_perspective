@@ -23,9 +23,6 @@ def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_g
         conn = psycopg2.connect(pg_connection_string(db_name=db_name))
         cur = conn.cursor()
 
-        # Enable pg_bao extension if not already enabled
-        cur.execute("CREATE EXTENSION IF NOT EXISTS pg_bao")
-
         # Hardcode bao_host to fixed IP given in docker-compose
         cur.execute("SET bao_host TO '172.17.0.1'")
         cur.execute(f"SET enable_bao TO {bao_select or bao_reward}")
