@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd /home/naili/AI4QueryOptimizer/baseline/lqo_ml_perspective/docker/postgres_bao || { echo "Failed to cd into target directory"; exit 1; }
+cd ~/AI4QueryOptimizer/ || { echo "Failed to cd into target directory"; exit 1; }
+cd ~/datasets || { echo "Failed to cd into target directory"; exit 1; }
+cd ~/pgdata || { echo "Failed to cd into target directory"; exit 1; }
 
 # build the network
 docker network create \
@@ -18,10 +20,10 @@ docker run -d \
   -e POSTGRES_DB=imdbload \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
-  -v $(pwd)/../../bao:/app/bao \
-  -v $(pwd)/../../../../../datasets:/data/datasets \
-  -v $(pwd)/../../conf/bao-postgresql.conf:/app/postgresql.conf \
-  -v $(pwd)/pgdata:/pgdata \
+  -v ~/AI4QueryOptimizer/baseline/lqo_ml_perspective/bao:/app/bao \
+  -v ~/datasets:/data/datasets \
+  -v ~/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/bao-postgresql.conf:/app/postgresql.conf \
+  -v ~/pgdata:/pgdata \
   -p 5432:5432 \
   --shm-size=32g \
   pg_bao_img
@@ -56,7 +58,7 @@ docker run --gpus all -d \
 
 
 
-# run the server docker
+# run the server docker for other services
 docker run --gpus all -d \
   --name balsa_server \
   --network balsa_network \
