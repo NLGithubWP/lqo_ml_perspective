@@ -2,39 +2,36 @@ FROM postgres:12.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Install required tools first
-RUN apt-get update && apt-get install -y wget gnupg
-
-# Add archived PostgreSQL apt repository
-RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
-    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-
-# Install dependencies
+# Install dependencies in a single RUN to reduce layers and clean up APT cache
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     sudo \
-    gnupg \
     wget \
     curl \
     git \
     nano \
     libpq-dev \
-    postgresql-12 \
-    postgresql-client-12 \
     postgresql-server-dev-12 \
     build-essential \
-    make
+    make \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set password for 'postgres' Linux user and add to sudo group
+# Avoid reinstalling postgresql-12 and postgresql-client-12 (already in base image)
+# Note: postgresql-server-dev-12 is kept for pg_hint_plan compilation
+
+# Set password for 'postgres' Linux user securely (consider alternatives)
 RUN echo "postgres:postgres" | chpasswd && \
     usermod -aG sudo postgres
 
 # Install pg_hint_plan
 WORKDIR /root
-RUN git clone https://github.com/ossc-db/pg_hint_plan.git -b REL12_1_3_7
-WORKDIR /root/pg_hint_plan
-RUN sed -i 's/PG_CONFIG = pg_config/PG_CONFIG = \/usr\/bin\/pg_config/' Makefile && \
-    make && make install
+RUN git clone --depth 1 --branch REL12_1_3_7 https://github.com/ossc-db/pg_hint_plan.git && \
+    cd pg_hint_plan && \
+    make PG_CONFIG=/usr/lib/postgresql/12/bin/pg_config && \
+    make PG_CONFIG=/usr/lib/postgresql/12/bin/pg_config install && \
+    cd .. && rm -rf pg_hint_plan
 
 # Reset working directory
 WORKDIR /
+
+# Optional: Set environment variables or entrypoint if needed
