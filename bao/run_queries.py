@@ -124,7 +124,7 @@ def main(args):
         if USE_BAO:
             print(f"[{current_timestamp_str()}]\t[{c_idx + 1}/{len(bao_chunks)}]\tRetraining Bao...", flush=True)
             # os.system("cd bao_server && python3 baoctl.py --retrain")
-            os.system("cd bao_server && CUDA_VISIBLE_DEVICES="" python3 baoctl.py --retrain > retrain.log 2>&1")
+            os.system('cd bao_server && CUDA_VISIBLE_DEVICES="" python3 baoctl.py --retrain >> retrain.log 2>&1')
             os.system("sync")
             print(f"[{current_timestamp_str()}]\t[{c_idx + 1}/{len(bao_chunks)}]\tRetraining done.", flush=True)
 
