@@ -7,7 +7,7 @@ def __json_bytes(obj):
 
 def __connect():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(("bao_server", 9381))
+    s.connect(("172.17.0.1", 9381))
     return s
 
 def send_model_load(path):
