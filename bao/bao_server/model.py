@@ -158,9 +158,14 @@ class BaoRegression:
                 if CUDA:
                     self.__log("Moving data y into GPU")
                     y = y.cuda()
-                print("x has NaN:", torch.isnan(x).any().item())
-                print("y has NaN:", torch.isnan(y).any().item())
+
+
+                print("x dtype:", x.dtype)
+                print("x device:", x.device)
                 print("x shape:", x.shape)
+                print("x contains NaN:", torch.isnan(x).any().item())
+                print("x contains Inf:", torch.isinf(x).any().item())
+                print("model param device:", next(self.__net.parameters()).device)
 
                 y_pred = self.__net(x)
                 loss = loss_fn(y_pred, y)
