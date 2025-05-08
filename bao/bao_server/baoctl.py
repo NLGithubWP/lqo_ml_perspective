@@ -56,10 +56,12 @@ if __name__ == "__main__":
         exit(0)
 
     if args.retrain:
+        print("retraining...")
         import train
         from constants import DEFAULT_MODEL_PATH, OLD_MODEL_PATH, TMP_MODEL_PATH
         train.train_and_swap(DEFAULT_MODEL_PATH, OLD_MODEL_PATH, TMP_MODEL_PATH,
                              verbose=True)
+        print("retrain done, sending model")
         send_model_load(DEFAULT_MODEL_PATH)
         exit(0)
 
