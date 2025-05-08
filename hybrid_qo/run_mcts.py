@@ -12,15 +12,13 @@ from sql2fea import Sql2Vec
 from TreeLSTM import SPINN
 
 
-
-
 def load_queries(queries_path):
     with open(queries_path) as f:
         queries = json.load(f)
     return queries
 
 
-def main(config):
+def main(config, train_or_test):
     run_name = datetime.now().strftime('%Y_%m_%d__%H%M%S')
     # wandb.init(
     #     project='hybrid_qo',
@@ -63,14 +61,16 @@ def main(config):
     # we instead run the approx. 80-90 queries in repeated epochs to achieve a roughly similar
     # amount of executed queries, though these include the same queries multiple times!
 
-    for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
-        train_epoch(hinter, train_queries, epoch, query_log_file_path)
+    if train_or_test == "train":
+        for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
+            train_epoch(hinter, train_queries, epoch, query_log_file_path)
 
-        # if epoch % 10 == 0:
-        #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
+            # if epoch % 10 == 0:
+            #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
 
     # Final eval
-    test_epoch(hinter, test_queries, 2, query_log_file_path)
+    if train_or_test == "test":
+        test_epoch(hinter, test_queries, 2, query_log_file_path)
 
 
 def train_epoch(hinter, queries, epoch, query_log_file_path):
@@ -153,7 +153,9 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 if __name__ == '__main__':
     from ImportantConfig import Config
     import argparse
+
     parser = argparse.ArgumentParser()
+    parser.add_argument('--train_test', type=str, required=True, help="is train or test")
     parser.add_argument('--query_file', type=str, required=True, help="Path to the queries file")
     parser.add_argument('--train_database', type=str, required=True, help="DB anme")
     parser.add_argument('--test_database', type=str, required=True, help="DB anme")
@@ -169,4 +171,4 @@ if __name__ == '__main__':
     config.queries_file = args.query_file
     # Run the main function
     print(config)
-    main(config)
+    main(config, args.train_test)
