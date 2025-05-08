@@ -16,7 +16,7 @@ docker run -d \
   -v ~/pgdata:/pgdata \
   -p 5432:5432 \
   --shm-size=32g \
-  pg_bao_img_full
+  pg_bao_img
 
 
 # install the PG_BAO extension + update config + restart PostgreSQL inside the container
@@ -39,7 +39,7 @@ docker run --gpus all -d \
   -v ~/datasets:/data/datasets \
   -p 9381:9381 \
   --shm-size=10g \
-  bao_server_img_gpu \
+  bao_server_gpu_img \
   tail -f /dev/null
 
 
