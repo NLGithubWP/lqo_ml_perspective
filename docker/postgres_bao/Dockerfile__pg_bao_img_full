@@ -5,10 +5,11 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Remove any existing PostgreSQL repository
 RUN rm -f /etc/apt/sources.list.d/pgdg.list
 
+# Install ca-certificates and wget first
+RUN apt-get update && apt-get install -y ca-certificates wget && rm -rf /var/lib/apt/lists/*
+
 # Add archived PostgreSQL repository
 RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
-    apt-get update && \
-    apt-get install -y ca-certificates wget && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Install dependencies and clean up APT cache
