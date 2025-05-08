@@ -124,7 +124,7 @@ def main(args):
         if USE_BAO:
             print(f"[{current_timestamp_str()}]\t[{c_idx + 1}/{len(bao_chunks)}]\tRetraining Bao...", flush=True)
             # os.system("cd bao_server && python3 baoctl.py --retrain")
-            os.system('cd bao_server && python3 baoctl.py --retrain >> /app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_bao/retrain.log 2>&1')
+            os.system('cd /app/AI4QueryOptimizer/baseline/lqo_ml_perspective/bao/bao_server && python3 baoctl.py --retrain >> /app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_bao/data_shift/retrain/retrain.log 2>&1')
             os.system("sync")
             print(f"[{current_timestamp_str()}]\t[{c_idx + 1}/{len(bao_chunks)}]\tRetraining done.", flush=True)
 
