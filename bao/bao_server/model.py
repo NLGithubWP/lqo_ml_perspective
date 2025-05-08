@@ -89,6 +89,7 @@ class BaoRegression:
         self.__net = net.BaoNet(self.__in_channels)
         self.__net.load_state_dict(torch.load(_nn_path(path)))
         self.__net.eval()
+        print(f"Model device: {next(self.__net.parameters()).device}")
         
         with open(_y_transform_path(path), "rb") as f:
             self.__pipeline = joblib.load(f)
