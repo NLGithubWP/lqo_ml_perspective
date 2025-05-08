@@ -2,28 +2,27 @@ FROM postgres:12.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Remove broken PostgreSQL repository
+# Remove any existing PostgreSQL repository
 RUN rm -f /etc/apt/sources.list.d/pgdg.list
 
-# Install wget for fetching repository key
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
-
-# Add official PostgreSQL repository
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+# Add archived PostgreSQL repository
+RUN echo "deb http://apt-archive.postgresql.org/pub/repos/apt/ buster-pgdg main 12" > /etc/apt/sources.list.d/pgdg.list && \
+    apt-get update && \
+    apt-get install -y ca-certificates wget && \
     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Install dependencies and clean up APT cache
 RUN apt-get update && apt-get install -y \
-    ca-certificates \
     sudo \
+    gcc \
+    make \
     wget \
     curl \
     git \
     nano \
     libpq-dev \
     postgresql-server-dev-12 \
-    build-essential \
-    make \
+    postgresql-client-12 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set password for 'postgres' user
