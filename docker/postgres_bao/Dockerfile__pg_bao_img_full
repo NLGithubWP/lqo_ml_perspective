@@ -2,7 +2,10 @@ FROM postgres:12.5
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies in a single RUN to reduce layers and clean up APT cache
+# Remove broken PostgreSQL repository
+RUN rm -f /etc/apt/sources.list.d/pgdg.list
+
+# Install dependencies and clean up APT cache
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     sudo \
@@ -16,10 +19,7 @@ RUN apt-get update && apt-get install -y \
     make \
     && rm -rf /var/lib/apt/lists/*
 
-# Avoid reinstalling postgresql-12 and postgresql-client-12 (already in base image)
-# Note: postgresql-server-dev-12 is kept for pg_hint_plan compilation
-
-# Set password for 'postgres' Linux user securely (consider alternatives)
+# Set password for 'postgres' user
 RUN echo "postgres:postgres" | chpasswd && \
     usermod -aG sudo postgres
 
@@ -33,5 +33,3 @@ RUN git clone --depth 1 --branch REL12_1_3_7 https://github.com/ossc-db/pg_hint_
 
 # Reset working directory
 WORKDIR /
-
-# Optional: Set environment variables or entrypoint if needed
