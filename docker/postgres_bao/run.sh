@@ -1,32 +1,23 @@
 #!/bin/bash
 
-cd ~/AI4QueryOptimizer/ || { echo "Failed to cd into target directory"; exit 1; }
-cd ~/datasets || { echo "Failed to cd into target directory"; exit 1; }
-cd ~/pgdata || { echo "Failed to cd into target directory"; exit 1; }
+cd ~/AI4QueryOptimizer/ || { echo "Failed to cd into AI4QueryOptimizer"; exit 1; }
+cd ~/datasets || { echo "Failed to cd into datasets"; exit 1; }
+cd ~/pgdata || { echo "Failed to cd into pgdata"; exit 1; }
 
-# build the network
-docker network create \
-  --driver bridge \
-  --subnet 10.5.0.0/16 \
-  network
-
-
-# run the postgresql docker
+# Run PostgreSQL container on default bridge network
 docker run -d \
   --name pg_bao \
-  --network network \
-  --ip 10.5.0.5 \
   -e PGDATA=/pgdata \
   -e POSTGRES_DB=imdbload \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_PASSWORD=postgres \
   -v ~/AI4QueryOptimizer/baseline/lqo_ml_perspective/bao:/app/bao \
   -v ~/datasets:/data/datasets \
-  -v ~/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/bao-postgresql.conf:/app/postgresql.conf \
+  -v ~/AI4QueryOptimizer/baseline/lqo_ml_perspective/conf/bao-postgresql.conf:/var/lib/postgresql/data/postgresql.conf \
   -v ~/pgdata:/pgdata \
   -p 5432:5432 \
   --shm-size=32g \
-  pg_bao_img
+  pg_bao_img_full
 
 
 # install the PG_BAO extension + update config + restart PostgreSQL inside the container
