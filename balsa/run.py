@@ -1110,23 +1110,23 @@ class BalsaAgent(object):
             max_epochs=p.epochs,
             max_steps=max_steps,
             # Add logging metrics per this many batches.
-            # row_log_interval=1, # todo: this is old version of pytorch-lightning
-            log_every_n_steps=1,  # todo: this is new version of pytorch-lightning
+            row_log_interval=1, # todo: this is old version of pytorch-lightning
+            # log_every_n_steps=1,  # todo: this is new version of pytorch-lightning
             # Do validation per this many train epochs.
             check_val_every_n_epoch=p.validate_every_n_epochs,
             # Patience = # of validations with no improvements before stopping.
 
-            # todo: this line is to match the new version of pytorch-lightning
-            callbacks=[pl.callbacks.EarlyStopping(
-                monitor='val_loss',
-                patience=p.validate_early_stop_patience,
-                mode='min',
-                verbose=True)],
-
-            # early_stop_callback=pl.callbacks.EarlyStopping(
+            # # todo: this line is to match the new version of pytorch-lightning
+            # callbacks=[pl.callbacks.EarlyStopping(
+            #     monitor='val_loss',
             #     patience=p.validate_early_stop_patience,
             #     mode='min',
-            #     verbose=True),
+            #     verbose=True)],
+
+            early_stop_callback=pl.callbacks.EarlyStopping(
+                patience=p.validate_early_stop_patience,
+                mode='min',
+                verbose=True),
 
             weights_summary=None,
             logger=self.loggers,
