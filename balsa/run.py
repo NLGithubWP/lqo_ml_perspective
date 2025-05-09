@@ -1116,7 +1116,7 @@ class BalsaAgent(object):
             check_val_every_n_epoch=p.validate_every_n_epochs,
             # Patience = # of validations with no improvements before stopping.
 
-            # # todo: this line is to match the new version of pytorch-lightning
+            # todo: this line is to match the new version of pytorch-lightning
             callbacks=[pl.callbacks.EarlyStopping(
                 monitor='val_loss',
                 patience=p.validate_early_stop_patience,
@@ -1128,7 +1128,10 @@ class BalsaAgent(object):
             #     mode='min',
             #     verbose=True),
 
-            weights_summary=None,
+            # todo: this line is to match the new version of pytorch-lightning
+            # weights_summary=None,
+            enable_model_summary=False,
+
             logger=self.loggers,
             gradient_clip_val=p.gradient_clip_val,
             num_sanity_val_steps=2 if p.validate_fraction > 0 else 0,
