@@ -1453,3 +1453,30 @@ class Neurbench_Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
         p.query_dir = 'queries/job_query_table_short'
         p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
+
+
+######################### NeurBench (NB) Revision #########################
+
+
+@balsa.params_registry.Register
+class NB_Balsa_JOB_DEBUG(Balsa_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = [
+            "1a.sql", "1b.sql", "1c.sql", "1d.sql",
+            "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = [
+            "1a.sql", "1b.sql", "1c.sql", "1d.sql",
+            "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        return p
