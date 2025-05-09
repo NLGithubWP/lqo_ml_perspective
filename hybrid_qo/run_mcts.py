@@ -69,6 +69,7 @@ def neur_bench_load_hinter(config, train_or_test):
     # Load model state dictionaries
     net.value_network.load_state_dict(checkpoint['tree_net_state_dict'])  # Load SPINN parameters
     from mcts import predictionNet  # Import global predictionNet
+    print("Now load the predictionNet saved parameter")
     predictionNet.load_state_dict(checkpoint['mcts_searcher_state_dict'])  # Load predictionNet parameters
 
     # Load KNN
