@@ -195,16 +195,6 @@ JOB_SMALLSET_TEST = [
     "33b.sql"
 ]
 
-JOB_JOIN_PRED_TABLE_DEBUG_TEST = [
-    "1a.sql",
-    "1b.sql",
-    "1c.sql",
-    "1d.sql",
-    "2a.sql",
-    "2b.sql",
-    "2c.sql",
-    "2d.sql"]
-
 # ===================================================================
 
 RANDOM_SPLIT_1__TEST_QUERIES = [
@@ -1129,6 +1119,7 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
         p.val_iters = 100
         return p
 
+
 # ===========================================================================
 # RANDOM SPLIT 1-3
 
@@ -1141,6 +1132,7 @@ class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
+
 @balsa.params_registry.Register
 class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
     def Params(self):
@@ -1150,6 +1142,7 @@ class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
 
+
 @balsa.params_registry.Register
 class Neurbench_Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
     def Params(self):
@@ -1158,6 +1151,7 @@ class Neurbench_Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
         p.query_dir = 'queries/job_data_v2_small_set_query'
         p.test_query_glob = JOB_SMALLSET_TEST
         return p
+
 
 # RANDOM SPLIT 1-3
 @balsa.params_registry.Register
@@ -1198,13 +1192,18 @@ class Neurbench_Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
         p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
 
+
 @balsa.params_registry.Register
 class Neurbench_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
-        p.query_dir = 'queries/job_query_debug'
-        p.test_query_glob = JOB_JOIN_PRED_TABLE_DEBUG_TEST
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = [
+            "1a.sql", "1b.sql", "1c.sql", "1d.sql",
+            "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
         return p
+
 
 @balsa.params_registry.Register
 class Neurbench_Neo_JOB_PRE(Neo_JOB_EvaluationBase):
