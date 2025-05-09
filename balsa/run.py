@@ -78,6 +78,7 @@ flags.DEFINE_boolean('test_all', False,
 
 
 def GetDevice():
+    # return "cpu"
     return 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
@@ -598,24 +599,40 @@ class BalsaModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss, l2_loss = self._ComputeLoss(batch)
-        result = pl.TrainResult(minimize=loss)
-        # Log both a per-iter metric and an overall metric for comparison.
-        result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
-        result.log('train_loss', loss, prog_bar=True)
+        self.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False, batch_size=self.params.bs)
+        self.log('train_loss', loss, prog_bar=True, batch_size=self.params.bs)
         if self.l2_lambda > 0:
-            result.log('l2_loss', l2_loss, prog_bar=False)
-        return result
+            self.log('l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
+        return loss
 
     def validation_step(self, batch, batch_idx):
         val_loss, l2_loss = self._ComputeLoss(batch)
-        result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
-        result.log('{}val_loss'.format(self.logging_prefix),
-                   val_loss,
-                   prog_bar=False)
-        result.log('val_loss', val_loss, prog_bar=True)
+        self.log('{}val_loss'.format(self.logging_prefix), val_loss, prog_bar=False, batch_size=self.params.bs)
+        self.log('val_loss', val_loss, prog_bar=True, batch_size=self.params.bs)
         if self.l2_lambda > 0:
-            result.log('val_l2_loss', l2_loss, prog_bar=False)
-        return result
+            self.log('val_l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
+        return {'val_loss': val_loss}
+
+    # def training_step(self, batch, batch_idx):
+    #     loss, l2_loss = self._ComputeLoss(batch)
+    #     result = pl.TrainResult(minimize=loss)
+    #     # Log both a per-iter metric and an overall metric for comparison.
+    #     result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
+    #     result.log('train_loss', loss, prog_bar=True)
+    #     if self.l2_lambda > 0:
+    #         result.log('l2_loss', l2_loss, prog_bar=False)
+    #     return result
+
+    # def validation_step(self, batch, batch_idx):
+    #     val_loss, l2_loss = self._ComputeLoss(batch)
+    #     result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
+    #     result.log('{}val_loss'.format(self.logging_prefix),
+    #                val_loss,
+    #                prog_bar=False)
+    #     result.log('val_loss', val_loss, prog_bar=True)
+    #     if self.l2_lambda > 0:
+    #         result.log('val_l2_loss', l2_loss, prog_bar=False)
+    #     return result
 
     def _ComputeLoss(self, batch):
         p = self.params
@@ -806,6 +823,7 @@ class BalsaAgent(object):
             # Filter queries based on the current query_glob.
             workload.FilterQueries(p.query_dir, p.query_glob, p.test_query_glob)
         else:
+            print(f"Debug, {p.init_experience} not exist, seeting p.run_baseline = True")
             if 'stack' in p.query_dir:
                 wp = envs.STACK.Params()
             else:
@@ -1122,20 +1140,38 @@ class BalsaAgent(object):
                   'num_batches_per_epoch={}'.format(p.per_transition_sgd_steps,
                                                     max_steps,
                                                     len(train_loader)))
+
+        # todo: Default to no step limit (like max_steps=None in 0.9.0)
+        print(f"max_steps is {max_steps}")
+        if max_steps is None:
+            max_steps = -1
         return pl.Trainer(
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
             max_steps=max_steps,
             # Add logging metrics per this many batches.
-            row_log_interval=1,
+            # row_log_interval=1, # todo: this is old version of pytorch-lightning
+            log_every_n_steps=1,  # todo: this is new version of pytorch-lightning
             # Do validation per this many train epochs.
             check_val_every_n_epoch=p.validate_every_n_epochs,
             # Patience = # of validations with no improvements before stopping.
-            early_stop_callback=pl.callbacks.EarlyStopping(
+
+            # todo: this line is to match the new version of pytorch-lightning
+            callbacks=[pl.callbacks.EarlyStopping(
+                monitor='val_loss',
                 patience=p.validate_early_stop_patience,
                 mode='min',
-                verbose=True),
-            weights_summary=None,
+                verbose=True)],
+
+            # early_stop_callback=pl.callbacks.EarlyStopping(
+            #     patience=p.validate_early_stop_patience,
+            #     mode='min',
+            #     verbose=True),
+
+            # todo: this line is to match the new version of pytorch-lightning
+            # weights_summary=None,
+            enable_model_summary=False,
+
             logger=self.loggers,
             gradient_clip_val=p.gradient_clip_val,
             num_sanity_val_steps=2 if p.validate_fraction > 0 else 0,
@@ -1230,9 +1266,11 @@ class BalsaAgent(object):
         for i, node in enumerate(self.all_nodes):
             result_tup = ray.get(refs[i])
 
-            assert isinstance(
-                result_tup,
-                (pg_executor.Result, dbmsx_executor.Result)), result_tup
+            # print("---debug", type(result_tup))
+            # assert isinstance(
+            #     result_tup,
+            #     (pg_executor.Result, dbmsx_executor.Result)), result_tup
+
             result, real_cost, _, message = ParseExecutionResult(
                 result_tup, **Args(node))
             # Save real cost (execution latency) to actual.
@@ -1242,8 +1280,9 @@ class BalsaAgent(object):
                 node.info['explain_json'] = result[0][0][0]
                 # 'node' is a PG plan; doesn't make sense to print if executed
                 # on a different engine.
-                print(node)
-            print(message)
+                # todo: comment out those
+                # print(node)
+            # print(message)
             print('q{},{:.1f} (baseline)'.format(node.info['query_name'],
                                                  real_cost))
             print('Execution time: {}'.format(real_cost))
@@ -1559,8 +1598,11 @@ class BalsaAgent(object):
         print('{}Waiting on Ray tasks...value_iter={}'.format(
             '[Test set] ' if is_test else '', self.curr_value_iter))
         try:
+            print("---------------------- [debug]. getting raw result... ---------------------- ")
             refs = ray.get(tasks)
+            print("---------------------- [debug]. getting raw done  ---------------------- ")
         except Exception as e:
+            raise
             print('ray.get(tasks) received exception:', e)
             time.sleep(10)
             print('Canceling Ray tasks.')
@@ -1577,6 +1619,7 @@ class BalsaAgent(object):
                 print('Retries exhausted; raising the exception.')
                 raise e
         execution_results = []
+        print("---------------------- [debug]. collecting result ---------------------- ")
         for i, task in enumerate(refs):
             result_tup = None
             is_cached_plan = True
@@ -1586,6 +1629,7 @@ class BalsaAgent(object):
                     result_tup = ray.get(task)
                     is_cached_plan = False
                 except ray.exceptions.RayTaskError as e:
+                    raise
                     # This can happen when the server gets crashed by other
                     # drivers, this driver's connection would break down.  OK
                     # to wait for the server to recover and retry.
@@ -1644,6 +1688,8 @@ class BalsaAgent(object):
                 result_tup,
                 (pg_executor.Result, dbmsx_executor.Result)), result_tup
             result_tups = ParseExecutionResult(result_tup, **kwargs[i])
+
+            print("---------------------- [debug]. done with current ref ---------------------- ")
 
             # Generating more expressive stats for logging
             # -------------------
@@ -1924,6 +1970,8 @@ class BalsaAgent(object):
         to_execute, execution_results = self.PlanAndExecute(model,
                                                             planner,
                                                             is_test=False)
+
+        print("---------------------- [debug]. start FeedbackExecution ----------------------")
         # Add exeuction results to the experience buffer.
         iter_total_latency, has_timeouts = self.FeedbackExecution(
             to_execute, execution_results)
@@ -1948,10 +1996,17 @@ class BalsaAgent(object):
                 to_log.append(('iter_final_lr', model.latest_per_iter_lr,
                                self.curr_value_iter))
             self.LogScalars(to_log)
+
+        print("---------------------- [debug]. start SaveBestPlans ----------------------")
+
         self.SaveBestPlans()
-        if (self.curr_value_iter + 1) % 5 == 0:
-            self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+        # if (self.curr_value_iter + 1) % 5 == 0:
+        #     self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
+        self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+
         # Run and log test queries.
+        print("---------------------- [debug]. start EvaluateTestSet ----------------------")
         self.EvaluateTestSet(model, planner)
 
         if p.track_model_moving_averages:
@@ -2055,6 +2110,7 @@ class BalsaAgent(object):
         #   model.load_state_dict(torch.load(PATH))
         ckpt_path = os.path.join(self.wandb_logger.experiment.dir,
                                  'checkpoint.pt')
+        print(f"\n------ saving result into {ckpt_path} ------\n")
         torch.save(model.state_dict(), ckpt_path)
 
         # Saving intermediate checkpoints as well
@@ -2172,8 +2228,11 @@ class BalsaAgent(object):
         self.LogScalars(data_to_log)
 
     def Run(self):
+        print("---------------------- [debug]. start to run ----------------------")
         p = self.params
+        print(p)
         if p.run_baseline:
+            print("---------------------- [debug]. start to run baseline ----------------------")
             return self.RunBaseline()
         else:
             self.curr_value_iter = 0
@@ -2189,10 +2248,12 @@ class BalsaAgent(object):
             self.train_nodes = plans_lib.FilterScansOrJoins(self.train_nodes)
             self.test_nodes = plans_lib.FilterScansOrJoins(self.test_nodes)
 
+        print(
+            f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
         while self.curr_value_iter < p.val_iters:
             has_timeouts = self.RunOneIter()
             self.LogTimings()
-
+            print("---------------------- [debug]. train one iteration done ----------------------")
             if (p.early_stop_on_skip_fraction is not None and
                     self.curr_iter_skipped_queries >=
                     p.early_stop_on_skip_fraction * len(self.train_nodes)):
@@ -2232,6 +2293,7 @@ def Main(argv):
     p = balsa.params_registry.Get(name)
 
     p.use_local_execution = FLAGS.local
+
     # Override params here for quick debugging.
     # p.sim_checkpoint = None
     # p.epochs = 1
@@ -2239,7 +2301,7 @@ def Main(argv):
     # p.query_glob = ['7*.sql']
     # p.test_query_glob = ['7c.sql']
     # p.search_until_n_complete_plans = 1
-
+    #
     # for k in dict(p).keys():
     #     print(f"{k}\t\t{dict(p)[k]}")
 
