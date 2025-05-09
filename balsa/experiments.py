@@ -1133,7 +1133,7 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
 # RANDOM SPLIT 1-3
 
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1142,7 +1142,7 @@ class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
         return p
 
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1151,7 +1151,7 @@ class Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
         return p
 
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1161,7 +1161,7 @@ class Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
 
 # RANDOM SPLIT 1-3
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -1171,7 +1171,7 @@ class Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -1181,7 +1181,7 @@ class Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_07v2'
@@ -1191,7 +1191,7 @@ class Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.query_dir = 'queries/job_query_join'
@@ -1199,7 +1199,7 @@ class Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
         return p
 
 @balsa.params_registry.Register
-class Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.query_dir = 'queries/job_query_debug'
@@ -1207,7 +1207,7 @@ class Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
         return p
 
 @balsa.params_registry.Register
-class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_JOB_PRE(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.query_dir = 'queries/job_query_predicates_short'
@@ -1216,7 +1216,7 @@ class Neo_JOB_PRE(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
+class Neurbench_Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.query_dir = 'queries/job_query_table_short'
