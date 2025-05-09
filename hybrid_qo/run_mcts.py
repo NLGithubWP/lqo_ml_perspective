@@ -51,7 +51,9 @@ def main(config, train_or_test):
     print(len(train_queries))
 
     # Prepare query log file
-    query_log_file_path = f"logs/{run_name}__query_log.csv"
+    query_log_file_path \
+        = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
+
     columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
                'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
     with open(query_log_file_path, 'w') as f:
@@ -62,6 +64,7 @@ def main(config, train_or_test):
     # amount of executed queries, though these include the same queries multiple times!
 
     if train_or_test == "train":
+        print("training ...")
         for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
             train_epoch(hinter, train_queries, epoch, query_log_file_path)
 
@@ -70,6 +73,7 @@ def main(config, train_or_test):
 
     # Final eval
     if train_or_test == "test":
+        print("testing ...")
         test_epoch(hinter, test_queries, 2, query_log_file_path)
 
 
