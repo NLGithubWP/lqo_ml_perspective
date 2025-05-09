@@ -2238,16 +2238,17 @@ def Main(argv):
     p = balsa.params_registry.Get(name)
 
     p.use_local_execution = FLAGS.local
+
     # Override params here for quick debugging.
     # p.sim_checkpoint = None
-    p.epochs = 6
-    p.val_iters = 2
+    # p.epochs = 1
+    # p.val_iters = 0
     # p.query_glob = ['7*.sql']
     # p.test_query_glob = ['7c.sql']
-    p.search_until_n_complete_plans = 1
-
-    for k in dict(p).keys():
-        print(f"{k}\t\t{dict(p)[k]}")
+    # p.search_until_n_complete_plans = 1
+    #
+    # for k in dict(p).keys():
+    #     print(f"{k}\t\t{dict(p)[k]}")
 
     # import code; code.interact(local=dict(globals(), **locals()))
     agent = BalsaAgent(p)
