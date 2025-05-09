@@ -2296,9 +2296,13 @@ class BalsaAgent(object):
         print(
             f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
         while self.curr_value_iter < p.val_iters:
+            begin_iteration = time.time()
             has_timeouts = self.RunOneIter()
             self.LogTimings()
-            print("---------------------- [debug]. train one iteration done ----------------------")
+            end_iteration = time.time()
+            print(f"---------------------- [debug]. train one iteration done, "
+                  f"with time={end_iteration-begin_iteration} ----------------------")
+
             if (p.early_stop_on_skip_fraction is not None and
                     self.curr_iter_skipped_queries >=
                     p.early_stop_on_skip_fraction * len(self.train_nodes)):
