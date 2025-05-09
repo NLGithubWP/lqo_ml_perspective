@@ -1,4 +1,4 @@
-from .experiments import *
+from experiments import *
 
 ######################### NeurBench (NB) Revision #########################
 
