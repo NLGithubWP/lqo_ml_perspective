@@ -2006,8 +2006,8 @@ class BalsaAgent(object):
         self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter, parameter=p)
 
         # Run and log test queries.
-        print("---------------------- [debug]. start EvaluateTestSet ----------------------")
-        self.EvaluateTestSet(model, planner)
+        # print("---------------------- [debug]. start EvaluateTestSet ----------------------")
+        # self.EvaluateTestSet(model, planner)
 
         if p.track_model_moving_averages:
             # Update model averages.
@@ -2021,7 +2021,7 @@ class BalsaAgent(object):
                     self.SwapMovingAverage(model, moving_average='ema')
                     # Clear the planner's label cache.
                     planner.SetModel(model)
-                    self.EvaluateTestSet(model, planner, tag='latency_test_ema')
+                    # self.EvaluateTestSet(model, planner, tag='latency_test_ema')
                     self.SwapMovingAverage(model, moving_average='ema')
 
             # 2. SWA: Stochastic weight averaging.
@@ -2031,7 +2031,7 @@ class BalsaAgent(object):
                     self.SwapMovingAverage(model, moving_average='swa')
                     # Clear the planner's label cache.
                     planner.SetModel(model)
-                    self.EvaluateTestSet(model, planner, tag='latency_test_swa')
+                    # self.EvaluateTestSet(model, planner, tag='latency_test_swa')
                     self.SwapMovingAverage(model, moving_average='swa')
 
         return has_timeouts
