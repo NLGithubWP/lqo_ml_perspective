@@ -20,6 +20,7 @@ import numpy as np
 import torch
 
 
+# todo: here is a version mismatch!, we use 1.9 now, pytorch-lignting
 def LoadBestCheckpointForEval(model, trainer):
     """Loads the checkpoint with the best validation loss."""
     best_path = trainer.checkpoint_callback.best_model_path
@@ -32,14 +33,34 @@ def LoadBestCheckpointForEval(model, trainer):
         model.load_state_dict(ckpt['state_dict'])
         new_sum = sum(
             [weight.sum().item() for _, weight in model.named_parameters()])
-        best_epoch = best_path.split('epoch=')[-1].split('.')[0]
-        if '_v' in best_epoch:
-            # E.g., '99_v0'
-            best_epoch = best_epoch.split('_v')[0]
-        best_epoch = int(best_epoch)
+        # Extract epoch from filename (e.g., 'epoch=99-step=100.ckpt')
+        filename = os.path.basename(best_path).split('.')[0]
+        epoch_str = [part for part in filename.split('-') if part.startswith('epoch=')][0]
+        best_epoch = int(epoch_str.split('=')[1])  # Extract '99' from 'epoch=99'
     else:
         print('No best checkpoint found (run validaiton yet?); '\
               'model left unchanged.')
+#
+# def LoadBestCheckpointForEval(model, trainer):
+#     """Loads the checkpoint with the best validation loss."""
+#     best_path = trainer.checkpoint_callback.best_model_path
+#     if len(best_path) > 0:
+#         print('Loading best checkpoint: {} (current_epoch={})'.format(
+#             best_path, trainer.current_epoch))
+#         old_sum = sum(
+#             [weight.sum().item() for _, weight in model.named_parameters()])
+#         ckpt = torch.load(best_path, map_location=lambda storage, loc: storage)
+#         model.load_state_dict(ckpt['state_dict'])
+#         new_sum = sum(
+#             [weight.sum().item() for _, weight in model.named_parameters()])
+#         best_epoch = best_path.split('epoch=')[-1].split('.')[0]
+#         if '_v' in best_epoch:
+#             # E.g., '99_v0'
+#             best_epoch = best_epoch.split('_v')[0]
+#         best_epoch = int(best_epoch)
+#     else:
+#         print('No best checkpoint found (run validaiton yet?); '\
+#               'model left unchanged.')
 
 
 def QErrorLoss(outputs, targets):
