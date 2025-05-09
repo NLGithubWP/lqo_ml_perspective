@@ -2003,7 +2003,7 @@ class BalsaAgent(object):
         # if (self.curr_value_iter + 1) % 5 == 0:
         #     self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
 
-        self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter)
+        self.SaveAgent(model, iter_total_latency, curr_value_iter=self.curr_value_iter, parameter=p)
 
         # Run and log test queries.
         print("---------------------- [debug]. start EvaluateTestSet ----------------------")
@@ -2131,7 +2131,7 @@ class BalsaAgent(object):
     #     # Replay buffer.  Saved under data/.
     #     self._SaveReplayBuffer(iter_total_latency)
 
-    def SaveAgent(self, model, iter_total_latency, curr_value_iter=None):
+    def SaveAgent(self, model, iter_total_latency, curr_value_iter=None, parameter=None):
         """Saves the complete execution state of the agent."""
         # TODO: not complete state, currently missing:
         #  - query exec cache
@@ -2139,8 +2139,9 @@ class BalsaAgent(object):
         #  - a bunch of fields (see Run())
         # TODO: support reloading & resume.
 
-        # Model weights. Saved under <wandb dir>/checkpoint.pt.
-        ckpt_path = os.path.join(self.wandb_logger.experiment.dir, 'checkpoint.pt')
+        # Determine save directory: use parameter.model_save_path if available, else Wandb dir
+        base_save_dir = parameter.model_save_path
+        ckpt_path = os.path.join(base_save_dir, f'{parameter.model_prefix}_checkpoint.pt')
         print(f"\n------ saving result into {ckpt_path} ------\n")
 
         # Manually construct state dictionary to avoid distributed hooks
@@ -2150,6 +2151,7 @@ class BalsaAgent(object):
                 state_dict[name] = param.detach().cpu()
             for name, buffer in model.named_buffers():
                 state_dict[name] = buffer.detach().cpu()
+            os.makedirs(base_save_dir, exist_ok=True)
             torch.save(state_dict, ckpt_path)
         except Exception as e:
             print(f"Error saving checkpoint to {ckpt_path}: {e}")
@@ -2157,7 +2159,7 @@ class BalsaAgent(object):
 
         # Saving intermediate checkpoints
         if curr_value_iter is not None:
-            base_folder_path = os.path.join('checkpoints', self.initialization_time)
+            base_folder_path = os.path.join(base_save_dir, 'checkpoints', self.initialization_time)
             if not os.path.exists(base_folder_path):
                 os.makedirs(base_folder_path)
             intermediate_path = os.path.join(base_folder_path, f'checkpoint__iter{curr_value_iter}.pt')
@@ -2167,9 +2169,10 @@ class BalsaAgent(object):
                 print(f"Error saving intermediate checkpoint to {intermediate_path}: {e}")
                 raise
 
+        # Save metadata
         SaveText(
             'value_iter,{}'.format(self.curr_value_iter),
-            os.path.join(self.wandb_logger.experiment.dir, 'checkpoint-metadata.txt'))
+            os.path.join(base_save_dir, 'checkpoint-metadata.txt'))
         print('Saved iter={} checkpoint to: {}'.format(self.curr_value_iter, ckpt_path))
 
         # Replay buffer. Saved under data/.

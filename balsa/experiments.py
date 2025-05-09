@@ -470,6 +470,10 @@ class BalsaParams(object):
                  ' cluster?  Non-execution EXPLAINs are always issued to' \
                  ' local.')
         p.Define('use_cache', True, 'Skip executing seen plans?')
+
+        p.Define('model_save_path', './',
+                 'Where to save the model ')
+
         return p
 
 
@@ -1467,6 +1471,8 @@ class NB_Balsa_JOB_DEBUG(Balsa_JOB_EvaluationBase):
         p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
         p.validate_every_n_epochs = 200
         p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_prefix = 'balsa_debug_'
         return p
 
 
@@ -1479,4 +1485,6 @@ class NB_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
         p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
         p.validate_every_n_epochs = 200
         p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_prefix = 'neo_debug_'
         return p
