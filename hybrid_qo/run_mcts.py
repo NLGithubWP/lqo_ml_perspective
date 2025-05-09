@@ -85,9 +85,11 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     # Because of multiple epochs, make sure that queries are randomly shuffled at each time
     random.shuffle(queries)
 
-    pbar = tqdm(enumerate(queries[:]), total=len(queries), leave=False, desc='Iterating over training queries...')
-    for idx, (sql, query_ident, _) in pbar:
-        pbar.set_description(f"Iterating over training query {query_ident}...")
+    # pbar = tqdm(enumerate(queries[:]), total=len(queries), leave=False, desc='Iterating over training queries...')
+    # for idx, (sql, query_ident, _) in pbar:
+    #     pbar.set_description(f"Iterating over training query {query_ident}...")
+    for idx, (sql, query_ident, _) in enumerate(queries[:]):
+        print(f"Processing training query {query_ident} ({idx + 1}/{len(queries)})")
 
         pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
             sql, is_train=True)
