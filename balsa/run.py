@@ -2095,6 +2095,42 @@ class BalsaAgent(object):
         path = Save(all_nodes, os.path.join(best_plans_dir, 'plans.pkl'))
         w.save(path, base_path=wandb_dir)
 
+    # todo: this is the old version of the torch-lighting
+    # def SaveAgent(self, model, iter_total_latency, curr_value_iter=None):
+    #     """Saves the complete execution state of the agent."""
+    #     # TODO: not complete state, currently missing:
+    #     #  - query exec cache
+    #     #  - moving averages
+    #     #  - a bunch of fields (see Run())
+    #     # TODO: support reloading & resume.
+    #
+    #     # Model weights.  Saved under <wandb dir>/checkpoint.pt.
+    #     #
+    #     # Model weights can be reloaded with:
+    #     #   model = TheModelClass(*args, **kwargs)
+    #     #   model.load_state_dict(torch.load(PATH))
+    #     ckpt_path = os.path.join(self.wandb_logger.experiment.dir,
+    #                              'checkpoint.pt')
+    #     print(f"\n------ saving result into {ckpt_path} ------\n")
+    #     torch.save(model.state_dict(), ckpt_path)
+    #
+    #     # Saving intermediate checkpoints as well
+    #     if curr_value_iter is not None:
+    #         base_folder_path = os.path.join('checkpoints', self.initialization_time)
+    #         if not os.path.exists(base_folder_path):
+    #             os.makedirs(base_folder_path)
+    #         torch.save(model.state_dict(), os.path.join(base_folder_path, f'checkpoint__iter{curr_value_iter}.pt'))
+    #
+    #     SaveText(
+    #         'value_iter,{}'.format(self.curr_value_iter),
+    #         os.path.join(self.wandb_logger.experiment.dir,
+    #                      'checkpoint-metadata.txt'))
+    #     print('Saved iter={} checkpoint to: {}'.format(self.curr_value_iter,
+    #                                                    ckpt_path))
+    #
+    #     # Replay buffer.  Saved under data/.
+    #     self._SaveReplayBuffer(iter_total_latency)
+
     def SaveAgent(self, model, iter_total_latency, curr_value_iter=None):
         """Saves the complete execution state of the agent."""
         # TODO: not complete state, currently missing:
@@ -2103,31 +2139,36 @@ class BalsaAgent(object):
         #  - a bunch of fields (see Run())
         # TODO: support reloading & resume.
 
-        # Model weights.  Saved under <wandb dir>/checkpoint.pt.
-        #
-        # Model weights can be reloaded with:
-        #   model = TheModelClass(*args, **kwargs)
-        #   model.load_state_dict(torch.load(PATH))
-        ckpt_path = os.path.join(self.wandb_logger.experiment.dir,
-                                 'checkpoint.pt')
+        # Model weights. Saved under <wandb dir>/checkpoint.pt.
+        ckpt_path = os.path.join(self.wandb_logger.experiment.dir, 'checkpoint.pt')
         print(f"\n------ saving result into {ckpt_path} ------\n")
-        torch.save(model.state_dict(), ckpt_path)
 
-        # Saving intermediate checkpoints as well
+        # Create a clean state dictionary to avoid distributed hooks
+        try:
+            state_dict = {k: v.detach().cpu() for k, v in model.state_dict().items()}
+            torch.save(state_dict, ckpt_path)
+        except Exception as e:
+            print(f"Error saving checkpoint to {ckpt_path}: {e}")
+            raise
+
+        # Saving intermediate checkpoints
         if curr_value_iter is not None:
             base_folder_path = os.path.join('checkpoints', self.initialization_time)
             if not os.path.exists(base_folder_path):
                 os.makedirs(base_folder_path)
-            torch.save(model.state_dict(), os.path.join(base_folder_path, f'checkpoint__iter{curr_value_iter}.pt'))
+            intermediate_path = os.path.join(base_folder_path, f'checkpoint__iter{curr_value_iter}.pt')
+            try:
+                torch.save(state_dict, intermediate_path)
+            except Exception as e:
+                print(f"Error saving intermediate checkpoint to {intermediate_path}: {e}")
+                raise
 
         SaveText(
             'value_iter,{}'.format(self.curr_value_iter),
-            os.path.join(self.wandb_logger.experiment.dir,
-                         'checkpoint-metadata.txt'))
-        print('Saved iter={} checkpoint to: {}'.format(self.curr_value_iter,
-                                                       ckpt_path))
+            os.path.join(self.wandb_logger.experiment.dir, 'checkpoint-metadata.txt'))
+        print('Saved iter={} checkpoint to: {}'.format(self.curr_value_iter, ckpt_path))
 
-        # Replay buffer.  Saved under data/.
+        # Replay buffer. Saved under data/.
         self._SaveReplayBuffer(iter_total_latency)
 
     def UpdateMovingAverage(self, model, moving_average, ema_decay=None):
