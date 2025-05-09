@@ -265,8 +265,8 @@ if __name__ == '__main__':
     parser.add_argument('--epoch', type=int, required=False, default=0, help="epoch to train")
     parser.add_argument('--train_test', type=str, required=True, help="is train or test")
     parser.add_argument('--query_file', type=str, required=True, help="Path to the queries file")
-    parser.add_argument('--train_database', type=str, required=False, default="", help="DB anme")
-    parser.add_argument('--test_database', type=str, required=False, default="", help="DB anme")
+    parser.add_argument('--train_database', type=str, required=True, default="", help="DB anme")
+    parser.add_argument('--test_database', type=str, required=True, default="", help="DB anme")
 
     args = parser.parse_args()
     config = Config()
