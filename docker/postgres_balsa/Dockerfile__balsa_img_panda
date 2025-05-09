@@ -2,7 +2,6 @@ FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 # For the installation of tkinter
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=Europe/Zurich
 
 RUN apt-get update
 RUN apt-get install -y sudo gcc make wget curl git nano redis
