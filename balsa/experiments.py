@@ -474,6 +474,8 @@ class BalsaParams(object):
         p.Define('model_save_path', './',
                  'Where to save the model ')
 
+        p.Define('model_prefix', '',
+                 'Model prefix, for naming the model')
         return p
 
 
