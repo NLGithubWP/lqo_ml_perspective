@@ -24,20 +24,11 @@ def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
     knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
 
     # Save PyTorch model state dictionaries and config
+    from mcts import predictionNet  # Import global predictionNet
     checkpoint = {
         'tree_net_state_dict': hinter.model.value_network.state_dict(),  # Save SPINN parameters
-        'mcts_searcher_state_dict': None,
-        'config': config.__dict__,
+        'mcts_searcher_state_dict': predictionNet.state_dict(),  # Save predictionNet parameters
     }
-
-    # Try saving MCTSHinterSearch state_dict
-    if hasattr(hinter.mcts_searcher, 'state_dict'):
-        checkpoint['mcts_searcher_state_dict'] = hinter.mcts_searcher.state_dict()
-    elif hasattr(hinter.mcts_searcher, 'value_net') and isinstance(hinter.mcts_searcher.value_net, torch.nn.Module):
-        checkpoint['mcts_searcher_state_dict'] = {'value_net': hinter.mcts_searcher.value_net.state_dict()}
-        print("Saved MCTSHinterSearch value_net state_dict as fallback.")
-    else:
-        print("WARNING: MCTSHinterSearch lacks state_dict method and value_net attribute. Trained parameters may not be saved.")
 
     torch.save(checkpoint, checkpoint_path)
 
@@ -62,11 +53,6 @@ def neur_bench_load_hinter(config, train_or_test):
     # Load checkpoint
     checkpoint = torch.load(checkpoint_path, map_location=config.device)
 
-    # Update config with saved attributes
-    config_dict = checkpoint['config']
-    for key, value in config_dict.items():
-        setattr(config, key, value)
-
     # Initialize components
     tree_builder = TreeBuilder()
     sql2vec = Sql2Vec()
@@ -82,16 +68,8 @@ def neur_bench_load_hinter(config, train_or_test):
 
     # Load model state dictionaries
     net.value_network.load_state_dict(checkpoint['tree_net_state_dict'])  # Load SPINN parameters
-    if checkpoint['mcts_searcher_state_dict'] is not None:
-        if hasattr(mcts_searcher, 'load_state_dict'):
-            mcts_searcher.load_state_dict(checkpoint['mcts_searcher_state_dict'])
-        elif hasattr(mcts_searcher, 'value_net') and isinstance(mcts_searcher.value_net, torch.nn.Module):
-            mcts_searcher.value_net.load_state_dict(checkpoint['mcts_searcher_state_dict']['value_net'])
-            print("Loaded MCTSHinterSearch value_net state_dict as fallback.")
-        else:
-            print("WARNING: MCTSHinterSearch lacks load_state_dict method and value_net attribute. Using uninitialized MCTSHinterSearch.")
-    else:
-        print("WARNING: No MCTSHinterSearch state_dict was saved. Using uninitialized MCTSHinterSearch.")
+    from mcts import predictionNet  # Import global predictionNet
+    predictionNet.load_state_dict(checkpoint['mcts_searcher_state_dict'])  # Load predictionNet parameters
 
     # Load KNN
     with open(knn_path, 'rb') as f:
@@ -173,10 +151,6 @@ def main(config, train_or_test):
         # Save the trained hinter
         checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test)
         print(f"Training complete. Saved model to {checkpoint_path}, KNN to {knn_path}")
-
-        print("testing after train...")
-        test_epoch(hinter, test_queries, 0, query_log_file_path)
-        print("Testing complete.")
 
     # Final eval
     if train_or_test == "test":
@@ -291,15 +265,15 @@ if __name__ == '__main__':
     parser.add_argument('--test_database', type=str, required=False, default="", help="DB anme")
 
     args = parser.parse_args()
-    Config.train_database = args.train_database
-    Config.test_database = args.test_database
+    config = Config()
+    config.queries_file = args.query_file
+    config.n_epochs = args.epoch
+    config.train_database = args.train_database
+    config.test_database = args.test_database
     print("Updating config done")
     from Hinter import Hinter
     from mcts import MCTSHinterSearch
 
-    config = Config()
-    config.queries_file = args.query_file
-    config.n_epochs = args.epoch
     # Run the main function
-    print(config)
+    print(config.__dict__)
     main(config, args.train_test)
