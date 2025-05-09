@@ -611,8 +611,10 @@ class Optimizer(object):
         planning_time = (time.time() - planning_start_t) * 1e3
         predicted = best_predicted
         state = best_state
-        print('Found best random plan out of {}:'.format(num_random_plans))
-        print('  {:.1f} {}'.format(
-            predicted[0], str([s.hint_str(self.plan_physical) for s in state])))
-        print('Planning took {:.1f}ms'.format(planning_time))
+
+        # print('Found best random plan out of {}:'.format(num_random_plans))
+        # print('  {:.1f} {}'.format(
+        #     predicted[0], str([s.hint_str(self.plan_physical) for s in state])))
+        # print('Planning took {:.1f}ms'.format(planning_time))
+
         return predicted[0], state[0]
