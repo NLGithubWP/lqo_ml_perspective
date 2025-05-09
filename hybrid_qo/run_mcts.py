@@ -114,6 +114,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
         #     'query_ident': query_ident,
         #     'test_query': 0
         # })
+        print(f"Training query {query_ident} takes {actual_time}")
 
         with open(query_log_file_path, 'a') as f:
             f.write(
@@ -124,9 +125,11 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
     s_pg = 0
     s_hinter = 0
 
-    pbar = tqdm(enumerate(queries[:]), total=len(queries), desc='Iterating over test queries...')
-    for idx, (sql, query_ident, _) in pbar:
-        pbar.set_description(f"Iterating over test query {query_ident}...")
+    # pbar = tqdm(enumerate(queries[:]), total=len(queries), desc='Iterating over test queries...')
+    # for idx, (sql, query_ident, _) in pbar:
+    #     pbar.set_description(f"Iterating over test query {query_ident}...")
+    for idx, (sql, query_ident, _) in enumerate(queries[:]):
+        print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
 
         pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
             sql, is_train=False)
