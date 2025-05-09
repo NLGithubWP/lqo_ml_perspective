@@ -19,7 +19,7 @@ import pickle
 def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
     """Save the Hinter and its components to disk."""
     os.makedirs(save_dir, exist_ok=True)
-    file_prefix = f"{config.train_database}_{config.test_database}_{train_or_test}"
+    file_prefix = f"{config.train_database}_{config.test_database}"
     checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
     knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
 
@@ -43,7 +43,7 @@ def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
 def neur_bench_load_hinter(config, train_or_test):
     """Load the Hinter and its components from disk."""
     save_dir = "model"
-    file_prefix = f"{config.train_database}_{config.test_database}_train"  # Load from train checkpoint
+    file_prefix = f"{config.train_database}_{config.test_database}"  # Load from train checkpoint
     checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
     knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
 
