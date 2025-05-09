@@ -2179,6 +2179,7 @@ class BalsaAgent(object):
         p = self.params
         print(p)
         if p.run_baseline:
+            print("---------------------- [debug]. start to run baseline ----------------------")
             return self.RunBaseline()
         else:
             self.curr_value_iter = 0
@@ -2193,6 +2194,7 @@ class BalsaAgent(object):
             # self.{all,train,test}_nodes no longer share any references.
             self.train_nodes = plans_lib.FilterScansOrJoins(self.train_nodes)
             self.test_nodes = plans_lib.FilterScansOrJoins(self.test_nodes)
+
         print(
             f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
         while self.curr_value_iter < p.val_iters:

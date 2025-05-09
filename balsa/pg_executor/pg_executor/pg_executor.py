@@ -104,8 +104,7 @@ def Cursor(dsn=LOCAL_DSN):
         except psycopg2.OperationalError:
             time.sleep(10)
             return get_connection(dsn)
-    print("\n --------------- Debugging --------------- \n")
-    print(f"\n --------------- Connect via {dsn} --------------- \n")
+    print(f"\n --------------- Debug: Connect via {dsn} --------------- \n")
     conn = get_connection(dsn)
     conn.set_session(autocommit=True)
     try:
