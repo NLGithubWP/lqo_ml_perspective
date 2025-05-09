@@ -2143,9 +2143,13 @@ class BalsaAgent(object):
         ckpt_path = os.path.join(self.wandb_logger.experiment.dir, 'checkpoint.pt')
         print(f"\n------ saving result into {ckpt_path} ------\n")
 
-        # Create a clean state dictionary to avoid distributed hooks
+        # Manually construct state dictionary to avoid distributed hooks
         try:
-            state_dict = {k: v.detach().cpu() for k, v in model.state_dict().items()}
+            state_dict = {}
+            for name, param in model.named_parameters():
+                state_dict[name] = param.detach().cpu()
+            for name, buffer in model.named_buffers():
+                state_dict[name] = buffer.detach().cpu()
             torch.save(state_dict, ckpt_path)
         except Exception as e:
             print(f"Error saving checkpoint to {ckpt_path}: {e}")
