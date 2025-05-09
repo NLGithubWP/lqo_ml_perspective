@@ -65,8 +65,9 @@ def main(config, train_or_test):
 
     if train_or_test == "train":
         print("training ...")
-        for epoch in tqdm(range(config.n_epochs), total=config.n_epochs, desc='Iterating over epochs...'):
+        for epoch in range(config.n_epochs):
             train_epoch(hinter, train_queries, epoch, query_log_file_path)
+            print(f"Epoch {epoch + 1}/{config.n_epochs} completed")
 
             # if epoch % 10 == 0:
             #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
