@@ -65,7 +65,7 @@ from balsa.util import postgres
 
 import sim as sim_lib
 import pg_executor
-from pg_executor  import dbmsx_executor
+from pg_executor import dbmsx_executor
 import train_utils
 import experiments  # noqa # pylint: disable=unused-import
 
@@ -163,7 +163,7 @@ def ExecuteSql(query_name,
         A ray.ObjectRef of the above.
     """
     # Unused args.
-    del query_name, hinted_plan, query_node, predicted_latency, found_plans,\
+    del query_name, hinted_plan, query_node, predicted_latency, found_plans, \
         predicted_costs, silent, is_test, plan_physical
 
     assert engine in ('postgres', 'dbmsx'), engine
@@ -296,7 +296,7 @@ def ParseExecutionResult(result_tup,
                                                real_cost, hint_str))
         messages.append(
             '{} Execution time: {:.1f} (predicted {:.1f}) curr_timeout_ms={}'.
-            format(query_name, real_cost, predicted_latency, curr_timeout_ms))
+                format(query_name, real_cost, predicted_latency, curr_timeout_ms))
 
     if hint_str is None or silent:
         # Running baseline: don't print debug messages below.
@@ -351,7 +351,7 @@ def _GetQueryFeaturizerClass(p):
 def TrainSim(p, loggers=None):
     sim_p = sim_lib.Sim.Params()
     # Copy over relevant params.
-    
+
     if 'stack' in p.query_dir:
         sim_p.workload = envs.STACK.Params()
     else:
@@ -360,7 +360,7 @@ def TrainSim(p, loggers=None):
         sim_p.workload.test_query_glob = p.test_query_glob
         sim_p.workload.search_space_join_ops = p.search_space_join_ops
         sim_p.workload.search_space_scan_ops = p.search_space_scan_ops
-    
+
     sim_p.skip_data_collection_geq_num_rels = 12
     if p.cost_model == 'mincardcost':
         sim_p.search.cost_model = costing.MinCardCost.Params()
@@ -481,7 +481,7 @@ def InitializeModel(p,
                 ema_source_t = copy.deepcopy(ema_source_tm1)
                 for key, param in model_weights.items():
                     ema_source_t[key] = tau * ema_source_tm1[key] + (
-                        1.0 - tau) * param
+                            1.0 - tau) * param
             # Assign model_t := source_t.
             model.load_state_dict(ema_source_t)
             print('Initialized from EMA source network: tau={}'.format(tau))
@@ -647,11 +647,11 @@ class BalsaModel(pl.LightningModule):
             loss = (-target_dist * log_probs).sum(-1).mean()
         else:
             if self.loss_type == 'mean_qerror':
-                output_inverted = self.torch_invert_cost(output.reshape(-1,))
-                target_inverted = self.torch_invert_cost(target.reshape(-1,))
+                output_inverted = self.torch_invert_cost(output.reshape(-1, ))
+                target_inverted = self.torch_invert_cost(target.reshape(-1, ))
                 loss = train_utils.QErrorLoss(output_inverted, target_inverted)
             else:
-                loss = F.mse_loss(output.reshape(-1,), target.reshape(-1,))
+                loss = F.mse_loss(output.reshape(-1, ), target.reshape(-1, ))
         if self.l2_lambda > 0:
             l2_loss = torch.tensor(0., device=loss.device, requires_grad=True)
             for param in self.parameters():
@@ -801,7 +801,6 @@ class BalsaAgent(object):
             # Requires baseline to run in this scenario.
             p.run_baseline = True
         return workload
-    
 
     def _InitLogging(self):
         p = self.params
@@ -843,7 +842,7 @@ class BalsaAgent(object):
             # Use the already instantiated query featurizer, which may contain
             # computed normalization stats.
             query_featurizer_cls = self.GetOrTrainSim().query_featurizer
-            
+
         exp = Experience(self.train_nodes,
                          p.tree_conv,
                          workload_info=wi,
@@ -1186,7 +1185,7 @@ class BalsaAgent(object):
         print('Dropping buffer cache.')
         postgres.DropBufferCache()
         print('Running queries as-is (baseline PG performance)...')
-        
+
         def Args(node):
             return {
                 'query_name': node.info['query_name'],
@@ -1318,7 +1317,7 @@ class BalsaAgent(object):
         assert num_explore_schemes <= 1
         if p.epsilon_greedy:
             assert p.epsilon_greedy_random_transform + \
-                p.epsilon_greedy_random_plan <= 1
+                   p.epsilon_greedy_random_plan <= 1
         if p.epsilon_greedy > 0:
             r = np.random.rand()
             if r < p.epsilon_greedy:
@@ -1651,7 +1650,8 @@ class BalsaAgent(object):
                 q_exec_stat['execution_time'] = json_dict['Execution Time']
                 q_exec_stat['planning_time'] = json_dict['Planning Time']
 
-            print(f"\t{q_exec_stat['query_name']}: Inference {q_exec_stat['inference_time']:.4f}\tPlanning {q_exec_stat['planning_time']:.4f}\tExecution {q_exec_stat['execution_time']:.4f}")
+            print(
+                f"\t{q_exec_stat['query_name']}: Inference {q_exec_stat['inference_time']:.4f}\tPlanning {q_exec_stat['planning_time']:.4f}\tExecution {q_exec_stat['execution_time']:.4f}")
 
             assert len(result_tups) == 4
             print(result_tups[-1])  # Messages.
@@ -1667,7 +1667,7 @@ class BalsaAgent(object):
                     self.num_query_execs += 1
         self.timer.Stop('wait_for_executions_test_set'
                         if is_test else 'wait_for_executions')
-        
+
         if 'cls' in wandb.run.config:
             experiment_cls = wandb.run.config['cls'].split('/')[-1]
         else:
@@ -1699,7 +1699,7 @@ class BalsaAgent(object):
                                                     to_execute):
             result, real_cost, server_ip = result_tup
             _, hint_str, planning_time, actual, predicted_latency, \
-                curr_timeout = to_execute_tup
+            curr_timeout = to_execute_tup
             # Record execution result, potentially with real_cost = -1
             # indicating a timeout.  The cache would only record a lower
             # latency value so once it gets a -1 label for a plan, it'd not be
@@ -2127,8 +2127,8 @@ class BalsaAgent(object):
         p = self.params
         num_iters_done = self.curr_value_iter + 1
         if p.test_query_glob is None or \
-           num_iters_done < p.test_after_n_iters or \
-           num_iters_done % p.test_every_n_iters != 0:
+                num_iters_done < p.test_after_n_iters or \
+                num_iters_done % p.test_every_n_iters != 0:
             return
         if p.test_using_retrained_model:
             print(
@@ -2146,8 +2146,8 @@ class BalsaAgent(object):
         stages = ['train', 'plan', 'wait_for_executions']
         num_iters_done = self.curr_value_iter + 1
         if p.test_query_glob is not None and \
-           num_iters_done >= p.test_after_n_iters and \
-           num_iters_done % p.test_every_n_iters == 0:
+                num_iters_done >= p.test_after_n_iters and \
+                num_iters_done % p.test_every_n_iters == 0:
             stages += ['plan_test_set', 'wait_for_executions_test_set']
         timings = [self.timer.GetLatestTiming(s) for s in stages]
         iter_total_s = sum(timings)
@@ -2193,7 +2193,8 @@ class BalsaAgent(object):
             # self.{all,train,test}_nodes no longer share any references.
             self.train_nodes = plans_lib.FilterScansOrJoins(self.train_nodes)
             self.test_nodes = plans_lib.FilterScansOrJoins(self.test_nodes)
-        print(f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
+        print(
+            f"---------------------- [debug]. start to run {self.curr_value_iter, p.val_iters} ----------------------")
         while self.curr_value_iter < p.val_iters:
             has_timeouts = self.RunOneIter()
             self.LogTimings()
@@ -2248,7 +2249,7 @@ def Main(argv):
     for k in dict(p).keys():
         print(f"{k}\t\t{dict(p)[k]}")
 
-    #import code; code.interact(local=dict(globals(), **locals()))
+    # import code; code.interact(local=dict(globals(), **locals()))
     agent = BalsaAgent(p)
 
     agent.Run()
