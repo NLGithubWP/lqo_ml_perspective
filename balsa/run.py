@@ -68,6 +68,8 @@ import pg_executor
 from pg_executor import dbmsx_executor
 import train_utils
 import experiments  # noqa # pylint: disable=unused-import
+import experiments_debug
+import exp_job_data_shift
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('run', 'Balsa_JOBRandSplit', 'Experiment config to run.')
