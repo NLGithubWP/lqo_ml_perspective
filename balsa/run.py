@@ -1105,6 +1105,8 @@ class BalsaAgent(object):
                   'num_batches_per_epoch={}'.format(p.per_transition_sgd_steps,
                                                     max_steps,
                                                     len(train_loader)))
+
+        print(f"max_steps is {max_steps}")
         return pl.Trainer(
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
