@@ -1117,7 +1117,8 @@ class BalsaAgent(object):
             early_stop_callback=pl.callbacks.EarlyStopping(
                 patience=p.validate_early_stop_patience,
                 mode='min',
-                verbose=True),
+                verbose=True,
+                monitor='val_loss'), # todo: this line is to match the new version of pytorch-lightning
             weights_summary=None,
             logger=self.loggers,
             gradient_clip_val=p.gradient_clip_val,
