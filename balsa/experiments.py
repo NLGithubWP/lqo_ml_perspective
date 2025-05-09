@@ -1528,7 +1528,7 @@ class NB_Balsa_DEBUG_imdb_17v2_job(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_JOB_DEBUG_imdb_ori_job(Neo_JOB_EvaluationBase):
+class NB_Neo_DEBUG_imdb_ori_job(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1543,7 +1543,7 @@ class NB_Neo_JOB_DEBUG_imdb_ori_job(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_JOB_DEBUG_imdb_01v2_job(Neo_JOB_EvaluationBase):
+class NB_Neo_DEBUG_imdb_01v2_job(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -1558,7 +1558,7 @@ class NB_Neo_JOB_DEBUG_imdb_01v2_job(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_JOB_DEBUG_imdb_05v2_job(Neo_JOB_EvaluationBase):
+class NB_Neo_DEBUG_imdb_05v2_job(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -1573,7 +1573,7 @@ class NB_Neo_JOB_DEBUG_imdb_05v2_job(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_JOB_DEBUG_imdb_17v2_job(Neo_JOB_EvaluationBase):
+class NB_Neo_DEBUG_imdb_17v2_job(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_17v2'
