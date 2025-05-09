@@ -1468,6 +1468,7 @@ class NB_Balsa_JOB_DEBUG(Balsa_JOB_EvaluationBase):
             "1a.sql", "1b.sql", "1c.sql", "1d.sql",
             "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
         p.validate_every_n_epochs = 200
+        p.val_iters = 1
         return p
 
 
@@ -1481,4 +1482,5 @@ class NB_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
             "1a.sql", "1b.sql", "1c.sql", "1d.sql",
             "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
         p.validate_every_n_epochs = 200
+        p.val_iters = 1
         return p
