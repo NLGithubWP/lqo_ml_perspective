@@ -11,6 +11,104 @@ from NET import TreeNet
 from sql2fea import Sql2Vec
 from TreeLSTM import SPINN
 
+import torch
+import os
+import pickle
+
+
+def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
+    """Save the Hinter and its components to disk."""
+    os.makedirs(save_dir, exist_ok=True)
+    file_prefix = f"{config.train_database}_{config.test_database}_{train_or_test}"
+    checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
+    knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
+
+    # Save PyTorch model state dictionaries and config
+    checkpoint = {
+        'tree_net_state_dict': hinter.model.state_dict(),
+        'mcts_searcher_state_dict': None,
+        'config': config.__dict__,
+    }
+
+    # Try saving MCTSHinterSearch state_dict
+    if hasattr(hinter.mcts_searcher, 'state_dict'):
+        checkpoint['mcts_searcher_state_dict'] = hinter.mcts_searcher.state_dict()
+    elif hasattr(hinter.mcts_searcher, 'value_net') and isinstance(hinter.mcts_searcher.value_net, torch.nn.Module):
+        checkpoint['mcts_searcher_state_dict'] = {'value_net': hinter.mcts_searcher.value_net.state_dict()}
+        print("Saved MCTSHinterSearch value_net state_dict as fallback.")
+    else:
+        print("WARNING: MCTSHinterSearch lacks state_dict method and value_net attribute. Trained parameters may not be saved.")
+
+    torch.save(checkpoint, checkpoint_path)
+
+    # Save KNN data
+    with open(knn_path, 'wb') as f:
+        pickle.dump(hinter.knn, f)
+
+    print(f"Saved checkpoint to {checkpoint_path}, KNN to {knn_path}")
+    return checkpoint_path, knn_path
+
+
+def neur_bench_load_hinter(config, train_or_test):
+    """Load the Hinter and its components from disk."""
+    save_dir = "model"
+    file_prefix = f"{config.train_database}_{config.test_database}_train"  # Load from train checkpoint
+    checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
+    knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
+
+    if not os.path.exists(checkpoint_path) or not os.path.exists(knn_path):
+        raise FileNotFoundError(f"Checkpoint {checkpoint_path} or KNN {knn_path} not found")
+
+    # Load checkpoint
+    checkpoint = torch.load(checkpoint_path, map_location=config.device)
+
+    # Update config with saved attributes
+    config_dict = checkpoint['config']
+    for key, value in config_dict.items():
+        setattr(config, key, value)
+
+    # Initialize components
+    tree_builder = TreeBuilder()
+    sql2vec = Sql2Vec()
+    value_network = SPINN(
+        head_num=config.head_num,
+        input_size=config.input_size,
+        hidden_size=config.hidden_size,
+        table_num=50,
+        sql_size=config.max_alias_num * config.max_alias_num + config.max_column
+    ).to(config.device)
+    net = TreeNet(tree_builder=tree_builder, value_network=value_network)
+    mcts_searcher = MCTSHinterSearch()
+
+    # Load model state dictionaries
+    net.load_state_dict(checkpoint['tree_net_state_dict'])
+    if checkpoint['mcts_searcher_state_dict'] is not None:
+        if hasattr(mcts_searcher, 'load_state_dict'):
+            mcts_searcher.load_state_dict(checkpoint['mcts_searcher_state_dict'])
+        elif hasattr(mcts_searcher, 'value_net') and isinstance(mcts_searcher.value_net, torch.nn.Module):
+            mcts_searcher.value_net.load_state_dict(checkpoint['mcts_searcher_state_dict']['value_net'])
+            print("Loaded MCTSHinterSearch value_net state_dict as fallback.")
+        else:
+            print("WARNING: MCTSHinterSearch lacks load_state_dict method and value_net attribute. Using uninitialized MCTSHinterSearch.")
+    else:
+        print("WARNING: No MCTSHinterSearch state_dict was saved. Using uninitialized MCTSHinterSearch.")
+
+    # Load KNN
+    with open(knn_path, 'rb') as f:
+        knn = pickle.load(f)
+
+    # Create Hinter
+    hinter = Hinter(
+        model=net,
+        sql2vec=sql2vec,
+        value_extractor=value_extractor,  # Use global value_extractor
+        mcts_searcher=mcts_searcher
+    )
+    hinter.knn = knn
+
+    print(f"Loaded checkpoint from {checkpoint_path}, KNN from {knn_path}")
+    return hinter
+
 
 def load_queries(queries_path):
     with open(queries_path) as f:
@@ -31,39 +129,39 @@ def main(config, train_or_test):
     print("---test query files", config.queries_file.replace('__train', '__test'))
     test_queries = load_queries(config.queries_file.replace('__train', '__test'))
 
-    tree_builder = TreeBuilder()
-    sql2vec = Sql2Vec()
-    # table_num = config.max_alias_num? or actually number of tables?
-    value_network = SPINN(head_num=config.head_num, input_size=config.input_size, hidden_size=config.hidden_size,
-                          table_num=50, sql_size=config.max_alias_num * config.max_alias_num + config.max_column).to(
-        config.device)
-    for name, param in value_network.named_parameters():
-        from torch.nn import init
-        if len(param.shape) == 2:
-            init.xavier_normal_(param)
-        else:
-            init.uniform_(param)
-
-    net = TreeNet(tree_builder=tree_builder, value_network=value_network)
-    mcts_searcher = MCTSHinterSearch()
-    hinter = Hinter(model=net, sql2vec=sql2vec, value_extractor=value_extractor, mcts_searcher=mcts_searcher)
-
-    print(len(train_queries))
-
-    # Prepare query log file
-    query_log_file_path \
-        = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
-
-    columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
-               'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
-    with open(query_log_file_path, 'w') as f:
-        f.write(','.join(columns) + '\n')
-
-    # Since the splits provided by Lehmann, Sulimov & Stockinger do not include 20'000 queries,
-    # we instead run the approx. 80-90 queries in repeated epochs to achieve a roughly similar
-    # amount of executed queries, though these include the same queries multiple times!
-
     if train_or_test == "train":
+        tree_builder = TreeBuilder()
+        sql2vec = Sql2Vec()
+        # table_num = config.max_alias_num? or actually number of tables?
+        value_network = SPINN(head_num=config.head_num, input_size=config.input_size, hidden_size=config.hidden_size,
+                              table_num=50, sql_size=config.max_alias_num * config.max_alias_num + config.max_column).to(
+            config.device)
+        for name, param in value_network.named_parameters():
+            from torch.nn import init
+            if len(param.shape) == 2:
+                init.xavier_normal_(param)
+            else:
+                init.uniform_(param)
+
+        net = TreeNet(tree_builder=tree_builder, value_network=value_network)
+        mcts_searcher = MCTSHinterSearch()
+        hinter = Hinter(model=net, sql2vec=sql2vec, value_extractor=value_extractor, mcts_searcher=mcts_searcher)
+
+        print(len(train_queries))
+
+        # Prepare query log file
+        query_log_file_path \
+            = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
+
+        columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
+        with open(query_log_file_path, 'w') as f:
+            f.write(','.join(columns) + '\n')
+
+        # Since the splits provided by Lehmann, Sulimov & Stockinger do not include 20'000 queries,
+        # we instead run the approx. 80-90 queries in repeated epochs to achieve a roughly similar
+        # amount of executed queries, though these include the same queries multiple times!
+
         print("training ...")
         for epoch in range(config.n_epochs):
             train_epoch(hinter, train_queries, epoch, query_log_file_path)
@@ -72,10 +170,27 @@ def main(config, train_or_test):
             # if epoch % 10 == 0:
             #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
 
+        # Save the trained hinter
+        checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test)
+        print(f"Training complete. Saved model to {checkpoint_path}, KNN to {knn_path}")
+
     # Final eval
     if train_or_test == "test":
+        # Load the trained hinter
+        hinter = neur_bench_load_hinter(config, train_or_test)
+
+        # Prepare query log file
+        query_log_file_path \
+            = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
+
+        columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
+        with open(query_log_file_path, 'w') as f:
+            f.write(','.join(columns) + '\n')
+
         print("testing ...")
-        test_epoch(hinter, test_queries, 2, query_log_file_path)
+        test_epoch(hinter, test_queries, 0, query_log_file_path)
+        print("Testing complete.")
 
 
 def train_epoch(hinter, queries, epoch, query_log_file_path):
