@@ -42,159 +42,6 @@ RAND_52_TEST_QUERIES = [
     '22b.sql', '17c.sql', '24b.sql', '10a.sql', '22c.sql'
 ]
 
-JOB_JOIN_PRED_TABLE_TEST = [
-    "1a.sql",
-    "1b.sql",
-    "1c.sql",
-    "1d.sql",
-    "2a.sql",
-    "2b.sql",
-    "2c.sql",
-    "2d.sql",
-    "3a.sql",
-    "3b.sql",
-    "3c.sql",
-    "4a.sql",
-    "4b.sql",
-    "4c.sql",
-    "5a.sql",
-    "5b.sql",
-    "5c.sql",
-    "6a.sql",
-    "6b.sql",
-    "6c.sql",
-    "6d.sql",
-    "6e.sql",
-    "6f.sql",
-    "7a.sql",
-    "7b.sql",
-    "7c.sql",
-    "8a.sql",
-    "8b.sql",
-    "8c.sql",
-    "8d.sql",
-    "9a.sql",
-    "9b.sql",
-    "9c.sql",
-    "9d.sql",
-    "10a.sql",
-    "10b.sql",
-    "10c.sql",
-    "11a.sql",
-    "11b.sql",
-    "11c.sql",
-    "11d.sql",
-    "12a.sql",
-    "12b.sql",
-    "12c.sql",
-    "13a.sql",
-    "13b.sql",
-    "13c.sql",
-    "13d.sql",
-    "14a.sql",
-    "14b.sql",
-    "14c.sql",
-    "15a.sql",
-    "15b.sql",
-    "15c.sql",
-    "15d.sql",
-    "16a.sql",
-    "16b.sql",
-    "16c.sql",
-    "16d.sql",
-    "17a.sql",
-    "17b.sql",
-    "17c.sql",
-    "17d.sql",
-    "17e.sql",
-    "17f.sql",
-    "18a.sql",
-    "18b.sql",
-    "18c.sql",
-    "19a.sql",
-    "19b.sql",
-    "19c.sql",
-    "19d.sql",
-    "20a.sql",
-    "20b.sql",
-    "20c.sql",
-    "21a.sql",
-    "21b.sql",
-    "21c.sql",
-    "22a.sql",
-    "22b.sql",
-    "22c.sql",
-    "22d.sql",
-    "23a.sql",
-    "23b.sql",
-    "23c.sql",
-    "24a.sql",
-    "24b.sql",
-    "25a.sql",
-    "25b.sql",
-    "25c.sql",
-    "26a.sql",
-    "26b.sql",
-    "26c.sql",
-    "27a.sql",
-    "27b.sql",
-    "27c.sql",
-    "28a.sql",
-    "28b.sql",
-    "28c.sql",
-    "29a.sql",
-    "29b.sql",
-    "29c.sql",
-    "30a.sql",
-    "30b.sql",
-    "30c.sql",
-    "31a.sql",
-    "31b.sql",
-    "31c.sql",
-    "32a.sql",
-    "32b.sql",
-    "33a.sql",
-    "33b.sql",
-    "33c.sql"
-]
-
-JOB_SMALLSET_TEST = [
-    "1d.sql",
-    "2d.sql",
-    "3c.sql",
-    "4c.sql",
-    "5c.sql",
-    "6e.sql",
-    "6f.sql",
-    "7c.sql",
-    "8d.sql",
-    "9d.sql",
-    "10c.sql",
-    "11d.sql",
-    "12c.sql",
-    "13d.sql",
-    "14c.sql",
-    "15d.sql",
-    "16d.sql",
-    "17f.sql",
-    "18c.sql",
-    "19d.sql",
-    "20c.sql",
-    "21c.sql",
-    "22d.sql",
-    "23c.sql",
-    "24b.sql",
-    "25c.sql",
-    "26c.sql",
-    "27c.sql",
-    "28c.sql",
-    "29c.sql",
-    "30c.sql",
-    "31c.sql",
-    "32b.sql",
-    "33b.sql"
-]
-
 # ===================================================================
 
 RANDOM_SPLIT_1__TEST_QUERIES = [
@@ -412,9 +259,9 @@ class BalsaParams(object):
 
         # Training.
         p.Define('inherit_optimizer_state', False, 'Experimental.  For Adam.')
-        p.Define('epochs', 6, 'Num epochs to train.')
+        p.Define('epochs', 100, 'Num epochs to train.')
         p.Define('bs', 1024, 'Batch size.')
-        p.Define('val_iters', 2, '# of value iterations.')
+        p.Define('val_iters', 500, '# of value iterations.')
         p.Define('increment_iter_despite_timeouts', False,
                  'Increment the iteration counter even if timeouts occurred?')
         p.Define('loss_type', None, 'Options: None (MSE), mean_qerror.')
@@ -1124,106 +971,6 @@ class Neo_JOB_EvaluationBase(NeoImplRand52):
 # RANDOM SPLIT 1-3
 
 @balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_ori'
-        p.query_dir = 'queries/q_train_imdb_join_03'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_ori'
-        p.query_dir = 'queries/q_train_imdb_join_05'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_ori'
-        p.query_dir = 'queries/job_data_v2_small_set_query'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-# RANDOM SPLIT 1-3
-@balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_01v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_05v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.db = 'imdb_07v2'
-        p.query_dir = 'queries/job_data_v2_small_set_query'
-        p.test_query_glob = JOB_SMALLSET_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.query_dir = 'queries/job_query_join'
-        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        # this is the path in docker
-        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
-        p.test_query_glob = [
-            "1a.sql", "1b.sql", "1c.sql", "1d.sql",
-            "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_JOB_PRE(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.query_dir = 'queries/job_query_predicates_short'
-        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
-        return p
-
-
-@balsa.params_registry.Register
-class Neurbench_Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
-    def Params(self):
-        p = super().Params()
-        p.query_dir = 'queries/job_query_table_short'
-        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
-        return p
-
-
-@balsa.params_registry.Register
 class Neo_JOBRandomSplit1(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
@@ -1449,4 +1196,260 @@ class JOBRandSplit_NoExplore(Balsa_JOBRandSplit):
     def Params(self):
         p = super().Params()
         p.explore_visit_counts_sort = False
+        return p
+
+
+######################### NeurBench Code #########################
+
+JOB_JOIN_PRED_TABLE_TEST = [
+    "1a.sql",
+    "1b.sql",
+    "1c.sql",
+    "1d.sql",
+    "2a.sql",
+    "2b.sql",
+    "2c.sql",
+    "2d.sql",
+    "3a.sql",
+    "3b.sql",
+    "3c.sql",
+    "4a.sql",
+    "4b.sql",
+    "4c.sql",
+    "5a.sql",
+    "5b.sql",
+    "5c.sql",
+    "6a.sql",
+    "6b.sql",
+    "6c.sql",
+    "6d.sql",
+    "6e.sql",
+    "6f.sql",
+    "7a.sql",
+    "7b.sql",
+    "7c.sql",
+    "8a.sql",
+    "8b.sql",
+    "8c.sql",
+    "8d.sql",
+    "9a.sql",
+    "9b.sql",
+    "9c.sql",
+    "9d.sql",
+    "10a.sql",
+    "10b.sql",
+    "10c.sql",
+    "11a.sql",
+    "11b.sql",
+    "11c.sql",
+    "11d.sql",
+    "12a.sql",
+    "12b.sql",
+    "12c.sql",
+    "13a.sql",
+    "13b.sql",
+    "13c.sql",
+    "13d.sql",
+    "14a.sql",
+    "14b.sql",
+    "14c.sql",
+    "15a.sql",
+    "15b.sql",
+    "15c.sql",
+    "15d.sql",
+    "16a.sql",
+    "16b.sql",
+    "16c.sql",
+    "16d.sql",
+    "17a.sql",
+    "17b.sql",
+    "17c.sql",
+    "17d.sql",
+    "17e.sql",
+    "17f.sql",
+    "18a.sql",
+    "18b.sql",
+    "18c.sql",
+    "19a.sql",
+    "19b.sql",
+    "19c.sql",
+    "19d.sql",
+    "20a.sql",
+    "20b.sql",
+    "20c.sql",
+    "21a.sql",
+    "21b.sql",
+    "21c.sql",
+    "22a.sql",
+    "22b.sql",
+    "22c.sql",
+    "22d.sql",
+    "23a.sql",
+    "23b.sql",
+    "23c.sql",
+    "24a.sql",
+    "24b.sql",
+    "25a.sql",
+    "25b.sql",
+    "25c.sql",
+    "26a.sql",
+    "26b.sql",
+    "26c.sql",
+    "27a.sql",
+    "27b.sql",
+    "27c.sql",
+    "28a.sql",
+    "28b.sql",
+    "28c.sql",
+    "29a.sql",
+    "29b.sql",
+    "29c.sql",
+    "30a.sql",
+    "30b.sql",
+    "30c.sql",
+    "31a.sql",
+    "31b.sql",
+    "31c.sql",
+    "32a.sql",
+    "32b.sql",
+    "33a.sql",
+    "33b.sql",
+    "33c.sql"
+]
+
+JOB_SMALLSET_TEST = [
+    "1d.sql",
+    "2d.sql",
+    "3c.sql",
+    "4c.sql",
+    "5c.sql",
+    "6e.sql",
+    "6f.sql",
+    "7c.sql",
+    "8d.sql",
+    "9d.sql",
+    "10c.sql",
+    "11d.sql",
+    "12c.sql",
+    "13d.sql",
+    "14c.sql",
+    "15d.sql",
+    "16d.sql",
+    "17f.sql",
+    "18c.sql",
+    "19d.sql",
+    "20c.sql",
+    "21c.sql",
+    "22d.sql",
+    "23c.sql",
+    "24b.sql",
+    "25c.sql",
+    "26c.sql",
+    "27c.sql",
+    "28c.sql",
+    "29c.sql",
+    "30c.sql",
+    "31c.sql",
+    "32b.sql",
+    "33b.sql"
+]
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train03(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_03'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_JOIN_SHIFT_Train05(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/q_train_imdb_join_05'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_Train(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_ori'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+# RANDOM SPLIT 1-3
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_01(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_01v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_05(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_05v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_DB2_SMALL_SET_07(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_07v2'
+        p.query_dir = 'queries/job_data_v2_small_set_query'
+        p.test_query_glob = JOB_SMALLSET_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_JOB_JOIN(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_join'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_JOB_DEBUG(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = [
+            "1a.sql", "1b.sql", "1c.sql", "1d.sql",
+            "2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_JOB_PRE(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_predicates_short'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
+        return p
+
+
+@balsa.params_registry.Register
+class Neurbench_Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.query_dir = 'queries/job_query_table_short'
+        p.test_query_glob = JOB_JOIN_PRED_TABLE_TEST
         return p
