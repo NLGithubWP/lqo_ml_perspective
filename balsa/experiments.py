@@ -1464,8 +1464,11 @@ class Neurbench_Neo_JOB_TABLE(Neo_JOB_EvaluationBase):
 ######################### NeurBench (NB) Revision #########################
 
 
+######################### 1. JOB query on multiple datasets #########################
+
+
 @balsa.params_registry.Register
-class NB_Balsa_JOB_DEBUG_imdb_ori(Balsa_JOB_EvaluationBase):
+class NB_Balsa_DEBUG_imdb_ori_job(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1475,12 +1478,57 @@ class NB_Balsa_JOB_DEBUG_imdb_ori(Balsa_JOB_EvaluationBase):
         p.validate_every_n_epochs = 200
         p.val_iters = 1
         p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
-        p.model_prefix = 'balsa_debug_'
+        p.model_prefix = 'balsa_imdb_ori_job_mini'
         return p
 
 
 @balsa.params_registry.Register
-class NB_Neo_JOB_DEBUG_imdb_ori(Neo_JOB_EvaluationBase):
+class NB_Balsa_DEBUG_imdb_01v2_job(Balsa_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_01v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_prefix = 'balsa_imdb_01v2_job_mini'
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Balsa_DEBUG_imdb_05v2_job(Balsa_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_05v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_prefix = 'balsa_imdb_05v2_job_mini'
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Balsa_DEBUG_imdb_17v2_job(Balsa_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_17v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_prefix = 'balsa_imdb_17v2_job_mini'
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Neo_JOB_DEBUG_imdb_ori_job(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -1490,5 +1538,52 @@ class NB_Neo_JOB_DEBUG_imdb_ori(Neo_JOB_EvaluationBase):
         p.validate_every_n_epochs = 200
         p.val_iters = 1
         p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
-        p.model_prefix = 'neo_debug_'
+        p.model_prefix = 'neo_imdb_ori_job_mini'
         return p
+
+
+@balsa.params_registry.Register
+class NB_Neo_JOB_DEBUG_imdb_01v2_job(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_01v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_prefix = 'neo_imdb_01v2_job_mini'
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Neo_JOB_DEBUG_imdb_05v2_job(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_05v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_prefix = 'neo_imdb_05v2_job_mini'
+        return p
+
+
+@balsa.params_registry.Register
+class NB_Neo_JOB_DEBUG_imdb_17v2_job(Neo_JOB_EvaluationBase):
+    def Params(self):
+        p = super().Params()
+        p.db = 'imdb_17v2'
+        # this is the path in docker
+        p.query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job_query_debug'
+        p.test_query_glob = ["2a.sql", "2b.sql", "2c.sql", "2d.sql"]
+        p.validate_every_n_epochs = 200
+        p.val_iters = 1
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_prefix = 'neo_imdb_17v2_job_mini'
+        return p
+
+
