@@ -152,6 +152,10 @@ def main(config, train_or_test):
         checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test)
         print(f"Training complete. Saved model to {checkpoint_path}, KNN to {knn_path}")
 
+        print("testing after training ...")
+        test_epoch(hinter, test_queries, 0, query_log_file_path)
+        print("Testing after Training complete.")
+
     # Final eval
     if train_or_test == "test":
         # Load the trained hinter
