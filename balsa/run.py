@@ -609,14 +609,22 @@ class BalsaModel(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         val_loss, l2_loss = self._ComputeLoss(batch)
-        result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
-        result.log('{}val_loss'.format(self.logging_prefix),
-                   val_loss,
-                   prog_bar=False)
-        result.log('val_loss', val_loss, prog_bar=True)
+        self.log('{}val_loss'.format(self.logging_prefix), val_loss, prog_bar=False)
+        self.log('val_loss', val_loss, prog_bar=True)
         if self.l2_lambda > 0:
-            result.log('val_l2_loss', l2_loss, prog_bar=False)
-        return result
+            self.log('val_l2_loss', l2_loss, prog_bar=False)
+        return {'val_loss': val_loss}  # For checkpointing and early stopping
+
+    # def validation_step(self, batch, batch_idx):
+    #     val_loss, l2_loss = self._ComputeLoss(batch)
+    #     result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
+    #     result.log('{}val_loss'.format(self.logging_prefix),
+    #                val_loss,
+    #                prog_bar=False)
+    #     result.log('val_loss', val_loss, prog_bar=True)
+    #     if self.l2_lambda > 0:
+    #         result.log('val_l2_loss', l2_loss, prog_bar=False)
+    #     return result
 
     def _ComputeLoss(self, batch):
         p = self.params
