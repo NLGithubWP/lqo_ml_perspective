@@ -1106,7 +1106,10 @@ class BalsaAgent(object):
                                                     max_steps,
                                                     len(train_loader)))
 
+        # todo: Default to no step limit (like max_steps=None in 0.9.0)
         print(f"max_steps is {max_steps}")
+        if max_steps is None:
+            max_steps = -1
         return pl.Trainer(
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
