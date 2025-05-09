@@ -599,21 +599,29 @@ class BalsaModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss, l2_loss = self._ComputeLoss(batch)
-        result = pl.TrainResult(minimize=loss)
-        # Log both a per-iter metric and an overall metric for comparison.
-        result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
-        result.log('train_loss', loss, prog_bar=True)
+        self.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False, batch_size=self.params.bs)
+        self.log('train_loss', loss, prog_bar=True, batch_size=self.params.bs)
         if self.l2_lambda > 0:
-            result.log('l2_loss', l2_loss, prog_bar=False)
-        return result
+            self.log('l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
+        return loss
 
     def validation_step(self, batch, batch_idx):
         val_loss, l2_loss = self._ComputeLoss(batch)
-        self.log('{}val_loss'.format(self.logging_prefix), val_loss, prog_bar=False)
-        self.log('val_loss', val_loss, prog_bar=True)
+        self.log('{}val_loss'.format(self.logging_prefix), val_loss, prog_bar=False, batch_size=self.params.bs)
+        self.log('val_loss', val_loss, prog_bar=True, batch_size=self.params.bs)
         if self.l2_lambda > 0:
-            self.log('val_l2_loss', l2_loss, prog_bar=False)
-        return {'val_loss': val_loss}  # For checkpointing and early stopping
+            self.log('val_l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
+        return {'val_loss': val_loss}
+
+    # def training_step(self, batch, batch_idx):
+    #     loss, l2_loss = self._ComputeLoss(batch)
+    #     result = pl.TrainResult(minimize=loss)
+    #     # Log both a per-iter metric and an overall metric for comparison.
+    #     result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
+    #     result.log('train_loss', loss, prog_bar=True)
+    #     if self.l2_lambda > 0:
+    #         result.log('l2_loss', l2_loss, prog_bar=False)
+    #     return result
 
     # def validation_step(self, batch, batch_idx):
     #     val_loss, l2_loss = self._ComputeLoss(batch)
