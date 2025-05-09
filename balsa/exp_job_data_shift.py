@@ -118,7 +118,7 @@ full_query_test_query_glob = ['1a.sql',
                               '33a.sql',
                               '33b.sql',
                               '33c.sql']
-empty_test_query_glob = []
+empty_test_query_glob = ['1a.sql']
 full_query_query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/join-order-benchmark'
 
 current_used_query_dir = full_query_query_dir
