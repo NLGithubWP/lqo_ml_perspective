@@ -25,7 +25,7 @@ def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
 
     # Save PyTorch model state dictionaries and config
     checkpoint = {
-        'tree_net_state_dict': hinter.model.state_dict(),
+        'tree_net_state_dict': hinter.model.value_network.state_dict(),  # Save SPINN parameters
         'mcts_searcher_state_dict': None,
         'config': config.__dict__,
     }
@@ -81,7 +81,7 @@ def neur_bench_load_hinter(config, train_or_test):
     mcts_searcher = MCTSHinterSearch()
 
     # Load model state dictionaries
-    net.load_state_dict(checkpoint['tree_net_state_dict'])
+    net.value_network.load_state_dict(checkpoint['tree_net_state_dict'])  # Load SPINN parameters
     if checkpoint['mcts_searcher_state_dict'] is not None:
         if hasattr(mcts_searcher, 'load_state_dict'):
             mcts_searcher.load_state_dict(checkpoint['mcts_searcher_state_dict'])
