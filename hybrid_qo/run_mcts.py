@@ -277,6 +277,8 @@ if __name__ == '__main__':
 
     config.queries_file = args.query_file
     config.n_epochs = args.epoch
+    config.train_database = args.train_database
+    config.test_database = args.test_database
     print("Updating config done")
 
     from Hinter import Hinter
