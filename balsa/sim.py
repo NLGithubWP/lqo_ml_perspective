@@ -127,10 +127,23 @@ class SimModel(pl.LightningModule):
 
     def on_after_backward(self):
         if self.global_step % 50 == 0:
-            norm_dict = self.grad_norm(norm_type=2)
-            total_norm = norm_dict['grad_2.0_norm_total']
-            self.logger.log_metrics({'total_grad_norm': total_norm},
-                                    step=self.global_step)
+            # Compute the total gradient norm (L2 norm, norm_type=2)
+            total_norm = 0.0
+            for p in self.parameters():
+                if p.grad is not None:
+                    param_norm = p.grad.norm(2)  # L2 norm
+                    total_norm += param_norm.item() ** 2
+            total_norm = total_norm ** 0.5  # Square root of sum of squares
+
+            # Log the total gradient norm
+            self.log('total_grad_norm', total_norm, on_step=True, on_epoch=False)
+
+    # def on_after_backward(self):
+    #     if self.global_step % 50 == 0:
+    #         norm_dict = self.grad_norm(norm_type=2)
+    #         total_norm = norm_dict['grad_2.0_norm_total']
+    #         self.logger.log_metrics({'total_grad_norm': total_norm},
+    #                                 step=self.global_step)
 
 
 class SimQueryFeaturizer(plans_lib.Featurizer):
