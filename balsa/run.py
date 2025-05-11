@@ -2161,7 +2161,7 @@ class BalsaAgent(object):
 
         # Saving intermediate checkpoints
         if curr_value_iter is not None:
-            base_folder_path = os.path.join(base_save_dir, 'checkpoints', self.initialization_time)
+            base_folder_path = os.path.join(base_save_dir, f'{parameter.model_prefix}_checkpoints', self.initialization_time)
             if not os.path.exists(base_folder_path):
                 os.makedirs(base_folder_path)
             intermediate_path = os.path.join(base_folder_path, f'checkpoint__iter{curr_value_iter}.pt')
@@ -2174,7 +2174,7 @@ class BalsaAgent(object):
         # Save metadata
         SaveText(
             'value_iter,{}'.format(self.curr_value_iter),
-            os.path.join(base_save_dir, 'checkpoint-metadata.txt'))
+            os.path.join(base_save_dir, f'{parameter.model_prefix}_checkpoint-metadata.txt'))
         print('Saved iter={} checkpoint to: {}'.format(self.curr_value_iter, ckpt_path))
 
         # Replay buffer. Saved under data/.
