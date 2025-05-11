@@ -84,17 +84,27 @@ class SimModel(pl.LightningModule):
         optimizer = torch.optim.Adam(self.parameters(), lr=3e-3)
         return optimizer
 
+    # def training_step(self, batch, batch_idx):
+    #     loss = self._ComputeLoss(batch)
+    #     result = pl.TrainResult(minimize=loss)
+    #     result.log('train_loss', loss, prog_bar=True)
+    #     return result
+    #
+    # def validation_step(self, batch, batch_idx):
+    #     val_loss = self._ComputeLoss(batch)
+    #     result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
+    #     result.log('val_loss', val_loss, prog_bar=True)
+    #     return result
+
     def training_step(self, batch, batch_idx):
         loss = self._ComputeLoss(batch)
-        result = pl.TrainResult(minimize=loss)
-        result.log('train_loss', loss, prog_bar=True)
-        return result
+        self.log('train_loss', loss, prog_bar=True)
+        return loss
 
     def validation_step(self, batch, batch_idx):
         val_loss = self._ComputeLoss(batch)
-        result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
-        result.log('val_loss', val_loss, prog_bar=True)
-        return result
+        self.log('val_loss', val_loss, prog_bar=True, on_step=False, on_epoch=True)
+        return val_loss
 
     def _ComputeLoss(self, batch):
         query_feat, plan_feat, *rest = batch
