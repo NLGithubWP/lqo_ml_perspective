@@ -119,7 +119,7 @@ full_query_test_query_glob = ['1a.sql',
                               '33b.sql',
                               '33c.sql']
 empty_test_query_glob = ['1a.sql']
-full_query_query_dir = '~/AI4QueryOptimizer/experiment_setup/workloads/balsa/join-order-benchmark'
+full_query_query_dir = '/home/naili/AI4QueryOptimizer/experiment_setup/workloads/balsa/join-order-benchmark'
 
 current_used_query_dir = full_query_query_dir
 current_used_test_query_glob_in_train = empty_test_query_glob
@@ -138,7 +138,7 @@ class NB_Balsa_train_imdb_ori_job_datashift(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_ori_job_full'
         return p
 
@@ -153,7 +153,7 @@ class NB_Balsa_train_imdb_01v2_job_datashift(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_01v2_job_full'
         return p
 
@@ -168,7 +168,7 @@ class NB_Balsa_train_imdb_05v2_job_datashift(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_05v2_job_full'
         return p
 
@@ -183,7 +183,7 @@ class NB_Balsa_train_imdb_17v2_job_datashift(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_17v2_job_full'
         return p
 
@@ -198,7 +198,7 @@ class NB_Neo_train_imdb_ori_job_datashift(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_ori_job_full'
         return p
 
@@ -213,7 +213,7 @@ class NB_Neo_train_imdb_01v2_job_datashift(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_01v2_job_full'
         return p
 
@@ -228,7 +228,7 @@ class NB_Neo_train_imdb_05v2_job_datashift(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_05v2_job_full'
         return p
 
@@ -243,7 +243,7 @@ class NB_Neo_train_imdb_17v2_job_datashift(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '~/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/home/naili/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_17v2_job_full'
         return p
 
