@@ -901,14 +901,23 @@ class Sim(object):
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
             # Add logging metrics per this many batches.
-            row_log_interval=10,
+            # row_log_interval=10,
+            log_every_n_steps=10,
             # Do validation per this many train epochs.
             check_val_every_n_epoch=1,
             # Patience = # of validations with no improvements before stopping.
-            early_stop_callback=pl.callbacks.EarlyStopping(patience=5,
-                                                           mode='min',
-                                                           verbose=True),
-            weights_summary='full',
+
+            callbacks=[pl.callbacks.EarlyStopping(
+                monitor='val_loss',
+                patience=5,
+                mode='min',
+                verbose=True)],
+
+            # early_stop_callback=pl.callbacks.EarlyStopping(patience=5,
+            #                                                mode='min',
+            #                                                verbose=True),
+            # weights_summary='full',
+            enable_model_summary=True,
             logger=loggers,
             gradient_clip_val=p.gradient_clip_val,
             num_sanity_val_steps=2 if p.validate_fraction > 0 else 0,
