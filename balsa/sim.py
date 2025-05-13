@@ -1013,7 +1013,7 @@ class Sim(object):
         self.model = self._MakeModel(query_feat_dims=query_feat_dims,
                                      plan_feat_dims=plan_feat_dims)
         print("wating for memory checking")
-        time.sleep(200000)
+        # time.sleep(200000)
         balsa.models.ReportModel(self.model)
 
         # Train or load.
