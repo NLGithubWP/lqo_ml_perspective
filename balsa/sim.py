@@ -1012,6 +1012,7 @@ class Sim(object):
             unused_bs, plan_feat_dims = batch[1].shape
         self.model = self._MakeModel(query_feat_dims=query_feat_dims,
                                      plan_feat_dims=plan_feat_dims)
+        time.sleep(200)
         balsa.models.ReportModel(self.model)
 
         # Train or load.
