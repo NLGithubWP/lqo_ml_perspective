@@ -862,6 +862,7 @@ class BalsaAgent(object):
     def _MakeExperienceBuffer(self):
         p = self.params
         if not p.run_baseline and p.sim:
+            print("Get OrTrainSim in _MakeExperienceBuffer 1")
             wi = self.GetOrTrainSim().training_workload_info
         else:
             # E.g., if sim is disabled, we just use the overall workload info
@@ -878,6 +879,8 @@ class BalsaAgent(object):
         if self.sim is not None:
             # Use the already instantiated query featurizer, which may contain
             # computed normalization stats.
+
+            print("Get OrTrainSim in _MakeExperienceBuffer 2")
             query_featurizer_cls = self.GetOrTrainSim().query_featurizer
 
         exp = Experience(self.train_nodes,
@@ -1085,6 +1088,8 @@ class BalsaAgent(object):
                 if train_from_scratch:
                     print('Training from scratch; forcing tau := 0.')
                     soft_assign_tau = 0.0
+
+                print("Get OrTrainSim in InitializeModel")
                 self.ema_source_net = InitializeModel(
                     p,
                     model,
@@ -1462,6 +1467,7 @@ class BalsaAgent(object):
         to_execute = []
         tasks = []
         if p.sim:
+            print("Get OrTrainSim in PlanAndExecute")
             sim = self.GetOrTrainSim()
         positions_of_min_predicted = []
         nodes = self.test_nodes if is_test else self.train_nodes
