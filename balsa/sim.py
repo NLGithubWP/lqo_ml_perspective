@@ -831,9 +831,10 @@ class Sim(object):
             batch_size=p.bs,
             shuffle=True,
             pin_memory=True,
+            num_workers=0,  # Disable worker subprocesses
         )
         if num_validation > 0:
-            val_loader = torch.utils.data.DataLoader(val_ds, batch_size=1024)
+            val_loader = torch.utils.data.DataLoader(val_ds, batch_size=1024, num_workers=0),  # Disable worker subprocesses
         else:
             val_loader = None
         logging.info('num_train={} num_validation={}'.format(
