@@ -2339,7 +2339,9 @@ class BalsaAgent(object):
                     if self.adaptive_lr_schedule is not None:
                         self.adaptive_lr_schedule.Step()
 
+from memory_profiler import profile
 
+@profile
 def Main(argv):
     del argv  # Unused.
     name = FLAGS.run
