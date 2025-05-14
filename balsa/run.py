@@ -1325,20 +1325,24 @@ class BalsaAgent(object):
                 self.curr_value_iter))
         trainer = self._MakeTrainer(train_loader)
         if train_from_scratch:
+            print("---------------------- [debug]. train_from_scratch... ---------------------- ")
             trainer.fit(model, train_loader, val_loader)
         elif not (self.curr_value_iter == 0 and p.skip_training_on_expert and
                   (p.prev_replay_buffers_glob is None or
                    p.agent_checkpoint is not None)):
+            print("---------------------- [debug]. train next... ---------------------- ")
             # This condition only affects the first ever call to Train().
             # Iteration 0 doesn't have a timeout limit, so during the second
             # call to Train() we would always have self.curr_value_iter == 1.
             trainer.fit(model, train_loader, val_loader)
+            print("---------------------- [debug]. train next, train fit done... ---------------------- ")
             self.model = model.model
             # Optimizer state dict now available.
             self.prev_optimizer_state_dict = None
             if p.inherit_optimizer_state:
                 self.prev_optimizer_state_dict = trainer.optimizers[
                     0].state_dict()
+        print("---------------------- [debug]. train done... ---------------------- ")
         # Load best ckpt.
         self._LoadBestCheckpointForEval(model, trainer)
         self.timer.Stop('train')
