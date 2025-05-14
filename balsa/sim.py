@@ -84,27 +84,17 @@ class SimModel(pl.LightningModule):
         optimizer = torch.optim.Adam(self.parameters(), lr=3e-3)
         return optimizer
 
-    # def training_step(self, batch, batch_idx):
-    #     loss = self._ComputeLoss(batch)
-    #     result = pl.TrainResult(minimize=loss)
-    #     result.log('train_loss', loss, prog_bar=True)
-    #     return result
-    #
-    # def validation_step(self, batch, batch_idx):
-    #     val_loss = self._ComputeLoss(batch)
-    #     result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
-    #     result.log('val_loss', val_loss, prog_bar=True)
-    #     return result
-
     def training_step(self, batch, batch_idx):
         loss = self._ComputeLoss(batch)
-        self.log('train_loss', loss, prog_bar=True)
-        return loss
+        result = pl.TrainResult(minimize=loss)
+        result.log('train_loss', loss, prog_bar=True)
+        return result
 
     def validation_step(self, batch, batch_idx):
         val_loss = self._ComputeLoss(batch)
-        self.log('val_loss', val_loss, prog_bar=True, on_step=False, on_epoch=True)
-        return val_loss
+        result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
+        result.log('val_loss', val_loss, prog_bar=True)
+        return result
 
     def _ComputeLoss(self, batch):
         query_feat, plan_feat, *rest = batch
@@ -127,23 +117,10 @@ class SimModel(pl.LightningModule):
 
     def on_after_backward(self):
         if self.global_step % 50 == 0:
-            # Compute the total gradient norm (L2 norm, norm_type=2)
-            total_norm = 0.0
-            for p in self.parameters():
-                if p.grad is not None:
-                    param_norm = p.grad.norm(2)  # L2 norm
-                    total_norm += param_norm.item() ** 2
-            total_norm = total_norm ** 0.5  # Square root of sum of squares
-
-            # Log the total gradient norm
-            self.log('total_grad_norm', total_norm, on_step=True, on_epoch=False)
-
-    # def on_after_backward(self):
-    #     if self.global_step % 50 == 0:
-    #         norm_dict = self.grad_norm(norm_type=2)
-    #         total_norm = norm_dict['grad_2.0_norm_total']
-    #         self.logger.log_metrics({'total_grad_norm': total_norm},
-    #                                 step=self.global_step)
+            norm_dict = self.grad_norm(norm_type=2)
+            total_norm = norm_dict['grad_2.0_norm_total']
+            self.logger.log_metrics({'total_grad_norm': total_norm},
+                                    step=self.global_step)
 
 
 class SimQueryFeaturizer(plans_lib.Featurizer):
@@ -830,11 +807,10 @@ class Sim(object):
             train_ds,
             batch_size=p.bs,
             shuffle=True,
-            pin_memory=False,
-            num_workers=0,  # Disable worker subprocesses
+            pin_memory=True,
         )
         if num_validation > 0:
-            val_loader = torch.utils.data.DataLoader(val_ds, batch_size=1024, num_workers=0),  # Disable worker subprocesses
+            val_loader = torch.utils.data.DataLoader(val_ds, batch_size=1024)
         else:
             val_loader = None
         logging.info('num_train={} num_validation={}'.format(
@@ -925,23 +901,14 @@ class Sim(object):
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
             # Add logging metrics per this many batches.
-            # row_log_interval=10,
-            log_every_n_steps=10,
+            row_log_interval=10,
             # Do validation per this many train epochs.
             check_val_every_n_epoch=1,
             # Patience = # of validations with no improvements before stopping.
-
-            callbacks=[pl.callbacks.EarlyStopping(
-                monitor='val_loss',
-                patience=5,
-                mode='min',
-                verbose=True)],
-
-            # early_stop_callback=pl.callbacks.EarlyStopping(patience=5,
-            #                                                mode='min',
-            #                                                verbose=True),
-            # weights_summary='full',
-            enable_model_summary=True,
+            early_stop_callback=pl.callbacks.EarlyStopping(patience=5,
+                                                           mode='min',
+                                                           verbose=True),
+            weights_summary='full',
             logger=loggers,
             gradient_clip_val=p.gradient_clip_val,
             num_sanity_val_steps=2 if p.validate_fraction > 0 else 0,
@@ -1013,8 +980,6 @@ class Sim(object):
             unused_bs, plan_feat_dims = batch[1].shape
         self.model = self._MakeModel(query_feat_dims=query_feat_dims,
                                      plan_feat_dims=plan_feat_dims)
-        print("wating for memory checking")
-        # time.sleep(200000)
         balsa.models.ReportModel(self.model)
 
         # Train or load.

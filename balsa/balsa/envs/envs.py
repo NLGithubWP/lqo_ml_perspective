@@ -177,51 +177,21 @@ class JoinOrderBenchmark(Workload):
     def _LoadQueries(self):
         """Loads all queries into balsa.Node objects."""
         p = self.params
-        print(f"Query dir: {p.query_dir}")
-        print(f"Query glob: {p.query_glob}")
-        print(f"Test query glob: {p.test_query_glob}")
-
         all_sql_set = self._get_sql_set(p.query_dir, p.query_glob)
-        print(f"All SQL files: {all_sql_set}")
         test_sql_set = self._get_sql_set(p.query_dir, p.test_query_glob)
-        print(f"Test SQL files: {test_sql_set}")
         assert test_sql_set.issubset(all_sql_set)
-
         # sorted by query id for easy debugging
         all_sql_list = sorted(all_sql_set)
-        print(f"All SQL list: {all_sql_list}")
         all_nodes = [ParseSqlToNode(sqlfile) for sqlfile in all_sql_list]
-        print(f"All nodes paths: {[n.info['path'] for n in all_nodes]}")
 
         train_nodes = [
             n for n in all_nodes
             if p.test_query_glob is None or n.info['path'] not in test_sql_set
         ]
         test_nodes = [n for n in all_nodes if n.info['path'] in test_sql_set]
-        print(f"Train nodes paths: {[n.info['path'] for n in train_nodes]}")
-        print(f"Test nodes paths: {[n.info['path'] for n in test_nodes]}")
-        assert len(train_nodes) > 0  # Line 192
+        assert len(train_nodes) > 0
 
         return all_nodes, train_nodes, test_nodes
-    #
-    # def _LoadQueries(self):
-    #     """Loads all queries into balsa.Node objects."""
-    #     p = self.params
-    #     all_sql_set = self._get_sql_set(p.query_dir, p.query_glob)
-    #     test_sql_set = self._get_sql_set(p.query_dir, p.test_query_glob)
-    #     assert test_sql_set.issubset(all_sql_set)
-    #     # sorted by query id for easy debugging
-    #     all_sql_list = sorted(all_sql_set)
-    #     all_nodes = [ParseSqlToNode(sqlfile) for sqlfile in all_sql_list]
-    #
-    #     train_nodes = [
-    #         n for n in all_nodes
-    #         if p.test_query_glob is None or n.info['path'] not in test_sql_set
-    #     ]
-    #     test_nodes = [n for n in all_nodes if n.info['path'] in test_sql_set]
-    #     assert len(train_nodes) > 0
-    #
-    #     return all_nodes, train_nodes, test_nodes
     
 # Manually added for the STACK database/workload
 class STACK(Workload):

@@ -65,7 +65,7 @@ from balsa.util import postgres
 
 import sim as sim_lib
 import pg_executor
-from pg_executor import dbmsx_executor
+from pg_executor  import dbmsx_executor
 import train_utils
 import experiments  # noqa # pylint: disable=unused-import
 import experiments_debug
@@ -298,7 +298,7 @@ def ParseExecutionResult(result_tup,
                                                real_cost, hint_str))
         messages.append(
             '{} Execution time: {:.1f} (predicted {:.1f}) curr_timeout_ms={}'.
-                format(query_name, real_cost, predicted_latency, curr_timeout_ms))
+            format(query_name, real_cost, predicted_latency, curr_timeout_ms))
 
     if hint_str is None or silent:
         # Running baseline: don't print debug messages below.
@@ -483,7 +483,7 @@ def InitializeModel(p,
                 ema_source_t = copy.deepcopy(ema_source_tm1)
                 for key, param in model_weights.items():
                     ema_source_t[key] = tau * ema_source_tm1[key] + (
-                            1.0 - tau) * param
+                        1.0 - tau) * param
             # Assign model_t := source_t.
             model.load_state_dict(ema_source_t)
             print('Initialized from EMA source network: tau={}'.format(tau))
@@ -601,40 +601,24 @@ class BalsaModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         loss, l2_loss = self._ComputeLoss(batch)
-        self.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False, batch_size=self.params.bs)
-        self.log('train_loss', loss, prog_bar=True, batch_size=self.params.bs)
+        result = pl.TrainResult(minimize=loss)
+        # Log both a per-iter metric and an overall metric for comparison.
+        result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
+        result.log('train_loss', loss, prog_bar=True)
         if self.l2_lambda > 0:
-            self.log('l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
-        return loss
+            result.log('l2_loss', l2_loss, prog_bar=False)
+        return result
 
     def validation_step(self, batch, batch_idx):
         val_loss, l2_loss = self._ComputeLoss(batch)
-        self.log('{}val_loss'.format(self.logging_prefix), val_loss, prog_bar=False, batch_size=self.params.bs)
-        self.log('val_loss', val_loss, prog_bar=True, batch_size=self.params.bs)
+        result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
+        result.log('{}val_loss'.format(self.logging_prefix),
+                   val_loss,
+                   prog_bar=False)
+        result.log('val_loss', val_loss, prog_bar=True)
         if self.l2_lambda > 0:
-            self.log('val_l2_loss', l2_loss, prog_bar=False, batch_size=self.params.bs)
-        return {'val_loss': val_loss}
-
-    # def training_step(self, batch, batch_idx):
-    #     loss, l2_loss = self._ComputeLoss(batch)
-    #     result = pl.TrainResult(minimize=loss)
-    #     # Log both a per-iter metric and an overall metric for comparison.
-    #     result.log('{}loss'.format(self.logging_prefix), loss, prog_bar=False)
-    #     result.log('train_loss', loss, prog_bar=True)
-    #     if self.l2_lambda > 0:
-    #         result.log('l2_loss', l2_loss, prog_bar=False)
-    #     return result
-
-    # def validation_step(self, batch, batch_idx):
-    #     val_loss, l2_loss = self._ComputeLoss(batch)
-    #     result = pl.EvalResult(checkpoint_on=val_loss, early_stop_on=val_loss)
-    #     result.log('{}val_loss'.format(self.logging_prefix),
-    #                val_loss,
-    #                prog_bar=False)
-    #     result.log('val_loss', val_loss, prog_bar=True)
-    #     if self.l2_lambda > 0:
-    #         result.log('val_l2_loss', l2_loss, prog_bar=False)
-    #     return result
+            result.log('val_l2_loss', l2_loss, prog_bar=False)
+        return result
 
     def _ComputeLoss(self, batch):
         p = self.params
@@ -665,11 +649,11 @@ class BalsaModel(pl.LightningModule):
             loss = (-target_dist * log_probs).sum(-1).mean()
         else:
             if self.loss_type == 'mean_qerror':
-                output_inverted = self.torch_invert_cost(output.reshape(-1, ))
-                target_inverted = self.torch_invert_cost(target.reshape(-1, ))
+                output_inverted = self.torch_invert_cost(output.reshape(-1,))
+                target_inverted = self.torch_invert_cost(target.reshape(-1,))
                 loss = train_utils.QErrorLoss(output_inverted, target_inverted)
             else:
-                loss = F.mse_loss(output.reshape(-1, ), target.reshape(-1, ))
+                loss = F.mse_loss(output.reshape(-1,), target.reshape(-1,))
         if self.l2_lambda > 0:
             l2_loss = torch.tensor(0., device=loss.device, requires_grad=True)
             for param in self.parameters():
@@ -681,36 +665,17 @@ class BalsaModel(pl.LightningModule):
 
     def on_after_backward(self):
         if self.global_step % 10 == 0:
-            # Compute total gradient norm (L2 norm)
-            total_grad_norm = 0.0
-            for param in self.parameters():
-                if param.grad is not None:
-                    total_grad_norm += torch.norm(param.grad, p=2) ** 2
-            total_grad_norm = torch.sqrt(total_grad_norm).detach()
-
-            # Compute total parameter norm
-            total_norm = torch.sqrt(sum(torch.norm(param, p=2) ** 2 for param in self.parameters())).detach()
-
+            norm_dict = self.grad_norm(norm_type=2)
+            total_grad_norm = norm_dict['grad_2.0_norm_total']
+            total_norm = torch.stack([
+                torch.norm(param) for param in self.parameters()
+            ]).sum().detach()
             self.logger.log_metrics(
                 {
                     'total_grad_norm': total_grad_norm,
                     'total_norm': total_norm,
                 },
                 step=self.global_step)
-    #
-    # def on_after_backward(self):
-    #     if self.global_step % 10 == 0:
-    #         norm_dict = self.grad_norm(norm_type=2)
-    #         total_grad_norm = norm_dict['grad_2.0_norm_total']
-    #         total_norm = torch.stack([
-    #             torch.norm(param) for param in self.parameters()
-    #         ]).sum().detach()
-    #         self.logger.log_metrics(
-    #             {
-    #                 'total_grad_norm': total_grad_norm,
-    #                 'total_norm': total_norm,
-    #             },
-    #             step=self.global_step)
 
 
 class BalsaAgent(object):
@@ -839,6 +804,7 @@ class BalsaAgent(object):
             p.run_baseline = True
         return workload
 
+
     def _InitLogging(self):
         p = self.params
         self.loggers = [
@@ -862,7 +828,6 @@ class BalsaAgent(object):
     def _MakeExperienceBuffer(self):
         p = self.params
         if not p.run_baseline and p.sim:
-            print("Get OrTrainSim in _MakeExperienceBuffer 1")
             wi = self.GetOrTrainSim().training_workload_info
         else:
             # E.g., if sim is disabled, we just use the overall workload info
@@ -1035,7 +1000,7 @@ class BalsaAgent(object):
                                                    batch_size=p.bs,
                                                    shuffle=True,
                                                    collate_fn=collate_fn,
-                                                   pin_memory=False)
+                                                   pin_memory=True)
         if p.validate_fraction > 0:
             val_loader = torch.utils.data.DataLoader(val_ds,
                                                      batch_size=p.bs,
@@ -1147,38 +1112,20 @@ class BalsaAgent(object):
                   'num_batches_per_epoch={}'.format(p.per_transition_sgd_steps,
                                                     max_steps,
                                                     len(train_loader)))
-
-        # todo: Default to no step limit (like max_steps=None in 0.9.0)
-        print(f"max_steps is {max_steps}")
-        if max_steps is None:
-            max_steps = -1
         return pl.Trainer(
             gpus=1 if torch.cuda.is_available() else 0,
             max_epochs=p.epochs,
             max_steps=max_steps,
             # Add logging metrics per this many batches.
-            # row_log_interval=1, # todo: this is old version of pytorch-lightning
-            log_every_n_steps=1,  # todo: this is new version of pytorch-lightning
+            row_log_interval=1,
             # Do validation per this many train epochs.
             check_val_every_n_epoch=p.validate_every_n_epochs,
             # Patience = # of validations with no improvements before stopping.
-
-            # todo: this line is to match the new version of pytorch-lightning
-            callbacks=[pl.callbacks.EarlyStopping(
-                monitor='val_loss',
+            early_stop_callback=pl.callbacks.EarlyStopping(
                 patience=p.validate_early_stop_patience,
                 mode='min',
-                verbose=True)],
-
-            # early_stop_callback=pl.callbacks.EarlyStopping(
-            #     patience=p.validate_early_stop_patience,
-            #     mode='min',
-            #     verbose=True),
-
-            # todo: this line is to match the new version of pytorch-lightning
-            # weights_summary=None,
-            enable_model_summary=False,
-
+                verbose=True),
+            weights_summary=None,
             logger=self.loggers,
             gradient_clip_val=p.gradient_clip_val,
             num_sanity_val_steps=2 if p.validate_fraction > 0 else 0,
@@ -1377,7 +1324,7 @@ class BalsaAgent(object):
         assert num_explore_schemes <= 1
         if p.epsilon_greedy:
             assert p.epsilon_greedy_random_transform + \
-                   p.epsilon_greedy_random_plan <= 1
+                p.epsilon_greedy_random_plan <= 1
         if p.epsilon_greedy > 0:
             r = np.random.rand()
             if r < p.epsilon_greedy:
@@ -1760,7 +1707,7 @@ class BalsaAgent(object):
                                                     to_execute):
             result, real_cost, server_ip = result_tup
             _, hint_str, planning_time, actual, predicted_latency, \
-            curr_timeout = to_execute_tup
+                curr_timeout = to_execute_tup
             # Record execution result, potentially with real_cost = -1
             # indicating a timeout.  The cache would only record a lower
             # latency value so once it gets a -1 label for a plan, it'd not be
@@ -2236,8 +2183,8 @@ class BalsaAgent(object):
         p = self.params
         num_iters_done = self.curr_value_iter + 1
         if p.test_query_glob is None or \
-                num_iters_done < p.test_after_n_iters or \
-                num_iters_done % p.test_every_n_iters != 0:
+           num_iters_done < p.test_after_n_iters or \
+           num_iters_done % p.test_every_n_iters != 0:
             return
         if p.test_using_retrained_model:
             print(
