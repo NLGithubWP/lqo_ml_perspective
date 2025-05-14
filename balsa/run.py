@@ -1035,7 +1035,7 @@ class BalsaAgent(object):
                                                    batch_size=p.bs,
                                                    shuffle=True,
                                                    collate_fn=collate_fn,
-                                                   pin_memory=True)
+                                                   pin_memory=False)
         if p.validate_fraction > 0:
             val_loader = torch.utils.data.DataLoader(val_ds,
                                                      batch_size=p.bs,

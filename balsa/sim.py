@@ -830,7 +830,7 @@ class Sim(object):
             train_ds,
             batch_size=p.bs,
             shuffle=True,
-            pin_memory=True,
+            pin_memory=False,
             num_workers=0,  # Disable worker subprocesses
         )
         if num_validation > 0:
