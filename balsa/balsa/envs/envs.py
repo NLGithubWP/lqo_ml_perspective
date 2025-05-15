@@ -126,7 +126,7 @@ class Workload(object):
         assert all_sql_set_new.issubset(all_sql_set), (
             'Missing nodes in init_experience; '
             'To fix: remove data/initial_policy_data.pkl, or see README.')
-        print(f"all query set is {all_sql_set}")
+        print(f"all query set is {all_sql_set_new}")
         query_nodes_new = [
             n for n in self.query_nodes if n.info['path'] in all_sql_set_new
         ]
