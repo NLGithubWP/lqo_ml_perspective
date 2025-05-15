@@ -116,7 +116,7 @@ class Workload(object):
         self.workload_info = plans_lib.WorkloadInfo(query_nodes)
 
     def FilterQueries(self, query_dir, query_glob, test_query_glob):
-        print(f"Getting query from {query_dir}, {query_glob}")
+        print(f"Getting query from {query_dir}, {query_glob}, {test_query_glob}")
         all_sql_set_new = self._get_sql_set(query_dir, query_glob)
         test_sql_set_new = self._get_sql_set(query_dir, test_query_glob)
         assert test_sql_set_new.issubset(all_sql_set_new), (test_sql_set_new,
