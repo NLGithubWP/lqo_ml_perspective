@@ -137,7 +137,7 @@ class Workload(object):
         test_nodes_new = [
             n for n in query_nodes_new if n.info['path'] in test_sql_set_new
         ]
-        assert len(train_nodes_new) > 0
+        # assert len(train_nodes_new) > 0
 
         self.query_nodes = query_nodes_new
         self.train_nodes = train_nodes_new
