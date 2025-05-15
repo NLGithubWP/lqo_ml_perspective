@@ -132,8 +132,13 @@ class Workload(object):
         ]
         train_nodes_new = [
             n for n in query_nodes_new
-            if test_query_glob is None or n.info['path'] not in test_sql_set_new
         ]
+
+        # train_nodes_new = [
+        #     n for n in query_nodes_new
+        #     if test_query_glob is None or n.info['path'] not in test_sql_set_new
+        # ]
+
         test_nodes_new = [
             n for n in query_nodes_new if n.info['path'] in test_sql_set_new
         ]
