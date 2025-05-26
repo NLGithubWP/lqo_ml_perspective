@@ -14,8 +14,10 @@ NUM_EXECUTIONS = 3
 def current_timestamp_str():
     return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
 
+
 def pg_connection_string(db_name):
     return f"dbname={db_name} user=postgres password=postgres host=172.17.0.1"
+
 
 def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_geqo=True, use_bao=True):
     measurements = []
@@ -38,19 +40,35 @@ def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_g
         for i in range(NUM_EXECUTIONS):
             cur.execute(f"EXPLAIN (ANALYZE, VERBOSE, FORMAT JSON) {sql}") 
             result = cur.fetchall()[0][0]
-            # we are explicitly interested in execution *plus* planning time for testing
 
-            bao_hint = result[0]['Bao']['Bao recommended hint'] if use_bao else None
+            # Get actual execution time
+            actual_time = result[-1]['Execution Time']
+
+            # Get Bao's predicted time if using Bao
+            if use_bao:
+                bao_hint = result[0]['Bao']['Bao recommended hint']
+                predicted_time = result[0]['Bao']['Bao prediction']
+                if predicted_time == 'NaN':
+                    predicted_time = float('nan')
+                else:
+                    predicted_time = float(predicted_time)
+            else:
+                bao_hint = None
+                predicted_time = None
+
             measurements.append({
-                'execution_time': result[-1]['Execution Time'],
+                'execution_time': actual_time,
                 'planning_time': result[-1]['Planning Time'],
-                'hint': bao_hint
+                'hint': bao_hint,
+                'predicted_time': predicted_time
             })
-            print(f"\t{i}: Execution Time: {measurements[-1]['execution_time']:.4f}\tPlanning Time: {measurements[-1]['planning_time']:.4f}")
-            
+
+            print(
+                f"\t{i}: Execution Time: {measurements[-1]['execution_time']:.4f}\tPlanning Time: {measurements[-1]['planning_time']:.4f}\tPredicted Time: {measurements[-1]['predicted_time'] if measurements[-1]['predicted_time'] is not None else 'N/A'}")
+
         conn.close()
     except Exception as e:
-        print("An unexpected exception OR timeout occured during database querying:", e)
+        print("An unexpected exception OR timeout occurred:", e)
         conn.close()
         
         tmp = []
@@ -58,7 +76,8 @@ def run_query(sql, bao_select=False, bao_reward=False, db_name='imdbload', use_g
             tmp.append({
                 'execution_time': 2 * TIMEOUT_LIMIT,
                 'planning_time': 2 * TIMEOUT_LIMIT,
-                'hint': None
+                'hint': None,
+                'predicted_time': None
             })
         return tmp
 
@@ -94,12 +113,13 @@ def main(args):
 
     if os.path.exists(args.output_file):
         raise FileExistsError(f"The file {args.output_file} already exists, stopping.")
-    
+
     for fp, q in queries:
         measurements = run_query(q, bao_select=use_bao, bao_reward=False, db_name=db_name, use_geqo=use_geqo, use_bao=use_bao)
+
         for i, measurement in enumerate(measurements):
-            output_string = f"{'x' if measurement['hint'] is None else measurement['hint']}, {i}, {current_timestamp_str()}, {fp}, {measurement['planning_time']}, {measurement['execution_time']}, {'Bao' if use_bao else 'PG'}"
-            print(output_string)            
+            output_string = f"{'x' if measurement['hint'] is None else measurement['hint']}, {i}, {current_timestamp_str()}, {fp}, {measurement['planning_time']}, {measurement['execution_time']}, {measurement['predicted_time'] if measurement['predicted_time'] is not None else 'N/A'}, {'Bao' if use_bao else 'PG'}"
+            print(output_string)
             with open(args.output_file, 'a') as f:
                 f.write(output_string)
                 f.write(os.linesep)
