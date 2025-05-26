@@ -133,7 +133,7 @@ def main(config, train_or_test):
             = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
 
         columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
-                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'mse', 'variance']
         with open(query_log_file_path, 'w') as f:
             f.write(','.join(columns) + '\n')
 
@@ -168,7 +168,7 @@ def main(config, train_or_test):
             = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
 
         columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
-                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio']
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'mse', 'variance']
         with open(query_log_file_path, 'w') as f:
             f.write(','.join(columns) + '\n')
 
@@ -217,7 +217,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
 
         with open(query_log_file_path, 'a') as f:
             f.write(
-                f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
+                f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
 
 
 def test_epoch(hinter, queries, epoch, query_log_file_path):
@@ -240,6 +240,13 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         s_pg += pg_latency
         s_hinter += sum(actual_time) / 1000
 
+        # Calculate MSE and variance for this query
+        tree_feature = hinter.model.tree_builder.plan_to_feature_tree(actual_plans)
+        sql_feature = hinter.model.value_network.sql_feature(hinter.sql2vec.get_vec(sql))
+        multi_value = hinter.model.plan_to_value(tree_feature=tree_feature, sql_feature=sql_feature)
+        mean, variance = hinter.model.mean_and_variance(multi_value=multi_value[:,:config.head_num])
+        mse = ((mean - sum(actual_time)/1000) ** 2).item()
+
         # wandb.log({
         #     'epoch': epoch,
         #     'pg_plan_time': pg_plan_time,
@@ -256,7 +263,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 
         with open(query_log_file_path, 'a') as f:
             f.write(
-                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)}\n")
+                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
 
 
 if __name__ == '__main__':
