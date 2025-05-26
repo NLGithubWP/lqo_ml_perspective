@@ -224,13 +224,10 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
     s_pg = 0
     s_hinter = 0
 
-    # pbar = tqdm(enumerate(queries[:]), total=len(queries), desc='Iterating over test queries...')
-    # for idx, (sql, query_ident, _) in pbar:
-    #     pbar.set_description(f"Iterating over test query {query_ident}...")
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
         print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
 
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
+        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
             sql, is_train=False)
         pg_latency /= 1000
         hinter_latency /= 1000
@@ -240,30 +237,9 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         s_pg += pg_latency
         s_hinter += sum(actual_time) / 1000
 
-        # Calculate MSE and variance for this query
-        tree_feature = hinter.model.tree_builder.plan_to_feature_tree(actual_plans)
-        sql_feature = hinter.model.value_network.sql_feature(hinter.sql2vec.get_vec(sql))
-        multi_value = hinter.model.plan_to_value(tree_feature=tree_feature, sql_feature=sql_feature)
-        mean, variance = hinter.model.mean_and_variance(multi_value=multi_value[:,:config.head_num])
-        mse = ((mean - sum(actual_time)/1000) ** 2).item()
-
-        # wandb.log({
-        #     'epoch': epoch,
-        #     'pg_plan_time': pg_plan_time,
-        #     'pg_lateny': pg_latency,
-        #     'mcts_time': mcts_time,
-        #     'hinter_plan_time': hinter_plan_time,
-        #     'MPHE_time': MPHE_time,
-        #     'hinter_latency': hinter_latency,
-        #     'hinter_global_ratio': s_hinter/s_pg,
-        #     'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
-        #     'query_ident': query_ident,
-        #     'test_query': 1
-        # })
-
         with open(query_log_file_path, 'a') as f:
             f.write(
-                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
+                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance}\n")
 
 
 if __name__ == '__main__':

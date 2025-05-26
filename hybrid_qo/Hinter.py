@@ -93,7 +93,6 @@ class Hinter:
         return chosen_leading_pair
 
     def hinterRun(self, sql, is_train=True):
-
         if is_train:
             pgrunner = pgrunner_train
         else:
@@ -190,6 +189,9 @@ class Hinter:
             self.mcts_searcher.train(tree_feature=self.model.tree_builder.plan_to_feature_tree(sample[0]),
                                      sql_vec=sql_vec, target_value=sample[1], alias_set=alias)
 
+        # Compute loss but don't optimize during testing
+        loss = 0
+        variance = 0
         if self.hinter_times < 1000 or self.hinter_times % 10 == 0:
             loss = self.model.optimize()[0]
             loss1 = self.mcts_searcher.optimize()
@@ -208,7 +210,7 @@ class Hinter:
                         len(self.chosen_plan), len(self.hinter_time_list)])) == 1
         return self.pg_planningtime_list[-1], self.pg_runningtime_list[-1], self.mcts_time_list[-1], \
                self.hinter_planningtime_list[-1], self.MHPE_time_list[-1], self.hinter_runtime_list[-1], \
-               self.chosen_plan[-1], self.hinter_time_list[-1]
+               self.chosen_plan, self.hinter_time_list[-1], loss, variance
 
     def predictWithUncertaintyBatch(self, plan_jsons, sql_vec):
         sql_feature = self.model.value_network.sql_feature(sql_vec)
