@@ -1846,8 +1846,8 @@ class BalsaAgent(object):
             iter_total_latency += real_cost
             rows.append((node.info['query_name'], real_cost / 1e3,
                          self.curr_value_iter))
-            data.append('{}/q{}'.format(tag, node.info['query_name']),
-                         real_cost / 1e3, self.curr_value_iter)
+            data.append(('{}/q{}'.format(tag, node.info['query_name']), real_cost / 1e3, self.curr_value_iter))
+
             # Tracks prediction errors.
             agent_plans_diffs.append((real_cost - to_execute[-2]) / 1e3)
             expert_plans_diffs.append(
