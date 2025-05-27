@@ -30,6 +30,7 @@ import pprint
 import signal
 import time
 import datetime
+import csv
 
 from absl import app
 from absl import flags
@@ -1520,7 +1521,8 @@ class BalsaAgent(object):
                 'query_name': kwarg['query_name'],
                 'sql_str': kwarg['sql_str'],
                 'hint_str': kwarg['hint_str'],
-                'inference_time': query_inference_time
+                'inference_time': query_inference_time,
+                'predicted_latency': predicted_latency  # Add predicted latency
             }
             query_execution_statistics[q_exec_stat['query_name']] = q_exec_stat
 
@@ -1689,7 +1691,9 @@ class BalsaAgent(object):
         with open(query_log_file_name, 'a') as qlf:
             for k in query_execution_statistics.keys():
                 curr = query_execution_statistics[k]
-                output_string = f"{curr['query_name']};{curr['inference_time']:.4f};{curr['planning_time']:.4f};{curr['execution_time']:.4f}"
+                # Calculate MSE between predicted and actual execution time
+                mse = ((curr['execution_time'] - curr['predicted_latency']) / 1e3) ** 2  # Convert to seconds for MSE
+                output_string = f"{curr['query_name']};{curr['inference_time']:.4f};{curr['planning_time']:.4f};{curr['execution_time']:.4f};{curr['predicted_latency']:.4f};{mse:.4f}"
                 qlf.write(output_string)
                 qlf.write(os.linesep)
 
@@ -1845,7 +1849,7 @@ class BalsaAgent(object):
             iter_total_latency += real_cost
             rows.append((node.info['query_name'], real_cost / 1e3,
                          self.curr_value_iter))
-            data.append(('{}/q{}'.format(tag, node.info['query_name']),
+            data.append('{}/q{}'.format(tag, node.info['query_name']),
                          real_cost / 1e3, self.curr_value_iter))
             # Tracks prediction errors.
             agent_plans_diffs.append((real_cost - to_execute[-2]) / 1e3)
