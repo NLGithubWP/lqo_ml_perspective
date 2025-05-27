@@ -1522,7 +1522,7 @@ class BalsaAgent(object):
                 'sql_str': kwarg['sql_str'],
                 'hint_str': kwarg['hint_str'],
                 'inference_time': query_inference_time,
-                'predicted_latency': to_execute[-2]  # This is the predicted latency in milliseconds
+                'predicted_latency': predicted_latency  # This is the predicted latency in milliseconds
             }
             query_execution_statistics[q_exec_stat['query_name']] = q_exec_stat
 
