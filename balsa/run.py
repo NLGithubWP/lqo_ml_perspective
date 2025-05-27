@@ -1578,7 +1578,7 @@ class BalsaAgent(object):
                 print('Retries exhausted; raising the exception.')
                 raise e
         execution_results = []
-        print("---------------------- [debug]. collecting result ---------------------- ")
+        print(f"---------------------- [debug]. collecting result, refs= {len(refs)} ---------------------- ")
         for i, task in enumerate(refs):
             result_tup = None
             is_cached_plan = True
