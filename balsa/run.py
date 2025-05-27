@@ -1522,7 +1522,7 @@ class BalsaAgent(object):
                 'sql_str': kwarg['sql_str'],
                 'hint_str': kwarg['hint_str'],
                 'inference_time': query_inference_time,
-                'predicted_latency': predicted_latency  # Add predicted latency
+                'predicted_latency': to_execute[-2]  # This is the predicted latency in milliseconds
             }
             query_execution_statistics[q_exec_stat['query_name']] = q_exec_stat
 
@@ -1691,7 +1691,7 @@ class BalsaAgent(object):
         with open(query_log_file_name, 'a') as qlf:
             for k in query_execution_statistics.keys():
                 curr = query_execution_statistics[k]
-                # Calculate MSE between predicted and actual execution time
+                # Calculate MSE between predicted and actual execution time (both in milliseconds)
                 mse = ((curr['execution_time'] - curr['predicted_latency']) / 1e3) ** 2  # Convert to seconds for MSE
                 output_string = f"{curr['query_name']};{curr['inference_time']:.4f};{curr['planning_time']:.4f};{curr['execution_time']:.4f};{curr['predicted_latency']:.4f};{mse:.4f}"
                 qlf.write(output_string)
