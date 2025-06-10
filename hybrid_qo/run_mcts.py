@@ -190,7 +190,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
         print(f"Processing training query {query_ident} ({idx + 1}/{len(queries)})")
 
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time = hinter.hinterRun(
+        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
             sql, is_train=True)
         pg_latency /= 1000
         hinter_latency /= 1000
