@@ -71,7 +71,6 @@ import train_utils
 import experiments  # noqa # pylint: disable=unused-import
 import experiments_debug
 import exp_job_data_shift
-import exp_job_light
 import exp_job_light_debug
 
 FLAGS = flags.FLAGS
