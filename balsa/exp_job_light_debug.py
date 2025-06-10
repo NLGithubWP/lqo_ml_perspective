@@ -13,7 +13,7 @@ current_used_query_dir = full_query_query_dir
 current_used_test_query_glob_in_train = empty_test_query_glob
 current_used_test_query_glob_in_test = full_query_test_query_glob
 # originally, it is 100 for job, 50 for stack datasets
-current_val_iters = 10
+current_val_iters = 1
 
 
 @balsa.params_registry.Register
