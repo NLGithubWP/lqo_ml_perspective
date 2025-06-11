@@ -189,7 +189,13 @@ class JoinOrderBenchmark(Workload):
         assert test_sql_set.issubset(all_sql_set)
         # sorted by query id for easy debugging
         all_sql_list = sorted(all_sql_set)
-        all_nodes = [ParseSqlToNode(sqlfile) for sqlfile in all_sql_list]
+        # all_nodes = [ParseSqlToNode(sqlfile) for sqlfile in all_sql_list]
+        all_nodes = []
+        for sqlfile in all_sql_list:
+            try:
+                all_nodes.append(ParseSqlToNode(sqlfile))
+            except Exception as e:
+                print(f"[Error], ParseSqlToNode err {e} {sqlfile}")
 
         train_nodes = [
             n for n in all_nodes
