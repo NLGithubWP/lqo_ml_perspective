@@ -26,7 +26,7 @@ class NB_Balsa_train_imdb_ori_job_light_train(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_ori_job_light_train_checkpoint'
         return p
 
@@ -41,7 +41,7 @@ class NB_Balsa_train_imdb_01v2_job_light_train(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_01v2_job_light_full'
         return p
 
@@ -56,7 +56,7 @@ class NB_Balsa_train_imdb_05v2_job_light_train(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_05v2_job_light_full'
         return p
 
@@ -71,7 +71,7 @@ class NB_Balsa_train_imdb_17v2_job_light_train(Balsa_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_balsa/data_shift/client'
         p.model_prefix = 'balsa_imdb_17v2_job_light_full'
         return p
 
@@ -86,7 +86,7 @@ class NB_Neo_train_imdb_ori_job_light_train(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_ori_job_light_full'
         return p
 
@@ -101,7 +101,7 @@ class NB_Neo_train_imdb_01v2_job_light_train(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_01v2_job_light_full'
         return p
 
@@ -116,7 +116,7 @@ class NB_Neo_train_imdb_05v2_job_light_train(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_05v2_job_light_full'
         return p
 
@@ -131,7 +131,7 @@ class NB_Neo_train_imdb_17v2_job_light_train(Neo_JOB_EvaluationBase):
         p.test_query_glob = current_used_test_query_glob_in_train
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
-        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_neo/data_shift/client'
+        p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job_light/res_neo/data_shift/client'
         p.model_prefix = 'neo_imdb_17v2_job_light_full'
         return p
 
