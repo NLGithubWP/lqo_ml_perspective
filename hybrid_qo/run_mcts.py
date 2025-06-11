@@ -220,7 +220,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
                 f.write(
                     f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
         except Exception as e:
-            print(f"[Error] when running query {query_ident}, {e}")
+            print(f"[Error] when running query {query_ident}, error: {e}")
 
 
 def test_epoch(hinter, queries, epoch, query_log_file_path):
@@ -245,7 +245,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
                 f.write(
                     f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance}\n")
         except Exception as e:
-            print(f"[Error] when running test query {query_ident}, {e}")
+            print(f"[Error] when running test query {query_ident}, error: {e}")
 
 
 if __name__ == '__main__':
