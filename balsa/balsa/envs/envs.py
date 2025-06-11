@@ -123,8 +123,10 @@ class Workload(object):
                                                             all_sql_set_new)
 
         all_sql_set = set([n.info['path'] for n in self.query_nodes])
-        print("all_sql_set",all_sql_set)
-        print("all_sql_set_new", all_sql_set_new)
+
+        # all_sql_set is get from the data experience,
+        # reset the all_sql_set_new (read from the file system) to all_sql_set
+        all_sql_set_new = all_sql_set
 
         assert all_sql_set_new.issubset(all_sql_set), (
             'Missing nodes in init_experience; '
