@@ -113,7 +113,8 @@ def main(config, train_or_test):
         sql2vec = Sql2Vec()
         # table_num = config.max_alias_num? or actually number of tables?
         value_network = SPINN(head_num=config.head_num, input_size=config.input_size, hidden_size=config.hidden_size,
-                              table_num=50, sql_size=config.max_alias_num * config.max_alias_num + config.max_column).to(
+                              table_num=50,
+                              sql_size=config.max_alias_num * config.max_alias_num + config.max_column).to(
             config.device)
         for name, param in value_network.named_parameters():
             from torch.nn import init
@@ -189,35 +190,37 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     #     pbar.set_description(f"Iterating over training query {query_ident}...")
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
         print(f"Processing training query {query_ident} ({idx + 1}/{len(queries)})")
+        try:
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
+                sql, is_train=True)
+            pg_latency /= 1000
+            hinter_latency /= 1000
+            pg_plan_time /= 1000
+            hinter_plan_time /= 1000
 
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
-            sql, is_train=True)
-        pg_latency /= 1000
-        hinter_latency /= 1000
-        pg_plan_time /= 1000
-        hinter_plan_time /= 1000
+            s_pg += pg_latency
+            s_hinter += sum(actual_time) / 1000
 
-        s_pg += pg_latency
-        s_hinter += sum(actual_time) / 1000
+            # wandb.log({
+            #     'epoch': epoch,
+            #     'pg_plan_time': pg_plan_time,
+            #     'pg_lateny': pg_latency,
+            #     'mcts_time': mcts_time,
+            #     'hinter_plan_time': hinter_plan_time,
+            #     'MPHE_time': MPHE_time,
+            #     'hinter_latency': hinter_latency,
+            #     'hinter_global_ratio': s_hinter / s_pg,
+            #     'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
+            #     'query_ident': query_ident,
+            #     'test_query': 0
+            # })
+            print(f"Training query {query_ident} takes {actual_time}")
 
-        # wandb.log({
-        #     'epoch': epoch,
-        #     'pg_plan_time': pg_plan_time,
-        #     'pg_lateny': pg_latency,
-        #     'mcts_time': mcts_time,
-        #     'hinter_plan_time': hinter_plan_time,
-        #     'MPHE_time': MPHE_time,
-        #     'hinter_latency': hinter_latency,
-        #     'hinter_global_ratio': s_hinter / s_pg,
-        #     'hinter_query_ratio': pg_latency / (sum(actual_time) / 1000),
-        #     'query_ident': query_ident,
-        #     'test_query': 0
-        # })
-        print(f"Training query {query_ident} takes {actual_time}")
-
-        with open(query_log_file_path, 'a') as f:
-            f.write(
-                f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
+            with open(query_log_file_path, 'a') as f:
+                f.write(
+                    f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
+        except Exception as e:
+            print(f"[Error] when running query {query_ident}, {e}")
 
 
 def test_epoch(hinter, queries, epoch, query_log_file_path):
