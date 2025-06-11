@@ -5,7 +5,7 @@ import os
 
 ######################### 1. JOB query on multiple datasets #########################
 
-full_query_query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job-light'
+full_query_query_dir = '/app/AI4QueryOptimizer/experiment_setup/workloads/balsa/job-light-train'
 full_query_test_query_glob = [f for f in os.listdir(full_query_query_dir) if os.path.isfile(os.path.join(full_query_query_dir, f))]
 empty_test_query_glob = ['2.sql']
 
@@ -17,7 +17,7 @@ current_val_iters = 10
 
 
 @balsa.params_registry.Register
-class NB_Balsa_train_imdb_ori_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_train_imdb_ori_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -27,12 +27,12 @@ class NB_Balsa_train_imdb_ori_job_light(Balsa_JOB_EvaluationBase):
         p.validate_every_n_epochs = 200
         p.val_iters = current_val_iters
         p.model_save_path = '/app/AI4QueryOptimizer/experiment_setup/vldb_revision/job/res_balsa/data_shift/client'
-        p.model_prefix = 'balsa_imdb_ori_job_light_full'
+        p.model_prefix = 'balsa_imdb_ori_job_light_train_checkpoint'
         return p
 
 
 @balsa.params_registry.Register
-class NB_Balsa_train_imdb_01v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_train_imdb_01v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -47,7 +47,7 @@ class NB_Balsa_train_imdb_01v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_train_imdb_05v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_train_imdb_05v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -62,7 +62,7 @@ class NB_Balsa_train_imdb_05v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_train_imdb_17v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_train_imdb_17v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_17v2'
@@ -77,7 +77,7 @@ class NB_Balsa_train_imdb_17v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_train_imdb_ori_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_train_imdb_ori_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -92,7 +92,7 @@ class NB_Neo_train_imdb_ori_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_train_imdb_01v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_train_imdb_01v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -107,7 +107,7 @@ class NB_Neo_train_imdb_01v2_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_train_imdb_05v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_train_imdb_05v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -122,7 +122,7 @@ class NB_Neo_train_imdb_05v2_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_train_imdb_17v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_train_imdb_17v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_17v2'
@@ -140,7 +140,7 @@ class NB_Neo_train_imdb_17v2_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_test_imdb_ori_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_test_imdb_ori_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -151,7 +151,7 @@ class NB_Balsa_test_imdb_ori_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_test_imdb_01v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_test_imdb_01v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -162,7 +162,7 @@ class NB_Balsa_test_imdb_01v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_test_imdb_05v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_test_imdb_05v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -173,7 +173,7 @@ class NB_Balsa_test_imdb_05v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Balsa_test_imdb_17v2_job_light(Balsa_JOB_EvaluationBase):
+class NB_Balsa_test_imdb_17v2_job_light_train(Balsa_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_17v2'
@@ -184,7 +184,7 @@ class NB_Balsa_test_imdb_17v2_job_light(Balsa_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_test_imdb_ori_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_test_imdb_ori_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_ori'
@@ -195,7 +195,7 @@ class NB_Neo_test_imdb_ori_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_test_imdb_01v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_test_imdb_01v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_01v2'
@@ -206,7 +206,7 @@ class NB_Neo_test_imdb_01v2_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_test_imdb_05v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_test_imdb_05v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_05v2'
@@ -217,7 +217,7 @@ class NB_Neo_test_imdb_05v2_job_light(Neo_JOB_EvaluationBase):
 
 
 @balsa.params_registry.Register
-class NB_Neo_test_imdb_17v2_job_light(Neo_JOB_EvaluationBase):
+class NB_Neo_test_imdb_17v2_job_light_train(Neo_JOB_EvaluationBase):
     def Params(self):
         p = super().Params()
         p.db = 'imdb_17v2'
