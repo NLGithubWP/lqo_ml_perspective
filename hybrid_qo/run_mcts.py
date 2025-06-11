@@ -228,21 +228,24 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
     s_hinter = 0
 
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
-        print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
+        try:
+            print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
 
-        pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
-            sql, is_train=False)
-        pg_latency /= 1000
-        hinter_latency /= 1000
-        pg_plan_time /= 1000
-        hinter_plan_time /= 1000
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
+                sql, is_train=False)
+            pg_latency /= 1000
+            hinter_latency /= 1000
+            pg_plan_time /= 1000
+            hinter_plan_time /= 1000
 
-        s_pg += pg_latency
-        s_hinter += sum(actual_time) / 1000
+            s_pg += pg_latency
+            s_hinter += sum(actual_time) / 1000
 
-        with open(query_log_file_path, 'a') as f:
-            f.write(
-                f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance}\n")
+            with open(query_log_file_path, 'a') as f:
+                f.write(
+                    f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance}\n")
+        except Exception as e:
+            print(f"[Error] when running query {query_ident}, {e}")
 
 
 if __name__ == '__main__':
