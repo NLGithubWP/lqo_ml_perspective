@@ -294,10 +294,12 @@ def ParsePostgresPlanJson(json_dict):
         if 'Scan' in op and select_exprs:
             # Record select exprs that belong to this leaf.
             # Assume: SELECT <exprs> are all expressed in terms of aliases.
-            filtered = _FilterExprsByAlias(select_exprs, json_dict['Alias'])
-
-            if filtered:
-                curr_node.info['select_exprs'] = filtered
+            try:
+                filtered = _FilterExprsByAlias(select_exprs, json_dict['Alias'])
+                if filtered:
+                    curr_node.info['select_exprs'] = filtered
+            except Exception as e:
+                print(f"[Error] in _FilterExprsByAlias , {e}")
 
         # Recurse.
         if 'Plans' in json_dict:
