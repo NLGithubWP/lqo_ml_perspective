@@ -72,6 +72,7 @@ import experiments  # noqa # pylint: disable=unused-import
 import experiments_debug
 import exp_job_data_shift
 import exp_job_light_debug
+import exp_job_light_train
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('run', 'Balsa_JOBRandSplit', 'Experiment config to run.')
