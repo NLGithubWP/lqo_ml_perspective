@@ -1650,7 +1650,11 @@ class BalsaAgent(object):
             assert isinstance(
                 result_tup,
                 (pg_executor.Result, dbmsx_executor.Result)), result_tup
-            result_tups = ParseExecutionResult(result_tup, **kwargs[i])
+
+            try:
+                result_tups = ParseExecutionResult(result_tup, **kwargs[i])
+            except Exception as e:
+                print(f"[error], Exception in ParseExecutionResult {e}")
 
             print("---------------------- [debug]. done with current ref ---------------------- ")
 
