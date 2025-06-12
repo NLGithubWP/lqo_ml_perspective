@@ -2301,6 +2301,8 @@ class BalsaAgent(object):
                     if self.adaptive_lr_schedule is not None:
                         self.adaptive_lr_schedule.Step()
 
+        print("[Training] All iteration done")
+
 # from memory_profiler import profile
 # @profile
 def Main(argv):
