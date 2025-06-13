@@ -1719,80 +1719,83 @@ class BalsaAgent(object):
         for node, result_tup, to_execute_tup in zip(self.train_nodes,
                                                     execution_results,
                                                     to_execute):
-            result, real_cost, server_ip = result_tup
-            _, hint_str, planning_time, actual, predicted_latency, \
-                curr_timeout = to_execute_tup
-            # Record execution result, potentially with real_cost = -1
-            # indicating a timeout.  The cache would only record a lower
-            # latency value so once it gets a -1 label for a plan, it'd not be
-            # updated again.  If a future iteration this plan is still
-            # selected, it'd get the same -1 label from the cache, ensuring
-            # that has_timeouts below would be set to True correctly.
-            self.query_execution_cache.Put(key=(node.info['query_name'],
-                                                hint_str),
-                                           value=result_tup,
-                                           latency=real_cost)
-            self.timeout_controller.RecordQueryExecution(node, real_cost)
+            try:
+                result, real_cost, server_ip = result_tup
+                _, hint_str, planning_time, actual, predicted_latency, \
+                    curr_timeout = to_execute_tup
+                # Record execution result, potentially with real_cost = -1
+                # indicating a timeout.  The cache would only record a lower
+                # latency value so once it gets a -1 label for a plan, it'd not be
+                # updated again.  If a future iteration this plan is still
+                # selected, it'd get the same -1 label from the cache, ensuring
+                # that has_timeouts below would be set to True correctly.
+                self.query_execution_cache.Put(key=(node.info['query_name'],
+                                                    hint_str),
+                                               value=result_tup,
+                                               latency=real_cost)
+                self.timeout_controller.RecordQueryExecution(node, real_cost)
 
-            # Process timeout.
-            # FIXME: even when use_timeout=False, pg_executor may treat a rare
-            # InternalError_ or OperationalError as a timeout event.  These are
-            # rare but could incorrectly get a timeout label below.  We should
-            # fix this by marking a Node as a timeout & allowing Experience to
-            # skip featurizing those marked nodes.
-            if real_cost < 0:
-                has_timeouts = True
-                num_timeouts += 1
-                self.num_total_timeouts += 1
-                if p.special_timeout_label:
-                    real_cost = self.timeout_label()
-                    print('Timeout detected! Assigning a special label',
-                          real_cost, '(server_ip={})'.format(server_ip))
+                # Process timeout.
+                # FIXME: even when use_timeout=False, pg_executor may treat a rare
+                # InternalError_ or OperationalError as a timeout event.  These are
+                # rare but could incorrectly get a timeout label below.  We should
+                # fix this by marking a Node as a timeout & allowing Experience to
+                # skip featurizing those marked nodes.
+                if real_cost < 0:
+                    has_timeouts = True
+                    num_timeouts += 1
+                    self.num_total_timeouts += 1
+                    if p.special_timeout_label:
+                        real_cost = self.timeout_label()
+                        print('Timeout detected! Assigning a special label',
+                              real_cost, '(server_ip={})'.format(server_ip))
+                    else:
+                        real_cost = curr_timeout * 2
+                        print('Timeout detected! Assigning 2*timeout as label',
+                              real_cost, '(server_ip={})'.format(server_ip))
+                    # At this point, 'actual' is a Node produced from the agent
+                    # consisting of just scan/join nodes.  It has gone through hint
+                    # checks in ParseExecutionResult() -- i.e., it should be the
+                    # same as the EXPLAIN result from a local PG with an
+                    # agent-produced hint string.
+                    #
+                    # We manually fill in this field for hindsight labeling (if
+                    # enabled) to work.  Intermediate goals are not collected since
+                    # we don't know what those "sub-latencies" are.
+                    actual.actual_time_ms = real_cost
+                    # Mark a special timeout field.
+                    actual.is_timeout = True
                 else:
-                    real_cost = curr_timeout * 2
-                    print('Timeout detected! Assigning 2*timeout as label',
-                          real_cost, '(server_ip={})'.format(server_ip))
-                # At this point, 'actual' is a Node produced from the agent
-                # consisting of just scan/join nodes.  It has gone through hint
-                # checks in ParseExecutionResult() -- i.e., it should be the
-                # same as the EXPLAIN result from a local PG with an
-                # agent-produced hint string.
-                #
-                # We manually fill in this field for hindsight labeling (if
-                # enabled) to work.  Intermediate goals are not collected since
-                # we don't know what those "sub-latencies" are.
-                actual.actual_time_ms = real_cost
-                # Mark a special timeout field.
-                actual.is_timeout = True
-            else:
-                agent_plans_diffs.append((real_cost - predicted_latency) / 1e3)
-            expert_plans_diffs.append(
-                (node.cost - node.info['curr_predicted_latency']) / 1e3)
+                    agent_plans_diffs.append((real_cost - predicted_latency) / 1e3)
+                expert_plans_diffs.append(
+                    (node.cost - node.info['curr_predicted_latency']) / 1e3)
 
-            assert real_cost > 0, real_cost
-            actual.cost = real_cost
-            actual.info = copy.deepcopy(node.info)
-            actual.info.pop('explain_json')
+                assert real_cost > 0, real_cost
+                actual.cost = real_cost
+                actual.info = copy.deepcopy(node.info)
+                actual.info.pop('explain_json')
 
-            # Put into experience/replay buffer.
-            self.exp.add(actual)
-            # Update the best plan cache.
-            self.best_plans.Put(key=node.info['query_name'],
-                                value=actual,
-                                latency=real_cost)
+                # Put into experience/replay buffer.
+                self.exp.add(actual)
+                # Update the best plan cache.
+                self.best_plans.Put(key=node.info['query_name'],
+                                    value=actual,
+                                    latency=real_cost)
 
-            # Logging.
-            results.append(result)
-            iter_total_latency += real_cost
-            iter_max_latency = max(iter_max_latency, real_cost)
-            self.LogScalars([
-                ('latency/q{}'.format(node.info['query_name']), real_cost / 1e3,
-                 self.curr_value_iter),
-                # Max per-query latency in this iter.  This bounds
-                # the time required for query execution if we were
-                # to parallelize everything.
-                ('curr_iter_max_ms', iter_max_latency, self.curr_value_iter),
-            ])
+                # Logging.
+                results.append(result)
+                iter_total_latency += real_cost
+                iter_max_latency = max(iter_max_latency, real_cost)
+                self.LogScalars([
+                    ('latency/q{}'.format(node.info['query_name']), real_cost / 1e3,
+                     self.curr_value_iter),
+                    # Max per-query latency in this iter.  This bounds
+                    # the time required for query execution if we were
+                    # to parallelize everything.
+                    ('curr_iter_max_ms', iter_max_latency, self.curr_value_iter),
+                ])
+            except Exception as e:
+                print(f" wrong during the FeedbackExecution collection {e}")
 
         # Logging.
         self.LogScalars([
