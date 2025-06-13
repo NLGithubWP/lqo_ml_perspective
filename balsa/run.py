@@ -1795,7 +1795,7 @@ class BalsaAgent(object):
                     ('curr_iter_max_ms', iter_max_latency, self.curr_value_iter),
                 ])
             except Exception as e:
-                print(f" wrong during the FeedbackExecution collection {e}")
+                print(f"Wrong during the FeedbackExecution collection {e}")
 
         # Logging.
         self.LogScalars([
