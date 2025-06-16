@@ -151,6 +151,14 @@ def Execute(sql, verbose=False, geqo_off=False, timeout_ms=None, cursor=None, fi
     _SetGeneticOptimizer('off' if geqo_off else 'on', cursor)
     cursor.execute('SET statement_timeout to {}'.format(180000))
 
+    cursor.execute('SET enable_bitmapscan TO off')
+    cursor.execute('SHOW enable_bitmapscan')
+    print('enable_bitmapscan:', cursor.fetchone()[0])
+
+    cursor.execute('SET enable_tidscan TO off')
+    cursor.execute('SHOW enable_tidscan')
+    print('enable_tidscan:', cursor.fetchone()[0])
+
     # if timeout_ms is not None:
     #     cursor.execute('SET statement_timeout to {}'.format(int(timeout_ms)))
     # else:
