@@ -1583,7 +1583,7 @@ class BalsaAgent(object):
                 raise e
         execution_results = []
         print(f"---------------------- [debug]. collecting result, refs= {len(refs)} ---------------------- ")
-
+        execution_results_for_log = []
 
         for i, task in enumerate(refs):
             result_tup = None
@@ -1678,6 +1678,7 @@ class BalsaAgent(object):
             assert len(result_tups) == 4
             print(result_tups[-1])  # Messages.
             execution_results.append(result_tups[:-1])
+            execution_results_for_log.append(result_tups)
             # Increment counts for training.
             if not is_test:
                 if is_cached_plan:
@@ -1712,7 +1713,7 @@ class BalsaAgent(object):
 
         query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.json"
         with open(query_log_file_name_json_result, "w") as f:
-            json.dump(execution_results, f)
+            json.dump(execution_results_for_log, f)
 
         return to_execute, execution_results
 
