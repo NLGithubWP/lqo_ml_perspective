@@ -1583,6 +1583,8 @@ class BalsaAgent(object):
                 raise e
         execution_results = []
         print(f"---------------------- [debug]. collecting result, refs= {len(refs)} ---------------------- ")
+
+
         for i, task in enumerate(refs):
             result_tup = None
             is_cached_plan = True
@@ -1702,6 +1704,15 @@ class BalsaAgent(object):
                 output_string = f"{curr['query_name']};{curr['inference_time']:.4f};{curr['planning_time']:.4f};{curr['execution_time']:.4f};{curr['predicted_latency']:.4f};{mse:.4f}"
                 qlf.write(output_string)
                 qlf.write(os.linesep)
+
+        # save more results.
+        query_log_file_name_json = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_stastics.json"
+        with open(query_log_file_name_json, "w") as f:
+            json.dump(query_execution_statistics, f)
+
+        query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.json"
+        with open(query_log_file_name_json_result, "w") as f:
+            json.dump(execution_results, f)
 
         return to_execute, execution_results
 
