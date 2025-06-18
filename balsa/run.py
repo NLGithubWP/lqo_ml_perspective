@@ -73,6 +73,7 @@ import experiments_debug
 import exp_job_data_shift
 import exp_job_light_debug
 import exp_job_light_train
+import json
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('run', 'Balsa_JOBRandSplit', 'Experiment config to run.')
@@ -1706,14 +1707,13 @@ class BalsaAgent(object):
                 qlf.write(output_string)
                 qlf.write(os.linesep)
 
-        # save more results.
-        query_log_file_name_json = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_stastics.json"
-        with open(query_log_file_name_json, "w") as f:
-            json.dump(query_execution_statistics, f)
-
-        query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.json"
-        with open(query_log_file_name_json_result, "w") as f:
-            json.dump(execution_results_for_log, f)
+        if is_test:
+            query_log_file_name_json = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_stastics.jsonl"
+            with open(query_log_file_name_json, "a") as f:
+                f.write(json.dumps(query_execution_statistics) + "\n")
+            query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.jsonl"
+            with open(query_log_file_name_json_result, "a") as f:
+                f.write(json.dumps(execution_results_for_log) + "\n")
 
         return to_execute, execution_results
 
