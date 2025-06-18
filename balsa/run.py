@@ -1708,12 +1708,15 @@ class BalsaAgent(object):
                 qlf.write(os.linesep)
 
         if is_test:
-            query_log_file_name_json = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_stastics.jsonl"
-            with open(query_log_file_name_json, "a") as f:
-                f.write(json.dumps(query_execution_statistics) + "\n")
-            query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.jsonl"
-            with open(query_log_file_name_json_result, "a") as f:
-                f.write(json.dumps(execution_results_for_log) + "\n")
+            try:
+                query_log_file_name_json = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_stastics.jsonl"
+                with open(query_log_file_name_json, "a") as f:
+                    f.write(json.dumps(query_execution_statistics) + "\n")
+                query_log_file_name_json_result = f"logs/{self.initialization_time}__{experiment_cls}__plan_and_execute_running_exe_result.jsonl"
+                with open(query_log_file_name_json_result, "a") as f:
+                    f.write(json.dumps(execution_results_for_log) + "\n")
+            except Exception as e:
+                print(f" save plans logs has error {e}")
 
         return to_execute, execution_results
 
