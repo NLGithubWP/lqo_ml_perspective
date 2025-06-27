@@ -16,12 +16,17 @@ import os
 import pickle
 
 
-def neur_bench_save_hinter(hinter, config, train_or_test, save_dir="model"):
-    """Save the Hinter and its components to disk."""
+def neur_bench_save_hinter(hinter, config, train_or_test, epoch, save_dir="model"):
     os.makedirs(save_dir, exist_ok=True)
-    file_prefix = f"{config.train_database}"
-    checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
-    knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
+    """Save the Hinter and its components to disk."""
+    if config.n_epochs != epoch:
+        file_prefix = f"{config.train_database}_{epoch}"
+        checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
+        knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
+    else:
+        file_prefix = f"{config.train_database}"
+        checkpoint_path = os.path.join(save_dir, f"hinter_{file_prefix}.pt")
+        knn_path = os.path.join(save_dir, f"knn_{file_prefix}.pkl")
 
     # Save PyTorch model state dictionaries and config
     from mcts import predictionNet  # Import global predictionNet
@@ -147,11 +152,12 @@ def main(config, train_or_test):
             train_epoch(hinter, train_queries, epoch, query_log_file_path)
             print(f"Epoch {epoch + 1}/{config.n_epochs} completed")
 
-            # if epoch % 10 == 0:
-            #     test_epoch(hinter, test_queries, epoch, query_log_file_path)
+            if epoch % 10 == 0:
+                checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test, epoch)
+                print(f"Epoch Done {epoch}, Saved model to {checkpoint_path}, KNN to {knn_path}")
 
         # Save the trained hinter
-        checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test)
+        checkpoint_path, knn_path = neur_bench_save_hinter(hinter, config, train_or_test, config.n_epochs)
         print(f"Training complete. Saved model to {checkpoint_path}, KNN to {knn_path}")
 
         # this is to verify only!!!!
