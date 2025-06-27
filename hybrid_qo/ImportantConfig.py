@@ -35,7 +35,7 @@ class Config:
         self.searchFactor = 4
         self.U_factor = 0.0
         self.log_file = 'log_c3_h64_s4_t3.txt'
-        self.latency_file = 'latency_record.txt'
+        self.latency_file = './latency_record.txt'
         self.modelpath = 'model/'
         self.offset = 20  # Offset for numerical stability?
 
