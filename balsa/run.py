@@ -73,6 +73,7 @@ import experiments_debug
 import exp_job_data_shift
 import exp_job_light_debug
 import exp_job_light_train
+import exp_stack
 import json
 
 FLAGS = flags.FLAGS
