@@ -197,7 +197,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
         print(f"Processing training query {query_ident} ({idx + 1}/{len(queries)})")
         try:
-            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse = hinter.hinterRun(
                 sql, is_train=True)
             pg_latency /= 1000
             hinter_latency /= 1000
@@ -224,7 +224,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
 
             with open(query_log_file_path, 'a') as f:
                 f.write(
-                    f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance.item() if isinstance(variance, torch.Tensor) else variance}\n")
+                    f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse.item() if isinstance(real_mse, torch.Tensor) else real_mse}\n")
         except Exception as e:
             print(f"[Error] when running query {query_ident}, error: {e}")
 
@@ -237,7 +237,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         try:
             print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
 
-            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, variance = hinter.hinterRun(
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse = hinter.hinterRun(
                 sql, is_train=False)
             pg_latency /= 1000
             hinter_latency /= 1000
@@ -249,7 +249,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 
             with open(query_log_file_path, 'a') as f:
                 f.write(
-                    f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{variance}\n")
+                    f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse}\n")
         except Exception as e:
             print(f"[Error] when running test query {query_ident}, error: {e}")
 
