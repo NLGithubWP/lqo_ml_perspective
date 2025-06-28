@@ -217,14 +217,17 @@ class Hinter:
                 loss = self.model.optimize()[0]
                 loss1 = self.mcts_searcher.optimize()
 
-        mse = (actual_time - predicted_time) ** 2
+        # Compute MSE: ((actual_time - predicted_time) / 1e3) ** 2
+        # Convert actual_time from seconds to milliseconds to match predicted_time units
+        actual_time_ms = actual_time * 1000
+        mse = (actual_time_ms - predicted_time) ** 2
 
         assert len(set([len(self.hinter_runtime_list), len(self.pg_runningtime_list), len(self.mcts_time_list),
                         len(self.hinter_planningtime_list), len(self.MHPE_time_list), len(self.hinter_runtime_list),
                         len(self.chosen_plan), len(self.hinter_time_list)])) == 1
         return self.pg_planningtime_list[-1], self.pg_runningtime_list[-1], self.mcts_time_list[-1], \
                self.hinter_planningtime_list[-1], self.MHPE_time_list[-1], self.hinter_runtime_list[-1], \
-               self.chosen_plan, self.hinter_time_list[-1], loss, mse, predicted_time
+               self.chosen_plan, self.hinter_time_list[-1], loss, mse, predicted_time / 1e3
 
     def predictWithUncertaintyBatch(self, plan_jsons, sql_vec):
         sql_feature = self.model.value_network.sql_feature(sql_vec)
