@@ -224,7 +224,7 @@ class Hinter:
                         len(self.chosen_plan), len(self.hinter_time_list)])) == 1
         return self.pg_planningtime_list[-1], self.pg_runningtime_list[-1], self.mcts_time_list[-1], \
                self.hinter_planningtime_list[-1], self.MHPE_time_list[-1], self.hinter_runtime_list[-1], \
-               self.chosen_plan, self.hinter_time_list[-1], loss, mse
+               self.chosen_plan, self.hinter_time_list[-1], loss, mse, predicted_time
 
     def predictWithUncertaintyBatch(self, plan_jsons, sql_vec):
         sql_feature = self.model.value_network.sql_feature(sql_vec)

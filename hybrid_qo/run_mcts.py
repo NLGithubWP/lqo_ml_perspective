@@ -175,7 +175,7 @@ def main(config, train_or_test):
             = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
 
         columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
-                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'mse', 'variance']
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'loss', 'real_mse', "predicted_time"]
         with open(query_log_file_path, 'w') as f:
             f.write(','.join(columns) + '\n')
 
@@ -197,7 +197,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
     for idx, (sql, query_ident, _) in enumerate(queries[:]):
         print(f"Processing training query {query_ident} ({idx + 1}/{len(queries)})")
         try:
-            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse = hinter.hinterRun(
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse, predicted_time = hinter.hinterRun(
                 sql, is_train=True)
             pg_latency /= 1000
             hinter_latency /= 1000
@@ -224,7 +224,7 @@ def train_epoch(hinter, queries, epoch, query_log_file_path):
 
             with open(query_log_file_path, 'a') as f:
                 f.write(
-                    f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse.item() if isinstance(real_mse, torch.Tensor) else real_mse}\n")
+                    f"{epoch},0,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse.item() if isinstance(real_mse, torch.Tensor) else real_mse}, {predicted_time}\n")
         except Exception as e:
             print(f"[Error] when running query {query_ident}, error: {e}")
 
@@ -237,7 +237,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
         try:
             print(f"Processing test query {query_ident} ({idx + 1}/{len(queries)})")
 
-            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse = hinter.hinterRun(
+            pg_plan_time, pg_latency, mcts_time, hinter_plan_time, MPHE_time, hinter_latency, actual_plans, actual_time, mse, real_mse, predicted_time = hinter.hinterRun(
                 sql, is_train=False)
             pg_latency /= 1000
             hinter_latency /= 1000
@@ -249,7 +249,7 @@ def test_epoch(hinter, queries, epoch, query_log_file_path):
 
             with open(query_log_file_path, 'a') as f:
                 f.write(
-                    f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse}\n")
+                    f"{epoch},1,{query_ident},{pg_plan_time},{pg_latency},{mcts_time},{hinter_plan_time},{MPHE_time},{hinter_latency},{pg_latency / (sum(actual_time) / 1000)},{mse},{real_mse}, {predicted_time}\n")
         except Exception as e:
             print(f"[Error] when running test query {query_ident}, error: {e}")
 
