@@ -139,7 +139,7 @@ def main(config, train_or_test):
             = f"logs/{run_name}__query_log_{config.train_database}_{config.test_database}_{train_or_test}.csv"
 
         columns = ['epoch', 'test_query', 'query_ident', 'pg_plan_time', 'pg_latency', 'mcts_time', 'hinter_plan_time',
-                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'mse', 'variance']
+                   'MPHE_time', 'hinter_latency', 'hinter_query_ratio', 'loss', 'real_mse', "predicted_time"]
         with open(query_log_file_path, 'w') as f:
             f.write(','.join(columns) + '\n')
 
